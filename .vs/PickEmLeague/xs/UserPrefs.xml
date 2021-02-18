@@ -1,0 +1,54 @@
+﻿<Properties StartupConfiguration="{094058BF-AEF0-4AA2-BF99-B8A8D485E3E4}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PickEmLeagueWebUI/Data/UserDatabase.cs">
+    <Files>
+      <File FileName="PickEmLeagueWebUI/Pages/Users/Create.cshtml.cs" Line="37" Column="35" />
+      <File FileName="PickEmLeagueWebUI/Pages/Users/Index.cshtml" Line="1" Column="1" />
+      <File FileName="PickEmLeagueWebUI/Pages/Users/Index.cshtml.cs" Line="25" Column="43" />
+      <File FileName="PickEmLeagueWebUI/Data/UserDatabase.cs" Line="38" Column="29" />
+      <File FileName="PickEmLeagueServer/Database/UserDatabase.cs" Line="30" Column="25" />
+      <File FileName="PickEmLeagueServer/Controllers/UserController.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="PickEmLeague" expanded="True">
+            <Node name="docker-compose" expanded="True" />
+            <Node name="PickEmLeagueServer" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Database" expanded="True" />
+              <Node name="Models" expanded="True" />
+            </Node>
+            <Node name="PickEmLeagueWebUI" expanded="True">
+              <Node name="Data" expanded="True">
+                <Node name="UserDatabase.cs" selected="True" />
+              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Pages" expanded="True">
+                <Node name="Users" expanded="True">
+                  <Node name="Create.cshtml" expanded="True" />
+                  <Node name="Index.cshtml" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Properties" expanded="True" />
+              <Node name="appsettings.json" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="PickEmLeague" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.PickEmLeagueWebUI PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.ItemProperties.PickEmLeagueServer PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.docker-compose PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FBnx4P4cAUg3HDRVwwZQNTChWcYvZ6P2pQsLCA6VQVIZG46vv3bS5l0zxl9oHPaMPFEyci/ZtTmrONDNS7DD8w==",
+  "dgSpecHash": "B8CDan9r5WZMQ8jCqpo4QJdfldb5PdsQIdslGe8CdzzNYpX5AyhGrfqMorCPgBLP27MfjrcKHlY4IWfqWH5FSA==",
   "success": true,
-  "projectFilePath": "/Users/WillMaethner/Documents/GitHub/PickEmLeague 2021/PickEmLeagueServerTests/PickEmLeagueServerTests.csproj",
+  "projectFilePath": "/Users/WillMaethner/Documents/GitHub/PickEmLeague2021/PickEmLeagueServerTests/PickEmLeagueServerTests.csproj",
   "expectedPackageFiles": [
     "/Users/WillMaethner/.nuget/packages/coverlet.collector/1.2.0/coverlet.collector.1.2.0.nupkg.sha512",
     "/Users/WillMaethner/.nuget/packages/microsoft.codecoverage/16.5.0/microsoft.codecoverage.16.5.0.nupkg.sha512",

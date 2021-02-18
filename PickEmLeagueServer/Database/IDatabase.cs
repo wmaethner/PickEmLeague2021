@@ -8,7 +8,7 @@ namespace PickEmLeagueServer.Database
         public void Initialize();
 
         #region CRUD Ops
-        public T Create(T item);
+        public bool Create(T item);
         public T Read(string id);
         public IEnumerable<T> Read();
         public T Update(T item);

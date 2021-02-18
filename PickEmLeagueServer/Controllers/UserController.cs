@@ -21,7 +21,7 @@ namespace PickEmLeagueServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult<User> Create(User user)
+        public ActionResult<bool> Create(User user)
         {
             Console.WriteLine($"create new user {user.FirstName}");
             return _database.Create(user);           

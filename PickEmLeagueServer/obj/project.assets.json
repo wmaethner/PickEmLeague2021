@@ -14,17 +14,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/WillMaethner/Documents/GitHub/PickEmLeague 2021/PickEmLeagueServer/PickEmLeagueServer.csproj",
+      "projectUniqueName": "/Users/WillMaethner/Documents/GitHub/PickEmLeague2021/PickEmLeagueServer/PickEmLeagueServer.csproj",
       "projectName": "PickEmLeagueServer",
-      "projectPath": "/Users/WillMaethner/Documents/GitHub/PickEmLeague 2021/PickEmLeagueServer/PickEmLeagueServer.csproj",
+      "projectPath": "/Users/WillMaethner/Documents/GitHub/PickEmLeague2021/PickEmLeagueServer/PickEmLeagueServer.csproj",
       "packagesPath": "/Users/WillMaethner/.nuget/packages/",
-      "outputPath": "/Users/WillMaethner/Documents/GitHub/PickEmLeague 2021/PickEmLeagueServer/obj/",
+      "outputPath": "/Users/WillMaethner/Documents/GitHub/PickEmLeague2021/PickEmLeagueServer/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/WillMaethner/.config/NuGet/NuGet.Config"
+        "/Users/WillMaethner/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -65,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.103/RuntimeIdentifierGraph.json"
       }
     }
   }

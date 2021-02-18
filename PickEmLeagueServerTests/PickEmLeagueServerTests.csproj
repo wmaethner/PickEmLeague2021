@@ -16,4 +16,7 @@
   <ItemGroup>
     <Folder Include="DatabaseTests\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PickEmLeagueServer\PickEmLeagueServer.csproj" />
+  </ItemGroup>
 </Project>

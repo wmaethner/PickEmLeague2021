@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>28e0ebc1-8630-4c15-9d0b-f0b8f6eaeda7</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,5 +12,7 @@
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Models\" />
+    <Folder Include="Data\" />
+    <Folder Include="Pages\Users\" />
   </ItemGroup>
 </Project>
