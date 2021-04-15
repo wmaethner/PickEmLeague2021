@@ -1,14 +1,24 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+
+
 using PickEmLeagueServer.Database;
+using PickEmLeagueServer.Utilities;
+using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 namespace PickEmLeagueServer
 {
     public class Startup
     {
+        private readonly ApiVersion _version = new(1, 0);
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,7 +31,29 @@ namespace PickEmLeagueServer
         {
             services.AddControllers();
 
-            services.AddSingleton<UserDatabase>();
+            services.AddApiVersioning(c =>
+            {
+                c.AssumeDefaultVersionWhenUnspecified = true;
+                c.DefaultApiVersion = _version;
+            });
+            //services.AddSingleton<UserDatabase>();
+
+            string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContextPool<DBContext>(options =>
+                {
+                    options.UseMySql(mySqlConnectionStr);
+                    options.UseSnakeCaseNamingConvention();
+                });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc($"v{_version}",
+                    new OpenApiInfo { Title = "PickEmLeague API", Version = $"v{_version}" });
+                c.OperationFilter<RemoveVersionFromParameter>();
+
+                c.DocumentFilter<ReplaceVersionWithExactValueInPath>();
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,6 +61,13 @@ namespace PickEmLeagueServer
         {
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"/swagger/v{_version}/swagger.json", $"PickEmLeague API v{_version}");
+                });
+
                 app.UseDeveloperExceptionPage();
             }
 

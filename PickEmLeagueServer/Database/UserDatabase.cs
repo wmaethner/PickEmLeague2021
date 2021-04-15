@@ -1,68 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using PickEmLeagueServer.Models;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using Amazon.RDS;
+//using PickEmLeagueServer.Models; 
 
-namespace PickEmLeagueServer.Database
-{
-    public class UserDatabase : IDatabase<User>
-    {
-        Dictionary<string, User> _users;
+//namespace PickEmLeagueServer.Database
+//{
+//    public class UserDatabase : IDatabase<User>
+//    {
+//        Dictionary<string, User> _users;
 
-        #region Constructor
-        public UserDatabase()
-        {
-            _users = new Dictionary<string, User>();
-        }
-        #endregion
-
-        #region IDatabase Interface
-        public void Initialize()
-        {
+//        #region Constructor
+//        public UserDatabase()
+//        {
+//            _users = new Dictionary<string, User>();
+//            AmazonRDSClient test = new AmazonRDSClient("AKIAZVIHCDVETDMF7KA5", "ptOoVhxMZbEaPeCRraNNqYjtwDvzH7Uwm/hBieYW", Amazon.RegionEndpoint.USEast1);
             
-        }
+//        }
+//        #endregion
 
-        #region CRUD Operations
-        public bool Create(User item)
-        {
-            //item = (User)item.Clone();
-            _users.Add(item.Id, item);
-            return true;
-        }
+//        #region IDatabase Interface
+//        public void Initialize()
+//        {
+            
+//        }
 
-        public User Read(string id)
-        {
-            VerifyId(id);
-            return _users[id];
-        }
+//        #region CRUD Operations
+//        public bool Create(User item)
+//        {
+//            //item = (User)item.Clone();
+//            _users.Add(item.Id, item);
+//            return true;
+//        }
 
-        public IEnumerable<User> Read()
-        {
-            List<User> users = _users.Select(x => x.Value).ToList();
-            return users;
-        }
+//        public User Read(string id)
+//        {
+//            VerifyId(id);
+//            return _users[id];
+//        }
 
-        public User Update(User item)
-        {
-            VerifyId(item.Id);
-            _users[item.Id] = item;
-            return item;
-        }
+//        public IEnumerable<User> Read()
+//        {
+//            List<User> users = _users.Select(x => x.Value).ToList();
+//            return users;
+//        }
 
-        public bool Delete(string id)
-        {
-            VerifyId(id);
-            return _users.Remove(id);
-        }
-        #endregion
-        #endregion
+//        public User Update(User item)
+//        {
+//            VerifyId(item.Id);
+//            _users[item.Id] = item;
+//            return item;
+//        }
 
-        private void VerifyId(string id)
-        {
-            if (!_users.ContainsKey(id))
-            {
-                throw new Exception($"No user with id {id}");
-            }
-        }     
-    }
-}
+//        public bool Delete(string id)
+//        {
+//            VerifyId(id);
+//            return _users.Remove(id);
+//        }
+//        #endregion
+//        #endregion
+
+//        private void VerifyId(string id)
+//        {
+//            if (!_users.ContainsKey(id))
+//            {
+//                throw new Exception($"No user with id {id}");
+//            }
+//        }     
+//    }
+//}
