@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace PickEmLeagueServer.Models
+namespace PickEmLeagueDatabase.Models
 {
     public class User : DatabaseObject
     {        

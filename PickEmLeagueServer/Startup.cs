@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 
 using PickEmLeagueServer.Database;
 using PickEmLeagueServer.Utilities;
+using PickEmLeagueServices.Services;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 namespace PickEmLeagueServer
@@ -53,6 +54,8 @@ namespace PickEmLeagueServer
 
                 c.DocumentFilter<ReplaceVersionWithExactValueInPath>();
             });
+
+            services.AddTransient<UserService>();
 
         }
 

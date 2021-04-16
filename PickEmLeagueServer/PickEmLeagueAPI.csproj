@@ -7,9 +7,9 @@
   </PropertyGroup>
 
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'PickEmLeagueServer' " />
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Database\" />
     <Folder Include="Utilities\" />
     <Folder Include="Models\Database\" />
     <Folder Include="Models\Client\" />
@@ -30,5 +30,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.14" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.14" />
     <PackageReference Include="EFCore.NamingConventions" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PickEmLeagueServices\PickEmLeagueServices.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>
