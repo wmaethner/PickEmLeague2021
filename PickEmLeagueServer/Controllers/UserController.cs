@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PickEmLeagueServer.Database;
-using PickEmLeagueServer.Models;
+using PickEmLeagueDatabase.Models;
+using PickEmLeagueServices.Services;
 
 namespace PickEmLeagueServer.Controllers
 {
@@ -14,14 +13,12 @@ namespace PickEmLeagueServer.Controllers
     public class UserController : ControllerBase
     {       
         private readonly ILogger<UserController> _logger;
-        //private readonly UserDatabase _database;
-        private DBContext _dbContext;
+        private UserService _userService;
 
-        public UserController(ILogger<UserController> logger, DBContext dbContext)
+        public UserController(ILogger<UserController> logger, UserService userService)
         {
             _logger = logger;
-            //_database = userDatabase;
-            _dbContext = dbContext;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -35,16 +32,8 @@ namespace PickEmLeagueServer.Controllers
                 LastName = lastName
             };
             Console.WriteLine("Adding  user " + user);
-             _dbContext.Users.Add(user);
-
-            await _dbContext.SaveChangesAsync();
+            await _userService.AddUser(user);
             return user;
-            //return true;
-
-            
-            //return _database.Create(user);
-
-
         }
 
         [HttpGet]
@@ -52,16 +41,15 @@ namespace PickEmLeagueServer.Controllers
         {
             Console.WriteLine("user get request");
             _logger.LogInformation("Get user list");
-            //return _database.Read();
-            return _dbContext.Users.ToList();
+
+            return _userService.GetUsers();
         }
 
         [HttpGet("{id}")]
         public User Get([FromRoute] Guid id)
         {
-            Console.WriteLine($"user get request with id {id}");
-            //return _database.Read(id);
-            return _dbContext.Users.SingleOrDefault(x => x.Guid == id);
+            Console.WriteLine($"user get request with id {id}");           
+            return _userService.GetUser(id);
         }
     }
 }

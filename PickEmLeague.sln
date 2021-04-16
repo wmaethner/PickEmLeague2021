@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.808.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueServer", "PickEmLeagueServer\PickEmLeagueServer.csproj", "{E1CA79B0-39E5-4613-8B21-6248BAC0CE53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueAPI", "PickEmLeagueServer\PickEmLeagueAPI.csproj", "{E1CA79B0-39E5-4613-8B21-6248BAC0CE53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueWebUI", "PickEmLeagueWebUI\PickEmLeagueWebUI.csproj", "{094058BF-AEF0-4AA2-BF99-B8A8D485E3E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueServerTests", "PickEmLeagueServerTests\PickEmLeagueServerTests.csproj", "{BD7E8E44-C63C-4799-9E2C-4B8C835953C7}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{152BA5EE-F2CF-440F-AB96-A57DA815855C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueDatabase", "PickEmLeagueDatabase\PickEmLeagueDatabase.csproj", "{9B5BB165-1BE9-4AA2-9B3C-90B521EAC36A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueServices", "PickEmLeagueServices\PickEmLeagueServices.csproj", "{8AEBA4F2-77CF-43CE-8593-E29ACBEB835B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{152BA5EE-F2CF-440F-AB96-A57DA815855C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{152BA5EE-F2CF-440F-AB96-A57DA815855C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{152BA5EE-F2CF-440F-AB96-A57DA815855C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5BB165-1BE9-4AA2-9B3C-90B521EAC36A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5BB165-1BE9-4AA2-9B3C-90B521EAC36A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5BB165-1BE9-4AA2-9B3C-90B521EAC36A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5BB165-1BE9-4AA2-9B3C-90B521EAC36A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AEBA4F2-77CF-43CE-8593-E29ACBEB835B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AEBA4F2-77CF-43CE-8593-E29ACBEB835B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AEBA4F2-77CF-43CE-8593-E29ACBEB835B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AEBA4F2-77CF-43CE-8593-E29ACBEB835B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
