@@ -7,11 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
+using PickEmLeagueAPI.Utilities;
 using PickEmLeagueDatabase;
 using PickEmLeagueServer.Utilities;
 using PickEmLeagueServices.Services;
-using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 namespace PickEmLeagueServer
 {
@@ -76,6 +75,7 @@ namespace PickEmLeagueServer
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
 
             app.UseAuthorization();
             app.UseCors();

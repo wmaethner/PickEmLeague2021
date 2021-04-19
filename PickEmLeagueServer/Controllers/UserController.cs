@@ -48,8 +48,13 @@ namespace PickEmLeagueServer.Controllers
         [HttpGet("{id}")]
         public User Get([FromRoute] Guid id)
         {
-            Console.WriteLine($"user get request with id {id}");           
-            return _userService.GetUser(id);
+            Console.WriteLine($"user get request with id {id}");
+            User user = _userService.GetUser(id);
+            if (user == null)
+            {
+                throw new Exception($"Null user for id {id}");
+            }
+            return user;
         }
     }
 }
