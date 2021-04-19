@@ -7,7 +7,10 @@
   </PropertyGroup>
 
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'PickEmLeagueServer' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'PickEmLeagueAPI' " />
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Utilities\" />
