@@ -28,7 +28,7 @@ namespace PickEmLeagueServices.Services
 
         public IEnumerable<User> GetUsers()
         {
-            return _dbContext.Users.ToList();
+            return new List<User>(); //_dbContext.Users.ToList();
         }
 
         public User GetUser(Guid guid)
