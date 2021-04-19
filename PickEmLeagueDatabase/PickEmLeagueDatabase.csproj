@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Folder Include="Entities\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="1.1.1" />
