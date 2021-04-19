@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PickEmLeagueDatabase;
 using PickEmLeagueDatabase.Models;
-using PickEmLeagueServer.Database;
+
 
 namespace PickEmLeagueServices.Services
 {
     public class UserService
     {
-        DBContext _dbContext;
+        DatabaseContext _dbContext;
 
-        public UserService(DBContext dbContext)
+        public UserService(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
         }

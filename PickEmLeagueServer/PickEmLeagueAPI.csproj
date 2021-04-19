@@ -35,5 +35,8 @@
     <ProjectReference Include="..\PickEmLeagueServices\PickEmLeagueServices.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

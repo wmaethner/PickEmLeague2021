@@ -8,8 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-
-using PickEmLeagueServer.Database;
+using PickEmLeagueDatabase;
 using PickEmLeagueServer.Utilities;
 using PickEmLeagueServices.Services;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
@@ -40,7 +39,7 @@ namespace PickEmLeagueServer
             //services.AddSingleton<UserDatabase>();
 
             string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContextPool<DBContext>(options =>
+            services.AddDbContextPool<DatabaseContext>(options =>
                 {
                     options.UseMySql(mySqlConnectionStr);
                     options.UseSnakeCaseNamingConvention();
