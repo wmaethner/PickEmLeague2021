@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PickEmLeagueDatabase.Models
+namespace PickEmLeagueDatabase.Entities
 {
     public abstract class DatabaseObject
     {

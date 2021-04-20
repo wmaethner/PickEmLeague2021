@@ -1,10 +1,14 @@
 ﻿using System;
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PickEmLeagueDatabase.Models
+namespace PickEmLeagueDatabase.Entities
 {
-    public class User : DatabaseObject
-    {        
+    public class User
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+
+        public Guid Guid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }        
@@ -13,8 +17,7 @@ namespace PickEmLeagueDatabase.Models
         {
             return $"{FirstName}" +
                 $"{LastName}" +
-                $"{Email}" +
-                base.ToString();
+                $"{Email}";
         }
     }
 }
