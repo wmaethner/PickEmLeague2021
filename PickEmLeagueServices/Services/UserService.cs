@@ -2,38 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PickEmLeagueDatabase;
-using PickEmLeagueDatabase.Models;
+using PickEmLeagueDomain.Models;
+using PickEmLeagueServices.Interfaces;
+//using PickEmLeagueDatabase.Entities;
 
 
 namespace PickEmLeagueServices.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         DatabaseContext _dbContext;
+        IMapper _mapper;
 
-        public UserService(DatabaseContext dbContext)
+        public UserService(DatabaseContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<User> AddUser(string email, string firstName, string lastName)
         {
-            User newUser = _dbContext.Users.Add(user).Entity;
+            PickEmLeagueDatabase.Entities.User user = new PickEmLeagueDatabase.Entities.User()
+            {
+                Email = email,
+                FirstName = firstName,
+                LastName = lastName,
+                Guid = Guid.NewGuid(),
+            };
 
+            _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
 
-            return newUser;
+            return _mapper.Map<User>(user);
         }
 
-        public IEnumerable<User> GetUsers()
+        public async Task<List<User>> GetUsers()
         {
-            return _dbContext.Users.ToList();
+            return _mapper.Map<List<User>>(await _dbContext.Users.ToListAsync());
         }
 
-        public User GetUser(Guid guid)
+        public async Task<User> GetUser(Guid guid)
         {
-            return _dbContext.Users.SingleOrDefault(u => u.Guid == guid);
+            return _mapper.Map<User>(await _dbContext.Users.SingleOrDefaultAsync(u => u.Guid == guid));
         }
+
+        
     }
 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PickEmLeagueDatabase.Models;
+using PickEmLeagueDomain.Models;
+using PickEmLeagueDomain.Models.Requests;
+using PickEmLeagueServices.Interfaces;
 using PickEmLeagueServices.Services;
 
 namespace PickEmLeagueServer.Controllers
@@ -13,43 +15,36 @@ namespace PickEmLeagueServer.Controllers
     public class UserController : ControllerBase
     {       
         private readonly ILogger<UserController> _logger;
-        private UserService _userService;
+        private IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, UserService userService)
+        public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
         }
 
         [HttpPost]
-        public async Task<User> CreateAsync(string email, string firstName, string lastName)
+        public async Task<User> CreateAsync([FromBody] CreateUserRequest request)
         {
-            Console.WriteLine($"create new user {firstName}");
-            User user = new User()
-            {
-                Email = email,
-                FirstName = firstName,
-                LastName = lastName
-            };
-            Console.WriteLine("Adding  user " + user);
-            await _userService.AddUser(user);
+            Console.WriteLine($"create new user {request.FirstName}");
+            User user = await _userService.AddUser(request.Email, request.FirstName, request.LastName);
             return user;
         }
 
         [HttpGet]
-        public IEnumerable<User> Get()
+        public async Task<IEnumerable<User>> GetAsync()
         {
             Console.WriteLine("user get request");
             _logger.LogInformation("Get user list");
 
-            return _userService.GetUsers();
+            return await _userService.GetUsers();
         }
 
         [HttpGet("{id}")]
-        public User Get([FromRoute] Guid id)
+        public async Task<User> GetAsync([FromRoute] Guid id)
         {
             Console.WriteLine($"user get request with id {id}");
-            User user = _userService.GetUser(id);
+            User user = await _userService.GetUser(id);
             if (user == null)
             {
                 throw new Exception($"Null user for id {id}");

@@ -1,73 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using PickEmLeagueDatabase;
-using PickEmLeagueDatabase.Models;
-using PickEmLeagueServices.Services;
+using PickEmLeagueDomain.Models;
+using PickEmLeagueServices.Interfaces;
+using PickEmLeagueUtils;
 using Xunit;
 
 namespace PickEmLeagueServerTests.ServiceTests
 {
     public class UserServiceTests
     {
+        private readonly IUserService _userService;
+        private readonly DatabaseContext _db;
+
         public UserServiceTests()
         {
-            ContextOptions = new DbContextOptionsBuilder<DatabaseContext>()
-                .UseInMemoryDatabase(databaseName: "user service db")
-                .Options;
-
-            Seed();
-        }
-
-        protected DbContextOptions<DatabaseContext> ContextOptions { get; }
-
-        private void Seed()
-        {
-            using (var context = new DatabaseContext(ContextOptions))
-            { 
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                User user = new User()
-                {
-                    Email = "user1@email.com",
-                    FirstName = "FirstName",
-                    LastName = "LastName",
-                    Id = 1
-                };
-
-                context.Add(CreateUser("email1@gmail.com", "user1", "last1", 1));
-                context.Add(CreateUser("email2@gmail.com", "user2", "last2", 2));
-                context.Add(CreateUser("email3@gmail.com", "user3", "last3", 3));
-
-                context.SaveChanges();
-            }
-        }
-
-        private User CreateUser(string email, string first, string last, int id)
-        {
-            return new User()
-            {
-                Email = email,
-                FirstName = first,
-                LastName = last,
-                Id = id
-            };
+            var services = ServiceUtils.BuildTestServiceProvider();
+            _userService = services.GetRequiredService<IUserService>();
+            _db = services.GetService<DatabaseContext>()!;
         }
 
         [Fact]
-        public void Can_get_items()
+        public async Task GetUserWithGuidSucceeds()
         {
-            using (var context = new DatabaseContext(ContextOptions))
-            {
-                UserService userService = new UserService(context);
+            User user = await _userService.AddUser("email1@gmail.com", "first1", "last1");
 
-                var users = (List<User>) userService.GetUsers();
+            User retrievedUser = await _userService.GetUser(user.Guid);
+            Assert.Equal(user.Guid, retrievedUser.Guid);
+            Assert.Equal(user.FirstName, retrievedUser.FirstName);
+        }
 
-                Assert.Equal(3, users.Count);
-                Assert.Equal("email1@gmail.com", users[0].Email);
-                Assert.Equal("email2@gmail.com", users[1].Email);
-                Assert.Equal("email3@gmail.com", users[2].Email);
-            }
+        [Fact]
+        public async Task GetUsersSucceeds()
+        {
+            Assert.Empty(await _userService.GetUsers());
+
+            await _userService.AddUser("email1@gmail.com", "first1", "last1");
+            Assert.Single(await _userService.GetUsers());
+
+            await _userService.AddUser("email1@gmail.com", "first1", "last1");
+            Assert.Equal(2, (await _userService.GetUsers()).Count);
         }
     }
 }

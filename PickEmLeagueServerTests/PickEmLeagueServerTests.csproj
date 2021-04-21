@@ -28,5 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj" />
     <ProjectReference Include="..\PickEmLeagueServices\PickEmLeagueServices.csproj" />
+    <ProjectReference Include="..\PickEmLeagueUtils\PickEmLeagueUtils.csproj" />
   </ItemGroup>
 </Project>

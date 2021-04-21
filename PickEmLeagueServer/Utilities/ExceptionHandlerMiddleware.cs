@@ -46,7 +46,7 @@ namespace PickEmLeagueAPI.Utilities
             
             var traceId = Activity.Current?.Id ?? context?.TraceIdentifier;
             context!.Response.Headers.Add("TraceId", traceId);
-            var result = JsonConvert.SerializeObject(new Exception(exception.Message + " --- Through Middleware"));
+            var result = JsonConvert.SerializeObject(exception);
             logger.LogError(
                 $"Api exception {traceId}: {exception.Message} StatusCode: {statusCode}");
             context.Response.ContentType = "application/json";

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PickEmLeagueDatabase.Models;
+using PickEmLeagueDatabase.Entities;
 
 namespace PickEmLeagueDatabase
 {

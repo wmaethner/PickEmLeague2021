@@ -5,14 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Interfaces\" />
+    <Folder Include="Profiles\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj" />
     <ProjectReference Include="..\PickEmLeagueDomain\PickEmLeagueDomain.csproj" />
+    <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
 </Project>

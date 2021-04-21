@@ -10,7 +10,9 @@ using Microsoft.OpenApi.Models;
 using PickEmLeagueAPI.Utilities;
 using PickEmLeagueDatabase;
 using PickEmLeagueServer.Utilities;
+using PickEmLeagueServices.Interfaces;
 using PickEmLeagueServices.Services;
+using PickEmLeagueUtils;
 
 namespace PickEmLeagueServer
 {
@@ -29,32 +31,16 @@ namespace PickEmLeagueServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            //services.AddDbContextPool<DatabaseContext>(options =>
+            //    {
+            //        options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+            //        options.UseSnakeCaseNamingConvention();
+            //    });
 
-            services.AddApiVersioning(c =>
-            {
-                c.AssumeDefaultVersionWhenUnspecified = true;
-                c.DefaultApiVersion = _version;
-            });
-            //services.AddSingleton<UserDatabase>();
-
-            string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContextPool<DatabaseContext>(options =>
-                {
-                    options.UseMySql(mySqlConnectionStr);
-                    options.UseSnakeCaseNamingConvention();
-                });
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc($"v{_version}",
-                    new OpenApiInfo { Title = "PickEmLeague API", Version = $"v{_version}" });
-                c.OperationFilter<RemoveVersionFromParameter>();
-
-                c.DocumentFilter<ReplaceVersionWithExactValueInPath>();
-            });
-
-            services.AddTransient<UserService>();
-
+            services.AddAPIServices(Configuration);
+            //AddDependencies(services);
+            //AddServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,22 +54,41 @@ namespace PickEmLeagueServer
                 {
                     c.SwaggerEndpoint($"/swagger/v{_version}/swagger.json", $"PickEmLeague API v{_version}");
                 });
-
-                app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
+            app.UseHttpsRedirection();
             app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
 
             app.UseAuthorization();
             app.UseCors();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
+
+        //private void AddServices(IServiceCollection services)
+        //{
+        //    services.AddScoped<IUserService, UserService>();
+        //}
+
+        //private void AddDependencies(IServiceCollection services)
+        //{
+        //    services.AddAutoMapper(typeof(Startup));
+
+        //    services.AddApiVersioning(c =>
+        //    {
+        //        c.AssumeDefaultVersionWhenUnspecified = true;
+        //        c.DefaultApiVersion = _version;
+        //    });
+
+        //    services.AddSwaggerGen(c =>
+        //    {
+        //        c.SwaggerDoc($"v{_version}",
+        //            new OpenApiInfo { Title = "PickEmLeague API", Version = $"v{_version}" });
+        //        c.OperationFilter<RemoveVersionFromParameter>();
+
+        //        c.DocumentFilter<ReplaceVersionWithExactValueInPath>();
+        //    });
+        //}
     }
 }
