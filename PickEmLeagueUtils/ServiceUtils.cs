@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Reflection;
+using Amazon.DynamoDBv2;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using PickEmLeagueDatabase;
+using PickEmLeagueDatabase.Interfaces;
+using PickEmLeagueDatabase.Repositories;
 using PickEmLeagueServices.Interfaces;
 using PickEmLeagueServices.Services;
 using static PickEmLeagueDatabase.DBContextFactory;
@@ -22,13 +25,9 @@ namespace PickEmLeagueUtils
         public static IServiceCollection AddAPIServices(this IServiceCollection services, IConfiguration configuration,
             Action<APIServiceOptions>? buildAPIOptions = null)
         {
-            var apiOptions = new APIServiceOptions();
-            buildAPIOptions?.Invoke(apiOptions);
+            ServiceUtils.AddRDSDatabaseContext(services, configuration, buildAPIOptions);
 
-            services.AddDbContextPool<DatabaseContext>(options =>
-            {
-                DbContextFactory.ConfigureOptionsBuilder(options, configuration, apiOptions.UseInMemoryTestDatabase);
-            });
+            services.AddAWSService<IAmazonDynamoDB>();
 
             ServiceUtils.AddDependencies(services);
             ServiceUtils.AddServices(services);
@@ -53,15 +52,29 @@ namespace PickEmLeagueUtils
                 .BuildServiceProvider();
 
 
-            var db = services.GetRequiredService<DatabaseContext>();
+            var db = services.GetRequiredService<IDatabaseContext>() as RDSDatabaseContext;
             db.Database.EnsureCreated();
 
             return services;
         }
 
+        private static void AddRDSDatabaseContext(IServiceCollection services, IConfiguration configuration,
+            Action<APIServiceOptions>? buildAPIOptions = null)
+        {
+            var apiOptions = new APIServiceOptions();
+            buildAPIOptions?.Invoke(apiOptions);
+
+            services.AddDbContextPool<IDatabaseContext, RDSDatabaseContext>(options =>
+            {
+                DbContextFactory.ConfigureOptionsBuilder(options, configuration, apiOptions.UseInMemoryTestDatabase);
+            });
+        }
+
         private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         private static void AddDependencies(IServiceCollection services)

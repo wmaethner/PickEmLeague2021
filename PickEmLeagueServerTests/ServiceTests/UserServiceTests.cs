@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PickEmLeagueDatabase;
+using PickEmLeagueDatabase.Interfaces;
 using PickEmLeagueDomain.Models;
 using PickEmLeagueServices.Interfaces;
 using PickEmLeagueUtils;
@@ -12,13 +13,13 @@ namespace PickEmLeagueServerTests.ServiceTests
     public class UserServiceTests
     {
         private readonly IUserService _userService;
-        private readonly DatabaseContext _db;
+        private readonly IDatabaseContext _db;
 
         public UserServiceTests()
         {
             var services = ServiceUtils.BuildTestServiceProvider();
             _userService = services.GetRequiredService<IUserService>();
-            _db = services.GetService<DatabaseContext>()!;
+            _db = services.GetService<IDatabaseContext>()!;
         }
 
         [Fact]
@@ -41,6 +42,18 @@ namespace PickEmLeagueServerTests.ServiceTests
 
             await _userService.AddUser("email1@gmail.com", "first1", "last1");
             Assert.Equal(2, (await _userService.GetUsers()).Count);
+        }
+
+        [Fact]
+        public async Task UpdateUserSucceeds()
+        {
+            User user = await _userService.AddUser("email1@gmail.com", "first1", "last1");
+            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Guid)).FirstName);
+            user.FirstName = "newfirst";
+            _userService.UpdateUser(user);
+
+            Assert.Single(await _userService.GetUsers());
+            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Guid)).FirstName);
         }
     }
 }

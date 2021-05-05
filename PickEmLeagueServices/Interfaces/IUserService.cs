@@ -10,7 +10,8 @@ namespace PickEmLeagueServices.Interfaces
         Task<User> AddUser(string email, string firstName, string lastName);
 
         Task<List<User>> GetUsers();
-
         Task<User> GetUser(Guid guid);
+
+        Task<User> UpdateUser(User user);
     }
 }

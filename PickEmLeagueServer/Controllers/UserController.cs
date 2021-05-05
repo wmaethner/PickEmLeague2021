@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using PickEmLeagueDomain.Models;
 using PickEmLeagueDomain.Models.Requests;
 using PickEmLeagueServices.Interfaces;
-using PickEmLeagueServices.Services;
 
 namespace PickEmLeagueServer.Controllers
 {
@@ -50,6 +49,12 @@ namespace PickEmLeagueServer.Controllers
                 throw new Exception($"Null user for id {id}");
             }
             return user;
+        }
+
+        [HttpPut]
+        public async Task<User> Update([FromBody] User user)
+        {
+            return await _userService.UpdateUser(user);
         }
     }
 }
