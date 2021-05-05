@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using PickEmLeagueDatabase;
+using PickEmLeagueDatabase.Interfaces;
 using PickEmLeagueDomain.Models;
 using PickEmLeagueServices.Interfaces;
-//using PickEmLeagueDatabase.Entities;
-
 
 namespace PickEmLeagueServices.Services
 {
     public class UserService : IUserService
     {
-        DatabaseContext _dbContext;
+        IUserRepository _userRepository;
         IMapper _mapper;
 
-        public UserService(DatabaseContext dbContext, IMapper mapper)
+        public UserService(IUserRepository dbContext, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _userRepository = dbContext;
             _mapper = mapper;
         }
 
@@ -33,22 +30,28 @@ namespace PickEmLeagueServices.Services
                 Guid = Guid.NewGuid(),
             };
 
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+            await _userRepository.AddUser(user);
 
             return _mapper.Map<User>(user);
         }
 
         public async Task<List<User>> GetUsers()
         {
-            return _mapper.Map<List<User>>(await _dbContext.Users.ToListAsync());
+            return _mapper.Map<List<User>>(_userRepository.GetUsers().ToList());
         }
 
         public async Task<User> GetUser(Guid guid)
-        {
-            return _mapper.Map<User>(await _dbContext.Users.SingleOrDefaultAsync(u => u.Guid == guid));
+        {        
+            return _mapper.Map<User>(_userRepository.GetUser(guid));
         }
 
-        
+        public async Task<User> UpdateUser(User user)
+        {
+            var entity = _userRepository.GetUser(user.Guid);
+            _mapper.Map(user, entity);
+            await _userRepository.SaveChangesAsync();
+
+            return user;
+        }
     }
 }

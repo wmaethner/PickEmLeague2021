@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="DatabaseTests\" />
     <Folder Include="ServiceTests\" />
+    <Folder Include="Repository Tests\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj" />
