@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PickEmLeagueDatabase.Entities;
@@ -22,9 +23,9 @@ namespace PickEmLeagueDatabase
             await SaveChangesAsync();
         }
 
-        public IQueryable<T> GetQueryable<T>() where T : class
+        public Task<IQueryable<T>> GetQueryableAsync<T>() where T : class
         {
-            return Set<T>().AsQueryable();
+            return Task.Run(() => Set<T>().AsQueryable());
         }
 
         public T Get<T>(object key) where T : class

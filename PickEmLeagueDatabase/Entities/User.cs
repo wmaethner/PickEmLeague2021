@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Amazon.DynamoDBv2.Model;
 
 namespace PickEmLeagueDatabase.Entities
 {
+    [Amazon.DynamoDBv2.DataModel.DynamoDBTable("Users")]
     public class User
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

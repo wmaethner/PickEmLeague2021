@@ -37,19 +37,26 @@ namespace PickEmLeagueServices.Services
 
         public async Task<List<User>> GetUsers()
         {
-            return _mapper.Map<List<User>>(_userRepository.GetUsers().ToList());
+            return _mapper.Map<List<User>>((await _userRepository.GetUsersAsync()).ToList());
         }
 
         public async Task<User> GetUser(Guid guid)
         {        
-            return _mapper.Map<User>(_userRepository.GetUser(guid));
+            return _mapper.Map<User>(await _userRepository.GetUserAsync(guid));
         }
 
         public async Task<User> UpdateUser(User user)
         {
-            var entity = _userRepository.GetUser(user.Guid);
+            // RDS Implementation
+            //var entity = _userRepository.GetUserAsync(user.Guid);
+            //_mapper.Map(user, entity);
+            //await _userRepository.SaveChangesAsync();
+
+            // DynamoDB Implementation
+            var entity = await _userRepository.GetUserAsync(user.Guid);
+            await _userRepository.DeleteUser(entity);
             _mapper.Map(user, entity);
-            await _userRepository.SaveChangesAsync();
+            await _userRepository.AddUser(entity);
 
             return user;
         }

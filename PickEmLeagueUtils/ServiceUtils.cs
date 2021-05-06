@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using PickEmLeagueDatabase;
+using PickEmLeagueDatabase.Databases;
 using PickEmLeagueDatabase.Interfaces;
 using PickEmLeagueDatabase.Repositories;
 using PickEmLeagueServices.Interfaces;
@@ -25,8 +26,8 @@ namespace PickEmLeagueUtils
         public static IServiceCollection AddAPIServices(this IServiceCollection services, IConfiguration configuration,
             Action<APIServiceOptions>? buildAPIOptions = null)
         {
-            ServiceUtils.AddRDSDatabaseContext(services, configuration, buildAPIOptions);
-
+            //ServiceUtils.AddRDSDatabaseContext(services, configuration, buildAPIOptions);
+            services.AddScoped<IDatabaseContext, DynamoDBDatabaseContext>();
             services.AddAWSService<IAmazonDynamoDB>();
 
             ServiceUtils.AddDependencies(services);
