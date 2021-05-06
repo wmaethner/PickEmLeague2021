@@ -27,8 +27,8 @@ namespace PickEmLeagueServerTests.ServiceTests
         {
             User user = await _userService.AddUser("email1@gmail.com", "first1", "last1");
 
-            User retrievedUser = await _userService.GetUser(user.Guid);
-            Assert.Equal(user.Guid, retrievedUser.Guid);
+            User retrievedUser = await _userService.GetUser(user.Id);
+            Assert.Equal(user.Id, retrievedUser.Id);
             Assert.Equal(user.FirstName, retrievedUser.FirstName);
         }
 
@@ -48,12 +48,12 @@ namespace PickEmLeagueServerTests.ServiceTests
         public async Task UpdateUserSucceeds()
         {
             User user = await _userService.AddUser("email1@gmail.com", "first1", "last1");
-            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Guid)).FirstName);
+            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Id)).FirstName);
             user.FirstName = "newfirst";
-            _userService.UpdateUser(user);
+            await _userService.UpdateUser(user);
 
             Assert.Single(await _userService.GetUsers());
-            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Guid)).FirstName);
+            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Id)).FirstName);
         }
     }
 }

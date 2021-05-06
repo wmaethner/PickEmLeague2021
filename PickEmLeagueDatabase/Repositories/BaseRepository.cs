@@ -1,20 +1,16 @@
 ﻿using System;
-using Amazon.DynamoDBv2.DataModel;
-using PickEmLeagueDatabase.Databases;
 using PickEmLeagueDatabase.Interfaces;
 
 namespace PickEmLeagueDatabase.Repositories
 {
-    public abstract class BaseRepository : IDisposable //: IBaseRepository
+    public abstract class BaseRepository : IDisposable
     {
         private bool _disposed;
-        //protected RDSDatabaseContext Context { get; }
-        protected DynamoDBDatabaseContext Context;
+        protected IDatabaseContext Context;
 
         public BaseRepository(IDatabaseContext dbContext)
         {
-            //Context = dbContext as RDSDatabaseContext;
-            Context = dbContext as DynamoDBDatabaseContext;
+            Context = dbContext;
         }
 
         public void Dispose()

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using System.Reflection;
+﻿using System.Data.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -29,17 +27,10 @@ namespace PickEmLeagueDatabase
             public static void ConfigureOptionsBuilder(DbContextOptionsBuilder optionsBuilder,
                 IConfiguration configuration, bool useInMemoryDb = false)
             {
-                var currentAssembly = Assembly.GetAssembly(typeof(DbContextFactory))!;
-                var assemblyName = currentAssembly.GetName().FullName;
-
                 if (useInMemoryDb)
                     optionsBuilder.UseSqlite(CreateInMemoryDatabase());
                 else
                     optionsBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"));
-                    //optionsBuilder.UseMySql(configuration.GetConnectionString("DynamoDBConnection"));
-
-                
-                        //b => { b.MigrationsAssembly(assemblyName); });
 
                 optionsBuilder.UseSnakeCaseNamingConvention();
             }

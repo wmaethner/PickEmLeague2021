@@ -26,10 +26,14 @@ namespace PickEmLeagueUtils
         public static IServiceCollection AddAPIServices(this IServiceCollection services, IConfiguration configuration,
             Action<APIServiceOptions>? buildAPIOptions = null)
         {
+            var apiOptions = new APIServiceOptions();
+            buildAPIOptions?.Invoke(apiOptions);
+
             //ServiceUtils.AddRDSDatabaseContext(services, configuration, buildAPIOptions);
-            services.AddScoped<IDatabaseContext, DynamoDBDatabaseContext>();
+
             services.AddAWSService<IAmazonDynamoDB>();
 
+            ServiceUtils.AddDatabase(services, configuration, apiOptions);
             ServiceUtils.AddDependencies(services);
             ServiceUtils.AddServices(services);
 
@@ -52,7 +56,6 @@ namespace PickEmLeagueUtils
                 .AddSingleton<IConfiguration>(configuration)
                 .BuildServiceProvider();
 
-
             var db = services.GetRequiredService<IDatabaseContext>() as RDSDatabaseContext;
             db.Database.EnsureCreated();
 
@@ -69,6 +72,23 @@ namespace PickEmLeagueUtils
             {
                 DbContextFactory.ConfigureOptionsBuilder(options, configuration, apiOptions.UseInMemoryTestDatabase);
             });
+        }
+
+        private static void AddDatabase(IServiceCollection services, IConfiguration configuration, APIServiceOptions buildAPIOptions)
+        {
+            string dbString = configuration.GetValue<string>("Database");
+
+            if (buildAPIOptions.UseInMemoryTestDatabase || dbString == "RDS")
+            {
+                services.AddDbContextPool<IDatabaseContext, RDSDatabaseContext>(options =>
+                {
+                    DbContextFactory.ConfigureOptionsBuilder(options, configuration, buildAPIOptions.UseInMemoryTestDatabase);
+                });
+            }
+            else if (dbString == "DynamoDB")
+            {
+                services.AddScoped<IDatabaseContext, DynamoDBDatabaseContext>();
+            }
         }
 
         private static void AddServices(IServiceCollection services)

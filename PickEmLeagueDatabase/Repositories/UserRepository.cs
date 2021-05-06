@@ -15,7 +15,7 @@ namespace PickEmLeagueDatabase.Repositories
 
         public async Task<User> AddUser(User user)
         {
-            if ((await GetUserAsync(user.Guid)) != null)
+            if ((await GetUserAsync(user.Id)) != null)
             {
                 throw new Exception("User already exists");
             }
@@ -27,12 +27,12 @@ namespace PickEmLeagueDatabase.Repositories
 
         public async Task DeleteUser(User user)
         {
-            await Context.Delete<User>(user.Guid);
+            await Context.Delete<User>(user.Id);
         }
 
         public async Task<User> GetUserAsync(Guid guid)
         {
-            return (await Context.GetQueryableAsync<User>()).SingleOrDefault(u => u.Guid == guid);
+            return (await Context.GetQueryableAsync<User>()).SingleOrDefault(u => u.Id == guid);
         }
 
         public async Task<IEnumerable<User>> GetUsersAsync()
