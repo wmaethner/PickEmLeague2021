@@ -1,24 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
+using Newtonsoft.Json;
 using PickEmLeagueDatabase.Interfaces;
 
 namespace PickEmLeagueDatabase.Databases
 {
-    public class DynamoDBDatabaseContext //: IDatabaseContext
+    public class DynamoDBDatabaseContext : IDatabaseContext
     {
+        private bool _disposed;
+        AmazonDynamoDBClient Client;
+
         public DynamoDBDatabaseContext()
         {
+            Client = new AmazonDynamoDBClient();
         }
 
-        public Task Create<T>(T entity) where T : class
+        public async Task Create<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            Document document = Document.FromJson(JsonConvert.SerializeObject(entity));
+            Table table = Table.LoadTable(Client, "Users");
+            await table.PutItemAsync(document);
         }
 
-        public void Delete<T>(object key) where T : class
+        public async Task Delete<T>(object key) where T : class
         {
-            throw new NotImplementedException();
+            Primitive hash = new Primitive(key.ToString(), false);
+            Table table = Table.LoadTable(Client, "Users");
+            await table.DeleteItemAsync(hash);
         }
 
         public T Get<T>(object key) where T : class
@@ -26,9 +38,36 @@ namespace PickEmLeagueDatabase.Databases
             throw new NotImplementedException();
         }
 
-        public IQueryable<T> GetQueryable<T>() where T : class
+        public async Task<IQueryable<T>> GetQueryableAsync<T>() where T : class
         {
-            throw new NotImplementedException();
+            ScanFilter filter = new ScanFilter();
+            ScanOperationConfig config = new ScanOperationConfig();
+            Table table = Table.LoadTable(Client, "Users");
+            Search search = table.Scan(config);
+            List<Document> docList = new List<Document>();
+            Task<List<Document>> getNextBatch;
+            List<T> items = new List<T>();
+
+            do
+            {
+                try
+                {
+                    getNextBatch = search.GetNextSetAsync();
+                    docList = await getNextBatch;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("        FAILED to get the next batch of movies from Search! Reason:\n          " +
+                                       ex.Message);
+                }
+
+                foreach (Document doc in docList)
+                {
+                    items.Add(JsonConvert.DeserializeObject<T>(doc.ToJson()));
+                }
+            } while (!search.IsDone);
+
+            return items.AsQueryable();
         }
 
         public Task<int> SaveChangesAsync()
@@ -36,9 +75,23 @@ namespace PickEmLeagueDatabase.Databases
             throw new NotImplementedException();
         }
 
-        public Task Update<T>(T entity) where T : class
+        public void Dispose()
         {
-            throw new NotImplementedException();
+            //Dispose(true);
+            //GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            //if (!_disposed)
+            //{
+            //    if (disposing)
+            //    {
+            //        this.Dispose();
+            //    }
+            //}
+
+            //_disposed = true;
         }
     }
 }
