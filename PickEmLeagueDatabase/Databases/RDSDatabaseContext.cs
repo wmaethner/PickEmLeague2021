@@ -18,7 +18,7 @@ namespace PickEmLeagueDatabase
 
         public async Task Delete<T>(object key) where T : class
         {
-            var entity = Set<T>().Find(key);
+            var entity = Get<T>(key);
             Set<T>().Remove(entity);
             await SaveChangesAsync();
         }

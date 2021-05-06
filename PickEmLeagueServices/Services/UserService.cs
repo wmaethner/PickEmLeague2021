@@ -27,7 +27,7 @@ namespace PickEmLeagueServices.Services
                 Email = email,
                 FirstName = firstName,
                 LastName = lastName,
-                Guid = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
             };
 
             await _userRepository.AddUser(user);
@@ -53,7 +53,7 @@ namespace PickEmLeagueServices.Services
             //await _userRepository.SaveChangesAsync();
 
             // DynamoDB Implementation
-            var entity = await _userRepository.GetUserAsync(user.Guid);
+            var entity = await _userRepository.GetUserAsync(user.Id);
             await _userRepository.DeleteUser(entity);
             _mapper.Map(user, entity);
             await _userRepository.AddUser(entity);
