@@ -20,27 +20,22 @@ namespace PickEmLeagueAPI.Controllers
         [HttpPost]
         public async Task<TModel> Create([FromBody] TModel request)
         {
-            //Console.WriteLine($"create new user {request.FirstName}");
             return await _service.Add(request);
         }
 
         [HttpGet]
         public async Task<IEnumerable<TModel>> GetAsync()
         {
-            //Console.WriteLine("user get request");
-            //_logger.LogInformation("Get user list");
-
             return await _service.GetAll();
         }
 
         [HttpGet("{id}")]
         public async Task<TModel> GetAsync([FromRoute] Guid id)
         {
-            Console.WriteLine($"user get request with id {id}");
             TModel model = await _service.Get(id);
             if (model == null)
             {
-                throw new Exception($"Null user for id {id}");
+                throw new Exception($"No {typeof(TModel).Name} found with id {id}");
             }
             return model;
         }

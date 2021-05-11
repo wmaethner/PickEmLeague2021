@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Amazon.DynamoDBv2;
 using Amazon.S3;
@@ -6,10 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using PickEmLeague.Global.Shared;
 using PickEmLeagueDatabase;
 using PickEmLeagueDatabase.Databases;
 using PickEmLeagueDatabase.Interfaces;
 using PickEmLeagueDatabase.Repositories;
+using PickEmLeagueServices;
 using PickEmLeagueServices.Interfaces;
 using PickEmLeagueServices.Services;
 using static PickEmLeagueDatabase.DBContextFactory;
@@ -95,13 +99,27 @@ namespace PickEmLeagueUtils
 
         private static void AddServices(IServiceCollection services)
         {
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IGameService, GameService>();
-            services.AddSingleton<ITeamService, TeamService>();
-            services.AddScoped<IS3Service, S3Service>();
+            List<Type> scopedServices = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
+                .Where(x => x.GetCustomAttribute<DIServiceScopeAttribute>() != null)
+                .ToList();
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();           
+            foreach (Type type in scopedServices)
+            {
+                DIServiceScopeAttribute diServiceScope = type.GetCustomAttribute<DIServiceScopeAttribute>();
+
+                switch (diServiceScope.ServiceScope)
+                {
+                    case ServiceScope.Scoped:
+                        services.AddScoped(diServiceScope.InterfaceType, diServiceScope.ImplementationType);
+                        break;
+                    case ServiceScope.Transient:
+                        services.AddTransient(diServiceScope.InterfaceType, diServiceScope.ImplementationType);
+                        break;
+                    case ServiceScope.Singleton:
+                        services.AddSingleton(diServiceScope.InterfaceType, diServiceScope.ImplementationType);
+                        break;
+                }
+            }      
         }
 
         private static void AddDependencies(IServiceCollection services)

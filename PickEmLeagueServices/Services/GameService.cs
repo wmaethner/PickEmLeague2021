@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using PickEmLeague.Global.Shared;
 using PickEmLeagueDatabase.Interfaces;
 using PickEmLeagueDomain.Models;
 using PickEmLeagueServices.Interfaces;
 
 namespace PickEmLeagueServices.Services
 {
+    [DIServiceScope(typeof(IGameService), typeof(GameService))]
     public class GameService : BaseService<Game, PickEmLeagueDatabase.Entities.Game>, IGameService
     {
         IGameRepository _repository;

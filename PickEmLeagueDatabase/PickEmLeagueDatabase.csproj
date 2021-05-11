@@ -9,7 +9,6 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Repositories\" />
     <Folder Include="Databases\" />
-    <Folder Include="Static Data\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="1.1.1" />
@@ -32,5 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PickEmLeagueDomain\PickEmLeagueDomain.csproj" />
+    <ProjectReference Include="..\PickEmLeague.Global.Shared\PickEmLeague.Global.Shared.csproj" />
   </ItemGroup>
 </Project>

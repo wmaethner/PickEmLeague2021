@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Configuration;
+using PickEmLeague.Global.Shared;
 using PickEmLeagueDomain.Models;
 using PickEmLeagueServices.Interfaces;
 
 namespace PickEmLeagueServices.Services
 {
+    [DIServiceScope(typeof(IS3Service), typeof(S3Service))]
     public class S3Service : IS3Service
     {
         private readonly IAmazonS3 _s3;
