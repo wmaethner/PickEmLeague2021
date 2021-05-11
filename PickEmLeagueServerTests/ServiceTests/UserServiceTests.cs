@@ -25,9 +25,14 @@ namespace PickEmLeagueServerTests.ServiceTests
         [Fact]
         public async Task GetUserWithGuidSucceeds()
         {
-            User user = await _userService.AddUser("email1@gmail.com", "first1", "last1");
+            User user = await _userService.Add(new User()
+            {
+                Email = "email1@gmail.com",
+                FirstName = "first1",
+                LastName = "last1"
+            });
 
-            User retrievedUser = await _userService.GetUser(user.Id);
+            User retrievedUser = await _userService.Get(user.Id);
             Assert.Equal(user.Id, retrievedUser.Id);
             Assert.Equal(user.FirstName, retrievedUser.FirstName);
         }
@@ -35,25 +40,40 @@ namespace PickEmLeagueServerTests.ServiceTests
         [Fact]
         public async Task GetUsersSucceeds()
         {
-            Assert.Empty(await _userService.GetUsers());
+            Assert.Empty(await _userService.GetAll());
 
-            await _userService.AddUser("email1@gmail.com", "first1", "last1");
-            Assert.Single(await _userService.GetUsers());
+            await _userService.Add(new User()
+            {
+                Email = "email1@gmail.com",
+                FirstName = "first1",
+                LastName = "last1"
+            });
+            Assert.Single(await _userService.GetAll());
 
-            await _userService.AddUser("email1@gmail.com", "first1", "last1");
-            Assert.Equal(2, (await _userService.GetUsers()).Count);
+            await _userService.Add(new User()
+            {
+                Email = "email1@gmail.com",
+                FirstName = "first1",
+                LastName = "last1"
+            });
+            Assert.Equal(2, (await _userService.GetAll()).Count);
         }
 
         [Fact]
         public async Task UpdateUserSucceeds()
         {
-            User user = await _userService.AddUser("email1@gmail.com", "first1", "last1");
-            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Id)).FirstName);
+            User user = await _userService.Add(new User()
+            {
+                Email = "email1@gmail.com",
+                FirstName = "first1",
+                LastName = "last1"
+            });
+            Assert.Equal(user.FirstName, (await _userService.Get(user.Id)).FirstName);
             user.FirstName = "newfirst";
-            await _userService.UpdateUser(user);
+            await _userService.Update(user);
 
-            Assert.Single(await _userService.GetUsers());
-            Assert.Equal(user.FirstName, (await _userService.GetUser(user.Id)).FirstName);
+            Assert.Single(await _userService.GetAll());
+            Assert.Equal(user.FirstName, (await _userService.Get(user.Id)).FirstName);
         }
     }
 }
