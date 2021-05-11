@@ -9,11 +9,17 @@ namespace PickEmLeagueDatabase
 {
     public class RDSDatabaseContext : DbContext, IDatabaseContext
     {
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
 
         public RDSDatabaseContext(DbContextOptions<RDSDatabaseContext> options) : base(options)
         {
             
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasIndex(u => u.Id);
+            modelBuilder.Entity<Game>().HasIndex(g => g.Id);
         }
 
         public async Task Delete<T>(object key) where T : class

@@ -11,8 +11,11 @@
   <ItemGroup>
     <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj" />
     <ProjectReference Include="..\PickEmLeagueDomain\PickEmLeagueDomain.csproj" />
+    <ProjectReference Include="..\PickEmLeague.Global.StaticData\PickEmLeague.Global.StaticData.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.0.19" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,162 @@
+﻿{
+  "0": {
+    "Id": 0,
+    "Name": "Cardinals",
+    "City": "Arizona"
+  },
+  "1": {
+    "Id": 1,
+    "Name": "Falcons",
+    "City": "Atlanta"
+  },
+  "2": {
+    "Id": 2,
+    "Name": "Ravens",
+    "City": "Baltimore"
+  },
+  "3": {
+    "Id": 3,
+    "Name": "Bills",
+    "City": "Buffalo"
+  },
+  "4": {
+    "Id": 4,
+    "Name": "Panthers",
+    "City": "Carolina"
+  },
+  "5": {
+    "Id": 5,
+    "Name": "Bears",
+    "City": "Chicago"
+  },
+  "6": {
+    "Id": 6,
+    "Name": "Bengals",
+    "City": "Cincinnati"
+  },
+  "7": {
+    "Id": 7,
+    "Name": "Browns",
+    "City": "Cleveland"
+  },
+  "8": {
+    "Id": 8,
+    "Name": "Cowboys",
+    "City": "Dallas"
+  },
+  "9": {
+    "Id": 9,
+    "Name": "Broncos",
+    "City": "Denver"
+  },
+  "10": {
+    "Id": 10,
+    "Name": "Lions",
+    "City": "Detroit"
+  },
+  "11": {
+    "Id": 11,
+    "Name": "Packers",
+    "City": "Green Bay"
+  },
+  "12": {
+    "Id": 12,
+    "Name": "Texans",
+    "City": "Houston"
+  },
+  "13": {
+    "Id": 13,
+    "Name": "Colts",
+    "City": "Indianapolis"
+  },
+  "14": {
+    "Id": 14,
+    "Name": "Jaguars",
+    "City": "Jacksonville"
+  },
+  "15": {
+    "Id": 15,
+    "Name": "Chiefs",
+    "City": "Kansas City"
+  },
+  "16": {
+    "Id": 16,
+    "Name": "Raiders",
+    "City": "Las Vegas"
+  },
+  "17": {
+    "Id": 17,
+    "Name": "Chargers",
+    "City": "Los Angeles"
+  },
+  "18": {
+    "Id": 18,
+    "Name": "Rams",
+    "City": "Los Angeles"
+  },
+  "19": {
+    "Id": 19,
+    "Name": "Dolphins",
+    "City": "Miami"
+  },
+  "20": {
+    "Id": 20,
+    "Name": "Vikings",
+    "City": "Minnesota"
+  },
+  "21": {
+    "Id": 21,
+    "Name": "Patriots",
+    "City": "New England"
+  },
+  "22": {
+    "Id": 22,
+    "Name": "Saints",
+    "City": "New Orleans"
+  },
+  "23": {
+    "Id": 23,
+    "Name": "Giants",
+    "City": "New York"
+  },
+  "24": {
+    "Id": 24,
+    "Name": "Jets",
+    "City": "New York"
+  },
+  "25": {
+    "Id": 25,
+    "Name": "Eagles",
+    "City": "Philadelphia"
+  },
+  "26": {
+    "Id": 26,
+    "Name": "Steelers",
+    "City": "Pittsburgh"
+  },
+  "27": {
+    "Id": 27,
+    "Name": "49ers",
+    "City": "San Francisco"
+  },
+  "28": {
+    "Id": 28,
+    "Name": "Seahawks",
+    "City": "Seattle"
+  },
+  "29": {
+    "Id": 29,
+    "Name": "Buccaneers",
+    "City": "Tampa Bay"
+  },
+  "30": {
+    "Id": 30,
+    "Name": "Titans",
+    "City": "Tennessee"
+  },
+  "31": {
+    "Id": 31,
+    "Name": "Foootball Team",
+    "City": "Washington"
+  }
+}

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Newtonsoft.Json;
 using PickEmLeagueDatabase.Interfaces;
@@ -22,14 +24,14 @@ namespace PickEmLeagueDatabase.Databases
         public async Task Create<T>(T entity) where T : class
         {
             Document document = Document.FromJson(JsonConvert.SerializeObject(entity));
-            Table table = Table.LoadTable(Client, "Users");
+            Table table = GetTable<T>();       
             await table.PutItemAsync(document);
         }
 
         public async Task Delete<T>(object key) where T : class
         {
             Primitive hash = new Primitive(key.ToString(), false);
-            Table table = Table.LoadTable(Client, "Users");
+            Table table = GetTable<T>();
             await table.DeleteItemAsync(hash);
         }
 
@@ -42,7 +44,7 @@ namespace PickEmLeagueDatabase.Databases
         {
             ScanFilter filter = new ScanFilter();
             ScanOperationConfig config = new ScanOperationConfig();
-            Table table = Table.LoadTable(Client, "Users");
+            Table table = GetTable<T>();
             Search search = table.Scan(config);
             List<Document> docList = new List<Document>();
             Task<List<Document>> getNextBatch;
@@ -92,6 +94,12 @@ namespace PickEmLeagueDatabase.Databases
             //}
 
             //_disposed = true;
+        }
+
+        private Table GetTable<T>()
+        {
+            DynamoDBTableAttribute tableAttribute = typeof(T).GetCustomAttribute<DynamoDBTableAttribute>();
+            return Table.LoadTable(Client, tableAttribute.TableName);
         }
     }
 }

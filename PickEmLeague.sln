@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueUtils", "PickEm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueIOC", "PickEmLeagueIOC\PickEmLeagueIOC.csproj", "{4FF44F59-586B-4B50-A6CB-FC9423F0F5B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeague.Global.StaticData", "PickEmLeague.Global.StaticData\PickEmLeague.Global.StaticData.csproj", "{EA747F1C-1693-4914-9374-95D17288FD40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{4FF44F59-586B-4B50-A6CB-FC9423F0F5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FF44F59-586B-4B50-A6CB-FC9423F0F5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FF44F59-586B-4B50-A6CB-FC9423F0F5B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA747F1C-1693-4914-9374-95D17288FD40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA747F1C-1693-4914-9374-95D17288FD40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA747F1C-1693-4914-9374-95D17288FD40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA747F1C-1693-4914-9374-95D17288FD40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{61B9F593-A037-473F-A448-5BCE8A968B98} = {0824C971-5589-47D3-B1B5-CB9DD30B787D}
 		{345EB3A2-5969-41C5-AEC5-ECACAE2E8483} = {0824C971-5589-47D3-B1B5-CB9DD30B787D}
 		{4FF44F59-586B-4B50-A6CB-FC9423F0F5B4} = {0824C971-5589-47D3-B1B5-CB9DD30B787D}
+		{EA747F1C-1693-4914-9374-95D17288FD40} = {0824C971-5589-47D3-B1B5-CB9DD30B787D}
 	EndGlobalSection
 EndGlobal

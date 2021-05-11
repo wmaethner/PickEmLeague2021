@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Amazon.DynamoDBv2;
+using Amazon.S3;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,8 @@ namespace PickEmLeagueUtils
             buildAPIOptions?.Invoke(apiOptions);
 
             //ServiceUtils.AddRDSDatabaseContext(services, configuration, buildAPIOptions);
-
+            services.AddDefaultAWSOptions(configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
             services.AddAWSService<IAmazonDynamoDB>();
 
             ServiceUtils.AddDatabase(services, configuration, apiOptions);
@@ -94,8 +96,12 @@ namespace PickEmLeagueUtils
         private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddSingleton<ITeamService, TeamService>();
+            services.AddScoped<IS3Service, S3Service>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();           
         }
 
         private static void AddDependencies(IServiceCollection services)
@@ -103,6 +109,7 @@ namespace PickEmLeagueUtils
             ApiVersion version = new(1, 0);
 
             services.AddAutoMapper(Assembly.GetAssembly(typeof(PickEmLeagueIOC.Profiles.UserProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(PickEmLeagueIOC.Profiles.GameProfile)));
 
             services.AddApiVersioning(c =>
             {

@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using PickEmLeagueDatabase.Entities;
+﻿using PickEmLeagueDatabase.Entities;
 
 namespace PickEmLeagueDatabase.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
-        Task<User> AddUser(User user);
-        Task DeleteUser(User user);
-
-        Task<IEnumerable<User>> GetUsersAsync();
-        Task<User> GetUserAsync(Guid guid);
-
-        Task SaveChangesAsync();
     }
 }

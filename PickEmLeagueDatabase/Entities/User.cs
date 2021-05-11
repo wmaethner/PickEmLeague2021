@@ -1,11 +1,12 @@
 ﻿using System;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace PickEmLeagueDatabase.Entities
 {
-    [Amazon.DynamoDBv2.DataModel.DynamoDBTable("Users")]
-    public class User
+    [DynamoDBTable("Users")]
+    public class User : GuidBasedEntity
     {
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }        
