@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using PickEmLeague.Global.Shared;
 using PickEmLeague.Global.StaticData;
 using PickEmLeagueDomain.Models;
 using PickEmLeagueServices.Interfaces;
 
 namespace PickEmLeagueServices.Services
 {
+    [DIServiceScope(typeof(ITeamService), typeof(TeamService), ServiceScope.Singleton)]
     public class TeamService : ITeamService
     {
         Dictionary<int, Team> _teams;

@@ -42,11 +42,10 @@ namespace PickEmLeagueDatabase.Databases
 
         public async Task<IQueryable<T>> GetQueryableAsync<T>() where T : class
         {
-            ScanFilter filter = new ScanFilter();
             ScanOperationConfig config = new ScanOperationConfig();
             Table table = GetTable<T>();
             Search search = table.Scan(config);
-            List<Document> docList = new List<Document>();
+            List<Document> docList;// = new List<Document>();
             Task<List<Document>> getNextBatch;
             List<T> items = new List<T>();
 
@@ -74,7 +73,8 @@ namespace PickEmLeagueDatabase.Databases
 
         public Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return Task.FromResult(1);
         }
 
         public void Dispose()

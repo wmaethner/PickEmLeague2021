@@ -22,7 +22,7 @@ namespace PickEmLeagueServerTests.ServiceTests
         }
 
         [Fact]
-        public async Task GetUserWithGuidSucceeds()
+        public async Task GetGameWithGuidSucceeds()
         {
             Game game = await _gameService.Add(new Game()
             {
@@ -39,7 +39,7 @@ namespace PickEmLeagueServerTests.ServiceTests
         }
 
         [Fact]
-        public async Task GetUsersSucceeds()
+        public async Task GetGamesSucceeds()
         {
             Assert.Empty(await _gameService.GetAll());
 
@@ -65,7 +65,7 @@ namespace PickEmLeagueServerTests.ServiceTests
         }
 
         [Fact]
-        public async Task UpdateUserSucceeds()
+        public async Task UpdateGameSucceeds()
         {
             Game game = await _gameService.Add(new Game()
             {

@@ -1,5 +1,4 @@
-﻿using System;
-namespace PickEmLeagueDomain.Models
+﻿namespace PickEmLeagueDomain.Models
 {
     public class User : GuidBasedModel
     {

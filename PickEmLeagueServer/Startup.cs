@@ -1,17 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using PickEmLeagueAPI.Utilities;
-using PickEmLeagueDatabase;
-using PickEmLeagueServer.Utilities;
-using PickEmLeagueServices.Interfaces;
-using PickEmLeagueServices.Services;
 using PickEmLeagueUtils;
 
 namespace PickEmLeagueServer
@@ -32,15 +25,7 @@ namespace PickEmLeagueServer
         {
             services.AddControllers();
             
-            //services.AddDbContextPool<DatabaseContext>(options =>
-            //    {
-            //        options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
-            //        options.UseSnakeCaseNamingConvention();
-            //    });
-
             services.AddAPIServices(Configuration);
-            //AddDependencies(services);
-            //AddServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,30 +50,5 @@ namespace PickEmLeagueServer
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
-
-        //private void AddServices(IServiceCollection services)
-        //{
-        //    services.AddScoped<IUserService, UserService>();
-        //}
-
-        //private void AddDependencies(IServiceCollection services)
-        //{
-        //    services.AddAutoMapper(typeof(Startup));
-
-        //    services.AddApiVersioning(c =>
-        //    {
-        //        c.AssumeDefaultVersionWhenUnspecified = true;
-        //        c.DefaultApiVersion = _version;
-        //    });
-
-        //    services.AddSwaggerGen(c =>
-        //    {
-        //        c.SwaggerDoc($"v{_version}",
-        //            new OpenApiInfo { Title = "PickEmLeague API", Version = $"v{_version}" });
-        //        c.OperationFilter<RemoveVersionFromParameter>();
-
-        //        c.DocumentFilter<ReplaceVersionWithExactValueInPath>();
-        //    });
-        //}
     }
 }
