@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Amazon.DynamoDBv2;
@@ -99,9 +100,15 @@ namespace PickEmLeagueUtils
 
         private static void AddServices(IServiceCollection services)
         {
-            List<Type> scopedServices = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
-                .Where(x => x.GetCustomAttribute<DIServiceScopeAttribute>() != null)
-                .ToList();
+            List<Type> scopedServices = new List<Type>();
+            List<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+
+            var referencedPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll").ToList();
+            referencedPaths.ForEach(path =>
+            {
+                var loadedAssembly = Assembly.LoadFrom(path);
+                scopedServices.AddRange(loadedAssembly.GetTypes().Where(t => t.GetCustomAttribute<DIServiceScopeAttribute>() != null));
+            });
 
             foreach (Type type in scopedServices)
             {
@@ -125,9 +132,7 @@ namespace PickEmLeagueUtils
         private static void AddDependencies(IServiceCollection services)
         {
             ApiVersion version = new(1, 0);
-
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(PickEmLeagueIOC.Profiles.UserProfile)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(PickEmLeagueIOC.Profiles.GameProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(PickEmLeagueIOC.Profiles.ModelMappings)));
 
             services.AddApiVersioning(c =>
             {

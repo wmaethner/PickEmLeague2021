@@ -73,7 +73,8 @@ namespace PickEmLeagueDatabase.Databases
 
         public Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return Task.FromResult(1);
         }
 
         public void Dispose()
