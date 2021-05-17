@@ -7,4 +7,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PickEmLeague.Global.Shared\PickEmLeague.Global.Shared.csproj" />
+  </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 ﻿using System;
+using PickEmLeague.Global.Shared.Enums;
+
 namespace PickEmLeagueDomain.Models
 {
     public class Game : GuidBasedModel
@@ -7,6 +9,7 @@ namespace PickEmLeagueDomain.Models
         public int HomeTeamId { get; set; }
         public int AwayTeamId { get; set; }
         public int? Winner { get; set; }
+        public GameResultEnum Result { get; set; }
         public DateTime GameTime { get; set; }
     }
 }
