@@ -20,6 +20,7 @@ namespace PickEmLeagueDatabase
         {
             modelBuilder.Entity<User>().HasIndex(u => u.Id);
             modelBuilder.Entity<Game>().HasIndex(g => g.Id);
+            modelBuilder.Entity<GamePick>().HasIndex(g => g.Id);
         }
 
         public async Task Delete<T>(object key) where T : class
