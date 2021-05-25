@@ -11,7 +11,6 @@ namespace PickEmLeagueDatabase.Entities
         public int Week { get; set; }
         public int HomeTeamId { get; set; }
         public int AwayTeamId { get; set; }
-        public int? Winner { get; set; }
         public GameResultEnum Result { get; set; }
         public DateTime GameTime { get; set; }
     }

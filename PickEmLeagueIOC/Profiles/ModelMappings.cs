@@ -10,6 +10,7 @@ namespace PickEmLeagueIOC.Profiles
         {
             CreateMap<User, PickEmLeagueDatabase.Entities.User>().ReverseMap();
             CreateMap<Game, PickEmLeagueDatabase.Entities.Game>().ReverseMap();
+            CreateMap<GamePick, PickEmLeagueDatabase.Entities.GamePick>().ReverseMap();
         }
     }
 }
