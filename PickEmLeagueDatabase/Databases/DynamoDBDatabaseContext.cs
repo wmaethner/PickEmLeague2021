@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PickEmLeagueDatabase.Interfaces;
 
@@ -15,10 +16,12 @@ namespace PickEmLeagueDatabase.Databases
     {
         private bool _disposed;
         AmazonDynamoDBClient Client;
+        private bool _useTestDb;
 
-        public DynamoDBDatabaseContext()
+        public DynamoDBDatabaseContext(IConfiguration configuration)
         {
             Client = new AmazonDynamoDBClient();
+            _useTestDb = configuration.GetValue<bool>("UseTestDatabase");
         }
 
         public async Task Create<T>(T entity) where T : class
@@ -99,7 +102,12 @@ namespace PickEmLeagueDatabase.Databases
         private Table GetTable<T>()
         {
             DynamoDBTableAttribute tableAttribute = typeof(T).GetCustomAttribute<DynamoDBTableAttribute>();
-            return Table.LoadTable(Client, tableAttribute.TableName);
+            return Table.LoadTable(Client, GetTableName(tableAttribute));
+        }
+
+        private string GetTableName(DynamoDBTableAttribute tableAttribute)
+        {
+            return tableAttribute.TableName += _useTestDb ? "-Test" : "";
         }
     }
 }
