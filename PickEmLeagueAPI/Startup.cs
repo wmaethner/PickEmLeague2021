@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using PickEmLeagueAPI.Utilities;
 using PickEmLeagueUtils;
 
-namespace PickEmLeagueServer
+namespace PickEmLeagueAPI
 {
     public class Startup
     {

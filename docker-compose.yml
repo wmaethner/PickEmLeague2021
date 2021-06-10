@@ -1,22 +1,15 @@
 version: '3.4'
 
 services:
-  pickemleagueserver:
-    image: ${DOCKER_REGISTRY-}pickemleagueserver
-    build:
-      context: .
-      dockerfile: PickEmLeagueServer/Dockerfile
-
   pickemleaguewebui:
     image: ${DOCKER_REGISTRY-}pickemleaguewebui
     build:
       context: .
       dockerfile: PickEmLeagueWebUI/Dockerfile
 
-
   pickemleagueapi:
     image: ${DOCKER_REGISTRY-}pickemleagueapi
     build:
       context: .
-      dockerfile: PickEmLeagueServer/Dockerfile
+      dockerfile: PickEmLeagueAPI/Dockerfile
 
