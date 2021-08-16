@@ -1,14 +1,8 @@
-version: 0.2
+﻿version: 0.2
 phases:
-  pre_build:
-    commands:
-      - echo Restore started on `date`
-      - dotnet restore WebApplicationSample/WebApplicationSample.csproj
-  build:
-    commands:
-      - echo Build started on `date`
-      - dotnet publish -c release -o ./build_output WebApplicationSample/WebApplicationSample.csproj
-artifacts:
-  files:
-    - ./**/*
-  base-directory: './build_output'
+    install:
+        runtime-versions:
+            dotnet: 5.0
+    build:
+        commands:
+            - dotnet build -c Release ./PickEmLeague/PickEmLeague.csproj
