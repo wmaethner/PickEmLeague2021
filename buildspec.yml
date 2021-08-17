@@ -19,7 +19,7 @@ phases:
 
 artifacts:
   files:
-    - PickEmLeague/build_output/**/*
+    - build_output/**/*
     # - scripts/**/*
     # - appspec.yml
       
