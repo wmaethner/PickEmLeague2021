@@ -10,18 +10,18 @@ phases:
   pre_build:
     commands:
       - echo Restore started on `date`
-      - dotnet restore PickEmLeague.csproj
+      - dotnet restore PickEmLeague/PickEmLeague.csproj
       
   build:
     commands:
       - echo Build started on `date`
-      - dotnet build PickEmLeague.csproj
+      - dotnet build PickEmLeague/ickEmLeague.csproj
       
   post_build:
     commands:
       - echo Publish started on `date`
       # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html
-      - dotnet publish -c Release -r linux-x64 --self-contained false PickEmLeague.csproj
+      - dotnet publish -c Release -r linux-x64 --self-contained false PickEmLeague/PickEmLeague.csproj
       
 artifacts:
   files:
