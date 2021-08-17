@@ -15,7 +15,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - dotnet build PickEmLeague/ickEmLeague.csproj
+      - dotnet build PickEmLeague/PickEmLeague.csproj
       
   post_build:
     commands:
