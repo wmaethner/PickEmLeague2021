@@ -15,16 +15,22 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - dotnet build PickEmLeague/PickEmLeague.csproj
-      
-  post_build:
-    commands:
-      - echo Publish started on `date`
-      # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html
-      - dotnet publish -c Release -r linux-x64 --self-contained false PickEmLeague/PickEmLeague.csproj
-      
+      - dotnet publish -c release -o ./build_output PickEmLeague/PickEmLeague.csproj
+
 artifacts:
   files:
-    - '**/*'
-  base-directory: ./bin/Release/netcoreapp3.1/linux-x64/publish/
-  discard-paths: no
+    - PickEmLeague/build_output/**/*
+    # - scripts/**/*
+    # - appspec.yml
+      
+#   post_build:
+#     commands:
+#       - echo Publish started on `date`
+#       # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html
+#       - dotnet publish -c Release -r linux-x64 --self-contained false PickEmLeague/PickEmLeague.csproj
+      
+# artifacts:
+#   files:
+#     - '**/*'
+#   base-directory: ./bin/Release/netcoreapp3.1/linux-x64/publish/
+#   discard-paths: no
