@@ -14,6 +14,7 @@ phases:
       
   build:
     commands:
+      - echo $CODEBUILD_SRC_DIR
       - echo Build started on `date`
     #   - dotnet publish -c release -o ./build_output PickEmLeague/PickEmLeague.csproj
       - dotnet publish -c Debug -r linux-x64 --self-contained true PickEmLeague/PickEmLeague.csproj
