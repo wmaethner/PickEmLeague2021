@@ -11,13 +11,16 @@ phases:
     commands:
       - echo Restore started on `date`
       - dotnet restore PickEmLeague/PickEmLeague.csproj
+      - dotnet tool install -g Amazon.ElasticBeanstalk.Tools
       
   build:
     commands:
       - echo $CODEBUILD_SRC_DIR
       - echo Build started on `date`
+      - cd PickEmLeague/
+      - dotnet eb package
     #   - dotnet publish -c release -o ./build_output PickEmLeague/PickEmLeague.csproj
-      - dotnet publish -c Debug -r linux-x64 --self-contained false PickEmLeague/PickEmLeague.csproj
+      # - dotnet publish -c Debug -r linux-x64 --self-contained false PickEmLeague/PickEmLeague.csproj
 
 artifacts:
   files:
