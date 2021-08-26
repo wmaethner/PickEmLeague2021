@@ -35,5 +35,11 @@ namespace PickEmLeague.Controllers
             })
             .ToArray();
         }
+
+        [HttpPost]
+        public void Test()
+        {
+
+        }
     }
 }

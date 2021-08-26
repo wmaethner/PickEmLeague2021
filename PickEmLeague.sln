@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.810.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeague", "PickEmLeague\PickEmLeague.csproj", "{5C20E86D-7401-4D72-BABF-29B30B9C4996}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BCFA04DD-74F2-44C1-B90F-8E9F0F1F565B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueDatabase", "PickEmLeagueDatabase\PickEmLeagueDatabase.csproj", "{727B9ADB-4EA6-4C06-8FC1-7A05FD22FA56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueModels", "PickEmLeagueModels\PickEmLeagueModels.csproj", "{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,14 @@ Global
 		{5C20E86D-7401-4D72-BABF-29B30B9C4996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C20E86D-7401-4D72-BABF-29B30B9C4996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C20E86D-7401-4D72-BABF-29B30B9C4996}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCFA04DD-74F2-44C1-B90F-8E9F0F1F565B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCFA04DD-74F2-44C1-B90F-8E9F0F1F565B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCFA04DD-74F2-44C1-B90F-8E9F0F1F565B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCFA04DD-74F2-44C1-B90F-8E9F0F1F565B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{727B9ADB-4EA6-4C06-8FC1-7A05FD22FA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{727B9ADB-4EA6-4C06-8FC1-7A05FD22FA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{727B9ADB-4EA6-4C06-8FC1-7A05FD22FA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{727B9ADB-4EA6-4C06-8FC1-7A05FD22FA56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

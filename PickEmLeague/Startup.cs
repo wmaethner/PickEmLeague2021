@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PickEmLeagueDatabase;
+using PickEmLeagueModels.Profiles;
 
 namespace PickEmLeague
 {
@@ -20,7 +24,6 @@ namespace PickEmLeague
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -28,11 +31,24 @@ namespace PickEmLeague
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddDbContext<PickEmLeagueDbContext>(opts =>
+            {
+                opts.UseNpgsql(Configuration.GetConnectionString("PostgresDbConnection"),
+                    b => b.MigrationsAssembly(Assembly.GetAssembly(typeof(PickEmLeagueDbContext)).GetName().FullName));
+            });
+
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using var scope = app.ApplicationServices.CreateScope();
+            var services = scope.ServiceProvider;
+            var db = services.GetRequiredService<PickEmLeagueDbContext>();
+            db.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

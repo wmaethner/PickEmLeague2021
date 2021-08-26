@@ -9,7 +9,7 @@ export class FetchData extends Component {
   }
 
   componentDidMount() {
-    this.populateWeatherData();
+      this.populateWeatherData();
   }
 
   static renderForecastsTable(forecasts) {
