@@ -8,6 +8,7 @@ import { Users } from './components/Users';
 
 import './custom.css'
 import UserFunction from './components/UserFunction';
+import { UserList } from './components/Users/UserList';
 
 
 export default class App extends Component {
@@ -19,7 +20,7 @@ export default class App extends Component {
         <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
-        <Route path='/users' component={Users} />
+        <Route path='/users' component={UserList} />
       </Layout>
     );
   }
