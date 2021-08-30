@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
+    "@openapitools/openapi-generator-cli": "^2.2.6",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
     "bootstrap": "^5.1.0",
@@ -11,6 +12,7 @@
     "jsx-runtime": "^1.2.0",
     "merge": "^1.2.1",
     "oidc-client": "^1.9.0",
+    "prettier": "^2.3.2",
     "react": "^16.14.0",
     "react-bootstrap": "^2.0.0-beta.6",
     "react-dom": "^16.14.0",
@@ -38,9 +40,16 @@
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
+    "pregenerate": "curl https://localhost:5001/swagger/v1/swagger.json > openapi.json",
+    "generate": "rimraf ./src/Apisnpm && openapi-generator-cli generate -i openapi.json -o ./src/Apis --generator-name typescript-fetch --additional-properties=typescriptThreePlus=true,supportsES6=true --type-mappings LocalDate=LocalDate",
+    "postgenerate": "yarn lint:fix && yarn format:fix",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --ignore-unknown '**/*.*'",
+    "format:fix": "yarn format --write",
+    "format:check": "yarn format --check"
   },
   "browserslist": {
     "production": [
