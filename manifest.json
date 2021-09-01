@@ -1,0 +1,21 @@
+{
+    "manifestVersion": 1,
+    "deployments": {
+      "aspNetCoreWeb": [
+        {
+          "name": "frontend",
+          "parameters": {
+            "appBundle": "./frontend",
+            "iisPath": "/frontend"
+          }
+        },
+        {
+          "name": "ext-api",
+          "parameters": {
+            "appBundle": "./ext-api",
+            "iisPath": "/ext-api"
+          }
+        }
+      ]
+    }
+  }

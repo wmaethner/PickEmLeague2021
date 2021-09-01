@@ -37,7 +37,12 @@ namespace PickEmLeague.Controllers
             //    new User(){ Id = 2, Name = "Two Name", Email = "two@test.com"}
             //};
 
-            return _mapper.Map<List<User>>(_dbContext.Users.ToList());
+            _dbContext.Users.Add(new PickEmLeagueDatabase.Entities.User() { Name = "test" });
+            _dbContext.SaveChanges();
+
+            var list = _dbContext.Users.ToList();
+
+            return _mapper.Map<List<User>>(list);
         }
     }
 }

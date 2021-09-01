@@ -1,5 +1,11 @@
 {
+  "scripts": {
+    "migration": "dotnet ef migrations add $1 --project PickEmLeagueDatabase/PickEmLeagueDatabase.csproj --startup-project PickEmLeague/PickEmLeague.csproj",
+    "publish": "dotnet publish PickEmLeague/PickEmLeague.csproj -o publishes/api",
+    "package": "cd publishes/api && zip ../deploy.zip *"
+  },
   "dependencies": {
+    "npm-pack-zip": "^1.2.9",
     "react-query": "^3.21.1"
   }
 }
