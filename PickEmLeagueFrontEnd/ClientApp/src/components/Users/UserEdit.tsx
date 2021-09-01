@@ -1,50 +1,29 @@
-import { Button, Container } from "react-bootstrap";
-import React, { Component } from "react";
-import { Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { User } from "../../Apis";
-import { useGetUserList } from "../../Data/User/useGetUserList";
-import { Link, useParams, useRouteMatch } from "react-router-dom";
-
-
-interface UserEditState {
-    userId: number;
-}
+import { useGetUser } from "../../Data/User/useGetUser";
 
 type UserEditParams = {
-    userId: string;
-}
+  userId: string;
+};
 
 export function UserEdit() {
-    //let { url } = useRouteMatch();
-    let id = parseInt(useParams<UserEditParams>().userId);
+  const [user, setUser] = useState<User>({});
+  const id = parseInt(useParams<UserEditParams>().userId);
 
-    return (
-        <div>
-            <h3>ID: {id}</h3>
-        </div>
-    );
+  useEffect(() => {
+    async function GetUser() {
+      setUser(await useGetUser(id));
+    }
+    GetUser();
+  }, [id]);
+
+  return (
+    <Container>
+      <Row>Name: {user.name}</Row>
+      <Row>Email: {user.email}</Row>
+      <Row>Admin: {user.isAdmin}</Row>
+    </Container>
+  );
 }
-
-// export class UserEdit extends React.Component<any, UserEditState> {
-//   constructor(props: any) {
-//     super(props);
-//     const url = useRouteMatch();
-//     const id = parseInt(useParams());
-
-//     this.state = {
-//       userId: id
-//     };
-//   }
-
-//   componentDidMount() {
-//   }
-
-//   render() {
-//     return (
-//         <div>
-//         <h3>ID: {this.state.userId}</h3>
-
-//       </div>
-//     );
-//   }
-// }

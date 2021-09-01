@@ -15,7 +15,11 @@
 import * as runtime from "../runtime";
 import { User, UserFromJSON, UserToJSON } from "../models";
 
-export interface UserPostRequest {
+export interface UserGetUserGetRequest {
+  id?: number;
+}
+
+export interface UserUpdateUserPutRequest {
   user?: User;
 }
 
@@ -25,13 +29,39 @@ export interface UserPostRequest {
 export class UserApi extends runtime.BaseAPI {
   /**
    */
-  async userGetRaw(): Promise<runtime.ApiResponse<Array<User>>> {
+  async userCreateUserPostRaw(): Promise<runtime.ApiResponse<User>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/User`,
+      path: `/User/create-user`,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      UserFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   */
+  async userCreateUserPost(): Promise<User> {
+    const response = await this.userCreateUserPostRaw();
+    return await response.value();
+  }
+
+  /**
+   */
+  async userGetAllUsersGetRaw(): Promise<runtime.ApiResponse<Array<User>>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/User/get-all-users`,
       method: "GET",
       headers: headerParameters,
       query: queryParameters,
@@ -44,15 +74,49 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    */
-  async userGet(): Promise<Array<User>> {
-    const response = await this.userGetRaw();
+  async userGetAllUsersGet(): Promise<Array<User>> {
+    const response = await this.userGetAllUsersGetRaw();
     return await response.value();
   }
 
   /**
    */
-  async userPostRaw(
-    requestParameters: UserPostRequest
+  async userGetUserGetRaw(
+    requestParameters: UserGetUserGetRequest
+  ): Promise<runtime.ApiResponse<User>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.id !== undefined) {
+      queryParameters["id"] = requestParameters.id;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/User/get-user`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      UserFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   */
+  async userGetUserGet(
+    requestParameters: UserGetUserGetRequest
+  ): Promise<User> {
+    const response = await this.userGetUserGetRaw(requestParameters);
+    return await response.value();
+  }
+
+  /**
+   */
+  async userUpdateUserPutRaw(
+    requestParameters: UserUpdateUserPutRequest
   ): Promise<runtime.ApiResponse<void>> {
     const queryParameters: runtime.HTTPQuery = {};
 
@@ -61,8 +125,8 @@ export class UserApi extends runtime.BaseAPI {
     headerParameters["Content-Type"] = "application/json";
 
     const response = await this.request({
-      path: `/User`,
-      method: "POST",
+      path: `/User/update-user`,
+      method: "PUT",
       headers: headerParameters,
       query: queryParameters,
       body: UserToJSON(requestParameters.user),
@@ -73,7 +137,9 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    */
-  async userPost(requestParameters: UserPostRequest): Promise<void> {
-    await this.userPostRaw(requestParameters);
+  async userUpdateUserPut(
+    requestParameters: UserUpdateUserPutRequest
+  ): Promise<void> {
+    await this.userUpdateUserPutRaw(requestParameters);
   }
 }

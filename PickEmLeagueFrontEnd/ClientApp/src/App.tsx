@@ -6,12 +6,8 @@ import { FetchData } from "./components/FetchData";
 import { Counter } from "./components/Counter";
 
 import "./custom.css";
-import UserFunction from "./components/UserFunction";
-import { UserList } from "./components/Users/UserList";
-import { UserEdit } from "./components/Users/UserEdit";
 import { Switch } from "react-router";
 import { Users } from "./components/Users/Users";
-//import { UserEdit } from "./components/Users/UserEdit";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -23,7 +19,9 @@ export default class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/counter" component={Counter} />
           <Route path="/fetch-data" component={FetchData} />
-          <Route path="/users"><Users /></Route>
+          <Route path="/users">
+            <Users />
+          </Route>
         </Switch>
       </Layout>
     );

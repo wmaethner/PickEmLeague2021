@@ -1,7 +1,7 @@
 import { User, UserApi } from "../../Apis";
 import { useApi } from "../useApi";
 
-export const useGetUserList = async (): Promise<User[]> => {
+export const useGetUser = async (id: number): Promise<User> => {
   const userApi = useApi(UserApi);
-  return await userApi.userGetAllUsersGet();
+  return await userApi.userGetUserGet({ id: id });
 };
