@@ -1,6 +1,7 @@
 import { User, UserApi } from "../../Apis";
 import { useApi } from "../useApi";
 
-// export const useCreateUser = async (): Promise<User> => {
-
-// };
+export const useEditUser = async (user: User): Promise<void> => {
+    const userApi = useApi(UserApi);
+    return await userApi.userUpdateUserPut({ user });
+};

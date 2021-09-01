@@ -36,7 +36,13 @@ namespace PickEmLeague
 
             services.AddCors(options =>
             {
-                options.AddPolicy("Policy", builder => { builder.AllowAnyOrigin(); });
+                options.AddPolicy("Policy",
+                                    builder =>
+                                    {
+                                        builder.AllowAnyOrigin();
+                                        builder.AllowAnyMethod();
+                                        builder.AllowAnyHeader();
+                                    });
             });
             services.AddDbContext<PickEmLeagueDbContext>(opts =>
             {
