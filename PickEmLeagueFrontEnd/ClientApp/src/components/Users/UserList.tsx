@@ -15,23 +15,23 @@ export function UserList() {
   useEffect(() => {
     (async () => {
       await GetUsers();
-    })()
+    })();
   }, []);
 
   const GetUsers = async (): Promise<void> => {
     const users = await useGetUserList();
     setUsers(users);
-  }
+  };
 
   const handleDeleteUser = async (userId: number) => {
     await DeleteUser(userId);
     await GetUsers();
-  }
+  };
 
   const AddUser = async () => {
     const user = await useCreateUser();
     await GetUsers();
-  }
+  };
 
   return (
     <Container>

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueDatabase", "Pic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueModels", "PickEmLeagueModels\PickEmLeagueModels.csproj", "{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueShared", "PickEmLeagueShared\PickEmLeagueShared.csproj", "{73A70333-67C5-43F1-BE24-D8F2EE3FDF56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueServices", "PickEmLeagueServices\PickEmLeagueServices.csproj", "{578EB740-6A00-4422-A2E5-23D7DCA45825}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77BCB7F0-0D44-4A49-8D50-D4D7182BE13A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73A70333-67C5-43F1-BE24-D8F2EE3FDF56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73A70333-67C5-43F1-BE24-D8F2EE3FDF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73A70333-67C5-43F1-BE24-D8F2EE3FDF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73A70333-67C5-43F1-BE24-D8F2EE3FDF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{578EB740-6A00-4422-A2E5-23D7DCA45825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{578EB740-6A00-4422-A2E5-23D7DCA45825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{578EB740-6A00-4422-A2E5-23D7DCA45825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{578EB740-6A00-4422-A2E5-23D7DCA45825}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

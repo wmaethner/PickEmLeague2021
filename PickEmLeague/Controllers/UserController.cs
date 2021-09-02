@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PickEmLeagueDatabase;
 using PickEmLeagueModels.Models;
+using PickEmLeagueServices.Repositories.Interfaces;
 
 namespace PickEmLeague.Controllers
 {
@@ -13,52 +11,48 @@ namespace PickEmLeague.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private PickEmLeagueDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
         private IMapper _mapper;
 
-        public UserController(PickEmLeagueDbContext dbContext, IMapper mapper)
+        public UserController(IUserRepository userRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
         [HttpPost("create-user")]
-        public User AddUser()
+        public async Task<User> AddUserAsync()
         {
-            User user = new User();
-
-            var entity = _dbContext.Users.Add(_mapper.Map<PickEmLeagueDatabase.Entities.User>(user));
-            _dbContext.SaveChanges();
-            return _mapper.Map<User>(entity.Entity);
+            return MapUser(await _userRepository.CreateAsync());
         }
 
         [HttpGet("get-all-users")]
         public IEnumerable<User> GetUsers()
         {
-            var list = _dbContext.Users.ToList();
-            return _mapper.Map<List<User>>(list);
+            return _mapper.Map<IEnumerable<User>>(_userRepository.GetAll());
         }
 
         [HttpGet("get-user")]
-        public User GetUser(long id)
+        public async Task<User> GetUserAsync(long id)
         {
-            return _mapper.Map<User>(_dbContext.Find<PickEmLeagueDatabase.Entities.User>(id));
+            return MapUser(await _userRepository.GetAsync(id));
         }
 
         [HttpPut("update-user")]
-        public void EditUserAsync(User user)
+        public async Task EditUserAsync(User user)
         {
-            var entity = _dbContext.Find<PickEmLeagueDatabase.Entities.User>(user.Id);
-            _mapper.Map(user, entity);
-            _dbContext.SaveChanges();
+            await _userRepository.UpdateAsync(user);
         }
 
         [HttpDelete]
-        public void DeleteUser(long id)
+        public async Task DeleteUserAsync(long id)
         {
-            var entity = _dbContext.Find<PickEmLeagueDatabase.Entities.User>(id);
-            _dbContext.Remove(entity);
-            _dbContext.SaveChanges();
+            await _userRepository.DeleteAsync(id);
+        }
+
+        private User MapUser(PickEmLeagueDatabase.Entities.User user)
+        {
+            return _mapper.Map<User>(user); 
         }
     }
 }
