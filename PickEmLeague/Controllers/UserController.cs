@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PickEmLeagueDatabase;
@@ -21,23 +22,43 @@ namespace PickEmLeague.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public void AddUser(User user)
+        [HttpPost("create-user")]
+        public User AddUser()
         {
-            _dbContext.Users.Add(_mapper.Map<PickEmLeagueDatabase.Entities.User>(user));
+            User user = new User();
+
+            var entity = _dbContext.Users.Add(_mapper.Map<PickEmLeagueDatabase.Entities.User>(user));
+            _dbContext.SaveChanges();
+            return _mapper.Map<User>(entity.Entity);
+        }
+
+        [HttpGet("get-all-users")]
+        public IEnumerable<User> GetUsers()
+        {
+            var list = _dbContext.Users.ToList();
+            return _mapper.Map<List<User>>(list);
+        }
+
+        [HttpGet("get-user")]
+        public User GetUser(long id)
+        {
+            return _mapper.Map<User>(_dbContext.Find<PickEmLeagueDatabase.Entities.User>(id));
+        }
+
+        [HttpPut("update-user")]
+        public void EditUserAsync(User user)
+        {
+            var entity = _dbContext.Find<PickEmLeagueDatabase.Entities.User>(user.Id);
+            _mapper.Map(user, entity);
             _dbContext.SaveChanges();
         }
 
-        [HttpGet]
-        public IEnumerable<User> GetUsers()
+        [HttpDelete]
+        public void DeleteUser(long id)
         {
-            //return new List<User>()
-            //{
-            //    new User(){ Id = 1, Name = "One Name", Email = "one@test.com"},
-            //    new User(){ Id = 2, Name = "Two Name", Email = "two@test.com"}
-            //};
-
-            return _mapper.Map<List<User>>(_dbContext.Users.ToList());
+            var entity = _dbContext.Find<PickEmLeagueDatabase.Entities.User>(id);
+            _dbContext.Remove(entity);
+            _dbContext.SaveChanges();
         }
     }
 }

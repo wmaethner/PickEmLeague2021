@@ -25,14 +25,25 @@ namespace PickEmLeague
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllers();
+            //services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/build";
+            //});
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Policy",
+                                    builder =>
+                                    {
+                                        builder.AllowAnyOrigin();
+                                        builder.AllowAnyMethod();
+                                        builder.AllowAnyHeader();
+                                    });
+            });
             services.AddDbContext<PickEmLeagueDbContext>(opts =>
             {
                 opts.UseNpgsql(Configuration.GetConnectionString("PostgresDbConnection"),
@@ -57,9 +68,10 @@ namespace PickEmLeague
                 app.UseHsts();
             }
 
+            app.UseCors("Policy");
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseRouting();
 
