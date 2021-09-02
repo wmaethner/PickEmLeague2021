@@ -1,7 +1,7 @@
 import { User, UserApi } from "../../Apis";
 import { useApi } from "../useApi";
 
-export const useCreateUser = async (): Promise<User> => {
+export const useDeleteUser = async (id: number): Promise<void> => {
   const userApi = useApi(UserApi);
-  return await userApi.userCreateUserPost();
+  return await userApi.userDelete({ id: id });
 };

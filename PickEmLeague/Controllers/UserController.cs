@@ -52,5 +52,13 @@ namespace PickEmLeague.Controllers
             _mapper.Map(user, entity);
             _dbContext.SaveChanges();
         }
+
+        [HttpDelete]
+        public void DeleteUser(long id)
+        {
+            var entity = _dbContext.Find<PickEmLeagueDatabase.Entities.User>(id);
+            _dbContext.Remove(entity);
+            _dbContext.SaveChanges();
+        }
     }
 }

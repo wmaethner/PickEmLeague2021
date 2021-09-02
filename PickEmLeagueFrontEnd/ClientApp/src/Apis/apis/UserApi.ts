@@ -15,6 +15,10 @@
 import * as runtime from "../runtime";
 import { User, UserFromJSON, UserToJSON } from "../models";
 
+export interface UserDeleteRequest {
+  id?: number;
+}
+
 export interface UserGetUserGetRequest {
   id?: number;
 }
@@ -51,6 +55,35 @@ export class UserApi extends runtime.BaseAPI {
   async userCreateUserPost(): Promise<User> {
     const response = await this.userCreateUserPostRaw();
     return await response.value();
+  }
+
+  /**
+   */
+  async userDeleteRaw(
+    requestParameters: UserDeleteRequest
+  ): Promise<runtime.ApiResponse<void>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.id !== undefined) {
+      queryParameters["id"] = requestParameters.id;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/User`,
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   */
+  async userDelete(requestParameters: UserDeleteRequest): Promise<void> {
+    await this.userDeleteRaw(requestParameters);
   }
 
   /**

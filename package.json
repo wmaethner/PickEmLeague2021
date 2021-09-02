@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "npm-pack-zip": "^1.2.9",
-    "react-query": "^3.21.1"
+    "react-query": "^3.21.1",
+    "static-route-paths": "^0.2.2"
   }
 }
