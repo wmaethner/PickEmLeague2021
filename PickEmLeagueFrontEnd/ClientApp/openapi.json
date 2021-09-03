@@ -5,7 +5,161 @@
     "version": "1.0"
   },
   "paths": {
-    "/User/create-user": {
+    "/Game/create": {
+      "post": {
+        "tags": ["Game"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Game/get-all": {
+      "get": {
+        "tags": ["Game"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Game/get": {
+      "get": {
+        "tags": ["Game"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Game/update": {
+      "put": {
+        "tags": ["Game"],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Game"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Game"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Game"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Game"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Game/delete": {
+      "delete": {
+        "tags": ["Game"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/User/create": {
       "post": {
         "tags": ["User"],
         "responses": {
@@ -32,7 +186,7 @@
         }
       }
     },
-    "/User/get-all-users": {
+    "/User/get-all": {
       "get": {
         "tags": ["User"],
         "responses": {
@@ -68,7 +222,7 @@
         }
       }
     },
-    "/User/get-user": {
+    "/User/get": {
       "get": {
         "tags": ["User"],
         "parameters": [
@@ -105,11 +259,16 @@
         }
       }
     },
-    "/User/update-user": {
+    "/User/update": {
       "put": {
         "tags": ["User"],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User"
@@ -134,7 +293,7 @@
         }
       }
     },
-    "/User": {
+    "/User/delete": {
       "delete": {
         "tags": ["User"],
         "parameters": [
@@ -153,61 +312,46 @@
           }
         }
       }
-    },
-    "/WeatherForecast": {
-      "get": {
-        "tags": ["WeatherForecast"],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["WeatherForecast"],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
-      "User": {
+      "Game": {
         "type": "object",
         "properties": {
+          "homeTeam": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "awayTeam": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "week": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "gameTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gameResult": {
+            "$ref": "#/components/schemas/GameResult"
+          },
           "id": {
             "type": "integer",
             "format": "int64"
-          },
+          }
+        },
+        "additionalProperties": false
+      },
+      "GameResult": {
+        "enum": ["NotPlayed", "HomeWin", "AwayWin", "Tie"],
+        "type": "string"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
           "name": {
             "type": "string",
             "nullable": true
@@ -218,29 +362,10 @@
           },
           "isAdmin": {
             "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "WeatherForecast": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date-time"
           },
-          "temperatureC": {
+          "id": {
             "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
+            "format": "int64"
           }
         },
         "additionalProperties": false

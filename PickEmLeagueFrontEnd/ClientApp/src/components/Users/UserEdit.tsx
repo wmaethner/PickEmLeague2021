@@ -4,7 +4,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { User } from "../../Apis";
 import { useEditUser } from "../../Data/User/useEditUser";
 import { useGetUser } from "../../Data/User/useGetUser";
-import { routes } from "../routes";
 
 type UserEditParams = {
   userId: string;
@@ -44,6 +43,10 @@ export function UserEdit() {
     setUser(newUser);
   };
 
+  const SaveUser = async (user: User): Promise<void> => {
+    await useEditUser(user);
+  };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
@@ -53,7 +56,8 @@ export function UserEdit() {
             <input
               type="text"
               value={user.name || ""}
-              onChange={(e) => handleNameChange(e.target.value)}
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
+              //onChange={(e) => handleNameChange(e.target.value)}
             />
           </label>
         </Row>
@@ -83,6 +87,6 @@ export function UserEdit() {
   );
 }
 
-async function SaveUser(user: User) {
-  await useEditUser(user);
-}
+// async function SaveUser(user: User) {
+//   await useEditUser(user);
+// }

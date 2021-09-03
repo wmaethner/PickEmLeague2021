@@ -1,37 +1,39 @@
 import { Button, Container } from "react-bootstrap";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { User } from "../../Apis";
-import { useGetUserList } from "../../Data/User/useGetUserList";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCreateUser } from "../../Data/User/useCreateUser";
 import { useDeleteUser } from "../../Data/User/useDeleteUser";
-import { routes } from "../routes";
+import { useGetAllUsers } from "../../Data/User/userGetUserAll";
 
 export function UserList() {
-  const history = useHistory();
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     (async () => {
       await GetUsers();
-    })()
+    })();
   }, []);
-
-  const GetUsers = async (): Promise<void> => {
-    const users = await useGetUserList();
-    setUsers(users);
-  }
 
   const handleDeleteUser = async (userId: number) => {
     await DeleteUser(userId);
     await GetUsers();
-  }
+  };
 
   const AddUser = async () => {
-    const user = await useCreateUser();
+    await useCreateUser();
     await GetUsers();
-  }
+  };
+
+  const GetUsers = async (): Promise<void> => {
+    const users = await useGetAllUsers();
+    setUsers(users);
+  };
+
+  const DeleteUser = async (id: number) => {
+    await useDeleteUser(id);
+  };
 
   return (
     <Container>
@@ -59,7 +61,7 @@ export function UserList() {
                 </Link>
               </td>
               <td>
-                <Button onClick={(e) => handleDeleteUser(user.id!)}>
+                <Button onClick={() => handleDeleteUser(user.id!)}>
                   Delete
                 </Button>
               </td>
@@ -71,18 +73,4 @@ export function UserList() {
       <Button onClick={GetUsers}>Get Users</Button>
     </Container>
   );
-}
-
-async function AddUser() {
-  const user = await useCreateUser();
-  //window.location.pathname += "/" + user.id;
-}
-
-async function DeleteUser(userId: number) {
-  await useDeleteUser(userId);
-  //setUsers(await useGetUserList());
-}
-
-async function GetUsers(): Promise<User[]> {
-  return await useGetUserList();
 }
