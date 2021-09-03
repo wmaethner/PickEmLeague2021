@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PickEmLeagueDatabase;
 using PickEmLeagueModels.Profiles;
 using PickEmLeagueServices.Repositories.Implementations;
@@ -24,7 +26,13 @@ namespace PickEmLeague
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(x =>
+                {
+                    x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    x.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
 
             services.AddCors(options =>
             {
@@ -45,6 +53,7 @@ namespace PickEmLeague
 
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
             services.AddSwaggerGen();
+            services.AddSwaggerGenNewtonsoftSupport();
 
             AddRepositories(services);
         }
@@ -86,7 +95,7 @@ namespace PickEmLeague
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            }); 
+            });
 
             MigrateDb(app);
         }

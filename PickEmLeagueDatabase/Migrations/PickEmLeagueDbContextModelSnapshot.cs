@@ -38,6 +38,9 @@ namespace PickEmLeagueDatabase.Migrations
                     b.Property<int>("HomeTeam")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Week")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Games");

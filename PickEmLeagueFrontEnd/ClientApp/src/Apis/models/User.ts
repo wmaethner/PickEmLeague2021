@@ -21,12 +21,6 @@ import { exists, mapValues } from "../runtime";
 export interface User {
   /**
    *
-   * @type {number}
-   * @memberof User
-   */
-  id?: number;
-  /**
-   *
    * @type {string}
    * @memberof User
    */
@@ -43,6 +37,12 @@ export interface User {
    * @memberof User
    */
   isAdmin?: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof User
+   */
+  id?: number;
 }
 
 export function UserFromJSON(json: any): User {
@@ -57,10 +57,10 @@ export function UserFromJSONTyped(
     return json;
   }
   return {
-    id: !exists(json, "id") ? undefined : json["id"],
     name: !exists(json, "name") ? undefined : json["name"],
     email: !exists(json, "email") ? undefined : json["email"],
     isAdmin: !exists(json, "isAdmin") ? undefined : json["isAdmin"],
+    id: !exists(json, "id") ? undefined : json["id"],
   };
 }
 
@@ -72,9 +72,9 @@ export function UserToJSON(value?: User | null): any {
     return null;
   }
   return {
-    id: value.id,
     name: value.name,
     email: value.email,
     isAdmin: value.isAdmin,
+    id: value.id,
   };
 }

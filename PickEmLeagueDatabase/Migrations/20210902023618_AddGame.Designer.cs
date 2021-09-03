@@ -10,7 +10,7 @@ using PickEmLeagueDatabase;
 namespace PickEmLeagueDatabase.Migrations
 {
     [DbContext(typeof(PickEmLeagueDbContext))]
-    [Migration("20210902010130_AddGame")]
+    [Migration("20210902023618_AddGame")]
     partial class AddGame
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace PickEmLeagueDatabase.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("HomeTeam")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Week")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

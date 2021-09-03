@@ -9,6 +9,7 @@ namespace PickEmLeagueModels.Profiles
         public AutoMapperProfile()
         {
             CreateMap<PickEmLeagueDatabase.Entities.User, User>().ReverseMap();
+            CreateMap<PickEmLeagueDatabase.Entities.Game, Game>().ReverseMap();
         }
     }
 }

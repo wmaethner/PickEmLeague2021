@@ -16,6 +16,7 @@ namespace PickEmLeagueDatabase.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     HomeTeam = table.Column<int>(type: "integer", nullable: false),
                     AwayTeam = table.Column<int>(type: "integer", nullable: false),
+                    Week = table.Column<int>(type: "integer", nullable: false),
                     GameTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     GameResult = table.Column<int>(type: "integer", nullable: false)
                 },

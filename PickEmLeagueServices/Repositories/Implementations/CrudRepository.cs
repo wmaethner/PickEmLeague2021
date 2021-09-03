@@ -33,7 +33,8 @@ namespace PickEmLeagueServices.Repositories.Implementations
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var response = _dbContext.Remove(GetAsync(id));
+            var entity = await GetAsync(id);
+            var response = _dbContext.Remove(entity);
             await Save();
             return response.State == EntityState.Deleted;
         }

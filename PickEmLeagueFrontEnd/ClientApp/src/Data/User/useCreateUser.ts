@@ -3,5 +3,5 @@ import { useApi } from "../useApi";
 
 export const useCreateUser = async (): Promise<User> => {
   const userApi = useApi(UserApi);
-  return await userApi.userCreateUserPost();
+  return await userApi.userCreatePost();
 };

@@ -3,5 +3,5 @@ import { useApi } from "../useApi";
 
 export const useGetUser = async (id: number): Promise<User> => {
   const userApi = useApi(UserApi);
-  return await userApi.userGetUserGet({ id: id });
+  return await userApi.userGetGet({ id: id });
 };

@@ -13,54 +13,54 @@
  */
 
 import * as runtime from "../runtime";
-import { User, UserFromJSON, UserToJSON } from "../models";
+import { Game, GameFromJSON, GameToJSON } from "../models";
 
-export interface UserDeleteDeleteRequest {
+export interface GameDeleteDeleteRequest {
   id?: number;
 }
 
-export interface UserGetGetRequest {
+export interface GameGetGetRequest {
   id?: number;
 }
 
-export interface UserUpdatePutRequest {
-  user?: User;
+export interface GameUpdatePutRequest {
+  game?: Game;
 }
 
 /**
  *
  */
-export class UserApi extends runtime.BaseAPI {
+export class GameApi extends runtime.BaseAPI {
   /**
    */
-  async userCreatePostRaw(): Promise<runtime.ApiResponse<User>> {
+  async gameCreatePostRaw(): Promise<runtime.ApiResponse<Game>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/User/create`,
+      path: `/Game/create`,
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      UserFromJSON(jsonValue)
+      GameFromJSON(jsonValue)
     );
   }
 
   /**
    */
-  async userCreatePost(): Promise<User> {
-    const response = await this.userCreatePostRaw();
+  async gameCreatePost(): Promise<Game> {
+    const response = await this.gameCreatePostRaw();
     return await response.value();
   }
 
   /**
    */
-  async userDeleteDeleteRaw(
-    requestParameters: UserDeleteDeleteRequest
+  async gameDeleteDeleteRaw(
+    requestParameters: GameDeleteDeleteRequest
   ): Promise<runtime.ApiResponse<void>> {
     const queryParameters: runtime.HTTPQuery = {};
 
@@ -71,7 +71,7 @@ export class UserApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/User/delete`,
+      path: `/Game/delete`,
       method: "DELETE",
       headers: headerParameters,
       query: queryParameters,
@@ -82,43 +82,43 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    */
-  async userDeleteDelete(
-    requestParameters: UserDeleteDeleteRequest
+  async gameDeleteDelete(
+    requestParameters: GameDeleteDeleteRequest
   ): Promise<void> {
-    await this.userDeleteDeleteRaw(requestParameters);
+    await this.gameDeleteDeleteRaw(requestParameters);
   }
 
   /**
    */
-  async userGetAllGetRaw(): Promise<runtime.ApiResponse<Array<User>>> {
+  async gameGetAllGetRaw(): Promise<runtime.ApiResponse<Array<Game>>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/User/get-all`,
+      path: `/Game/get-all`,
       method: "GET",
       headers: headerParameters,
       query: queryParameters,
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(UserFromJSON)
+      jsonValue.map(GameFromJSON)
     );
   }
 
   /**
    */
-  async userGetAllGet(): Promise<Array<User>> {
-    const response = await this.userGetAllGetRaw();
+  async gameGetAllGet(): Promise<Array<Game>> {
+    const response = await this.gameGetAllGetRaw();
     return await response.value();
   }
 
   /**
    */
-  async userGetGetRaw(
-    requestParameters: UserGetGetRequest
-  ): Promise<runtime.ApiResponse<User>> {
+  async gameGetGetRaw(
+    requestParameters: GameGetGetRequest
+  ): Promise<runtime.ApiResponse<Game>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     if (requestParameters.id !== undefined) {
@@ -128,28 +128,28 @@ export class UserApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/User/get`,
+      path: `/Game/get`,
       method: "GET",
       headers: headerParameters,
       query: queryParameters,
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      UserFromJSON(jsonValue)
+      GameFromJSON(jsonValue)
     );
   }
 
   /**
    */
-  async userGetGet(requestParameters: UserGetGetRequest): Promise<User> {
-    const response = await this.userGetGetRaw(requestParameters);
+  async gameGetGet(requestParameters: GameGetGetRequest): Promise<Game> {
+    const response = await this.gameGetGetRaw(requestParameters);
     return await response.value();
   }
 
   /**
    */
-  async userUpdatePutRaw(
-    requestParameters: UserUpdatePutRequest
+  async gameUpdatePutRaw(
+    requestParameters: GameUpdatePutRequest
   ): Promise<runtime.ApiResponse<void>> {
     const queryParameters: runtime.HTTPQuery = {};
 
@@ -158,11 +158,11 @@ export class UserApi extends runtime.BaseAPI {
     headerParameters["Content-Type"] = "application/json-patch+json";
 
     const response = await this.request({
-      path: `/User/update`,
+      path: `/Game/update`,
       method: "PUT",
       headers: headerParameters,
       query: queryParameters,
-      body: UserToJSON(requestParameters.user),
+      body: GameToJSON(requestParameters.game),
     });
 
     return new runtime.VoidApiResponse(response);
@@ -170,7 +170,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    */
-  async userUpdatePut(requestParameters: UserUpdatePutRequest): Promise<void> {
-    await this.userUpdatePutRaw(requestParameters);
+  async gameUpdatePut(requestParameters: GameUpdatePutRequest): Promise<void> {
+    await this.gameUpdatePutRaw(requestParameters);
   }
 }

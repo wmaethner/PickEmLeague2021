@@ -7,6 +7,7 @@ namespace PickEmLeagueDatabase.Entities
     {
         public int HomeTeam { get; set; }
         public int AwayTeam { get; set; }
+        public int Week { get; set; }
         public DateTime GameTime { get; set; }
         public GameResult GameResult { get; set; }
     }
