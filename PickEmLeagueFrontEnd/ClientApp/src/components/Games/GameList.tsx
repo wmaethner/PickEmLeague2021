@@ -6,6 +6,7 @@ import { Game } from "../../Apis/models/Game";
 import { useGetAllGames } from "../../Data/Game/userGetGameAll";
 import { useCreateGame } from "../../Data/Game/useCreateGame";
 import { useDeleteGame } from "../../Data/Game/useDeleteGame";
+import { TeamDisplay } from "../Teams/TeamDisplay";
 
 export function GameList() {
   const [games, setGames] = useState<Game[]>([]);
@@ -52,8 +53,8 @@ export function GameList() {
           {games.map((game) => (
             <tr key={game.id}>
               <td>{game.id}</td>
-              <td>{game.homeTeam}</td>
-              <td>{game.awayTeam}</td>
+              <td><TeamDisplay id={game.homeTeamId} /></td>
+              <td><TeamDisplay id={game.awayTeamId} /></td>
               <td>{game.week}</td>
               <td>{game.gameTime?.toLocaleString("en-US")}</td>
               <td>{game.gameResult}</td>
