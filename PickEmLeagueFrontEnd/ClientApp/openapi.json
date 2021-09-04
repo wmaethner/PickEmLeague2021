@@ -159,6 +159,42 @@
         }
       }
     },
+    "/Team": {
+      "get": {
+        "tags": ["Team"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/User/create": {
       "post": {
         "tags": ["User"],
@@ -319,14 +355,6 @@
       "Game": {
         "type": "object",
         "properties": {
-          "homeTeam": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "awayTeam": {
-            "type": "integer",
-            "format": "int32"
-          },
           "week": {
             "type": "integer",
             "format": "int32"
@@ -338,6 +366,20 @@
           "gameResult": {
             "$ref": "#/components/schemas/GameResult"
           },
+          "homeTeam": {
+            "$ref": "#/components/schemas/Team"
+          },
+          "awayTeam": {
+            "$ref": "#/components/schemas/Team"
+          },
+          "homeTeamId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "awayTeamId": {
+            "type": "integer",
+            "format": "int64"
+          },
           "id": {
             "type": "integer",
             "format": "int64"
@@ -348,6 +390,24 @@
       "GameResult": {
         "enum": ["NotPlayed", "HomeWin", "AwayWin", "Tie"],
         "type": "string"
+      },
+      "Team": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
       },
       "User": {
         "type": "object",

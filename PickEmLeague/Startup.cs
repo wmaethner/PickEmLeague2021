@@ -62,6 +62,7 @@ namespace PickEmLeague
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
         }
 
 

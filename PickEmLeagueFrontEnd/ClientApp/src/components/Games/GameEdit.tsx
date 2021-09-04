@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { Container, Form, Row } from "react-bootstrap";
+import { Container, Form, Row, Col } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { Game } from "../../Apis/models/Game";
 import { useEditGame } from "../../Data/Game/useEditGame";
@@ -9,6 +9,8 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import TextField from "@mui/material/TextField";
+import { TeamSelector } from "../Teams/TeamSelector";
+import { Label } from "reactstrap";
 
 type GameEditParams = {
   gameId: string;
@@ -32,34 +34,31 @@ export function GameEdit() {
     history.goBack();
   };
 
+  const handleHomeTeamChange = (id: any) => {
+    setGame({ ...game, homeTeamId: id.value });
+  }
+  const handleAwayTeamChange = (id: any) => {
+    setGame({ ...game, awayTeamId: id.value });
+  }
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
         <Row>
-          <label>
-            Home Team:
-            <input
-              type="number"
-              value={game.homeTeam || 0}
-              onChange={(e) =>
-                setGame({ ...game, homeTeam: Number.parseInt(e.target.value) })
-              }
-              name="homeTeam"
-            />
-          </label>
+          <Col>
+            <Label>Home Team: </Label>
+          </Col>
+          <Col>
+            <TeamSelector id={game.homeTeamId} onTeamChanged={handleHomeTeamChange} />
+          </Col>
         </Row>
         <Row>
-          <label>
-            Away Team:
-            <input
-              type="number"
-              value={game.awayTeam || 0}
-              onChange={(e) =>
-                setGame({ ...game, awayTeam: Number.parseInt(e.target.value) })
-              }
-              name="awayTeam"
-            />
-          </label>
+          <Col>
+            <Label>Away Team: </Label>
+          </Col>
+          <Col>
+            <TeamSelector id={game.awayTeamId} onTeamChanged={handleAwayTeamChange} />
+          </Col>
         </Row>
         <Row>
           <label>

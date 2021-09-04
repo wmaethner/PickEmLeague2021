@@ -18,6 +18,10 @@ import {
   GameResultFromJSON,
   GameResultFromJSONTyped,
   GameResultToJSON,
+  Team,
+  TeamFromJSON,
+  TeamFromJSONTyped,
+  TeamToJSON,
 } from "./";
 
 /**
@@ -26,18 +30,6 @@ import {
  * @interface Game
  */
 export interface Game {
-  /**
-   *
-   * @type {number}
-   * @memberof Game
-   */
-  homeTeam?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof Game
-   */
-  awayTeam?: number;
   /**
    *
    * @type {number}
@@ -58,6 +50,30 @@ export interface Game {
   gameResult?: GameResult;
   /**
    *
+   * @type {Team}
+   * @memberof Game
+   */
+  homeTeam?: Team;
+  /**
+   *
+   * @type {Team}
+   * @memberof Game
+   */
+  awayTeam?: Team;
+  /**
+   *
+   * @type {number}
+   * @memberof Game
+   */
+  homeTeamId?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof Game
+   */
+  awayTeamId?: number;
+  /**
+   *
    * @type {number}
    * @memberof Game
    */
@@ -76,8 +92,6 @@ export function GameFromJSONTyped(
     return json;
   }
   return {
-    homeTeam: !exists(json, "homeTeam") ? undefined : json["homeTeam"],
-    awayTeam: !exists(json, "awayTeam") ? undefined : json["awayTeam"],
     week: !exists(json, "week") ? undefined : json["week"],
     gameTime: !exists(json, "gameTime")
       ? undefined
@@ -85,6 +99,14 @@ export function GameFromJSONTyped(
     gameResult: !exists(json, "gameResult")
       ? undefined
       : GameResultFromJSON(json["gameResult"]),
+    homeTeam: !exists(json, "homeTeam")
+      ? undefined
+      : TeamFromJSON(json["homeTeam"]),
+    awayTeam: !exists(json, "awayTeam")
+      ? undefined
+      : TeamFromJSON(json["awayTeam"]),
+    homeTeamId: !exists(json, "homeTeamId") ? undefined : json["homeTeamId"],
+    awayTeamId: !exists(json, "awayTeamId") ? undefined : json["awayTeamId"],
     id: !exists(json, "id") ? undefined : json["id"],
   };
 }
@@ -97,12 +119,14 @@ export function GameToJSON(value?: Game | null): any {
     return null;
   }
   return {
-    homeTeam: value.homeTeam,
-    awayTeam: value.awayTeam,
     week: value.week,
     gameTime:
       value.gameTime === undefined ? undefined : value.gameTime.toISOString(),
     gameResult: GameResultToJSON(value.gameResult),
+    homeTeam: TeamToJSON(value.homeTeam),
+    awayTeam: TeamToJSON(value.awayTeam),
+    homeTeamId: value.homeTeamId,
+    awayTeamId: value.awayTeamId,
     id: value.id,
   };
 }
