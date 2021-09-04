@@ -11,9 +11,9 @@ import "./custom.css";
 import { Switch } from "react-router";
 import { Users } from "./components/Users/Users";
 import { Games } from "./components/Games/Games";
-import { useGetTeamAll } from "./Data/Teams/useGetTeamAll";
-import { AllTeamsContext } from "./Data/Teams/AllTeamsContext";
-import { TeamContext, TeamProvider } from "./Data/Teams/TeamsContext";
+import { UserProvider } from "./Data/User/UserContext";
+import { TeamProvider } from "./Data/Teams/TeamsContext";
+import { LoginForm } from "./components/Authentication/LoginForm";
 
 
 
@@ -22,21 +22,24 @@ export default class App extends Component {
 
   render() {
     return (
-      <TeamProvider>
-        <Layout>
-          <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/games">
-                <Games />
-              </Route>
-              <Route path="/users">
-                <Users />
-              </Route>
-            </Switch>
-          </LocalizationProvider>
-        </Layout>
-      </TeamProvider>
+      <UserProvider>
+        <TeamProvider>
+          <Layout>
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
+              <LoginForm></LoginForm>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/games">
+                  <Games />
+                </Route>
+                <Route path="/users">
+                  <Users />
+                </Route>
+              </Switch>
+            </LocalizationProvider>
+          </Layout>
+        </TeamProvider>
+      </UserProvider>
     );
   }
 }

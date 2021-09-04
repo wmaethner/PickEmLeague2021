@@ -4,4 +4,5 @@ export const routes = route({
   root: route(),
   users: route("users"),
   games: route("games"),
+  login: route("login"),
 });
