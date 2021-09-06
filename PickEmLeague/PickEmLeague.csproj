@@ -21,6 +21,9 @@
     <None Remove="Serilog" />
     <None Remove="Serilog.Extensions.Hosting" />
     <None Remove="Serilog.AspNetCore" />
+    <None Remove="Helpers\" />
+    <None Remove="Services\" />
+    <None Remove="Microsoft.EntityFrameworkCore.InMemory" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +48,7 @@
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.1.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj">
@@ -56,5 +60,9 @@
     <ProjectReference Include="..\PickEmLeagueServices\PickEmLeagueServices.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Registrations\" />
   </ItemGroup>
 </Project>

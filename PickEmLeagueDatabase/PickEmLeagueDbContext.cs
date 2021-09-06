@@ -9,6 +9,7 @@ namespace PickEmLeagueDatabase
         public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<GamePick> GamePicks { get; set; }
 
         public PickEmLeagueDbContext(DbContextOptions<PickEmLeagueDbContext> options) : base(options)
         {

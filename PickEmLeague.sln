@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueShared", "PickE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueServices", "PickEmLeagueServices\PickEmLeagueServices.csproj", "{578EB740-6A00-4422-A2E5-23D7DCA45825}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{872EB1B0-01B2-4ED0-BF55-BC189C64AB78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickEmLeagueServiceTests", "PickEmLeagueServiceTests\PickEmLeagueServiceTests.csproj", "{74124C0D-F4E1-4914-9322-B948E2380D66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,11 +43,18 @@ Global
 		{578EB740-6A00-4422-A2E5-23D7DCA45825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{578EB740-6A00-4422-A2E5-23D7DCA45825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{578EB740-6A00-4422-A2E5-23D7DCA45825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74124C0D-F4E1-4914-9322-B948E2380D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74124C0D-F4E1-4914-9322-B948E2380D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74124C0D-F4E1-4914-9322-B948E2380D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74124C0D-F4E1-4914-9322-B948E2380D66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FAC4D3CD-3B2F-4C8E-AA10-15A6A04871BD}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{74124C0D-F4E1-4914-9322-B948E2380D66} = {872EB1B0-01B2-4ED0-BF55-BC189C64AB78}
 	EndGlobalSection
 EndGlobal
