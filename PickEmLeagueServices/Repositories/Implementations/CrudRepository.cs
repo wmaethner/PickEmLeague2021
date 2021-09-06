@@ -26,14 +26,19 @@ namespace PickEmLeagueServices.Repositories.Implementations
 
         public async Task<TEntity> CreateAsync()
         {
-            var entity = await _dbContext.AddAsync(new TEntity());
+            return await CreateAsync(new TEntity());
+        }
+
+        public async Task<TEntity> CreateAsync(TEntity entity)
+        {
+            var entityAdded = await _dbContext.AddAsync(entity);
             await Save();
-            return entity.Entity;
+            return entityAdded.Entity;
         }
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var entity = await GetAsync(id);
+            var entity = await GetById(id);
             var response = _dbContext.Remove(entity);
             await Save();
             return response.State == EntityState.Deleted;
@@ -44,7 +49,7 @@ namespace PickEmLeagueServices.Repositories.Implementations
             return GetQueryable().ToList();
         }
 
-        public async Task<TEntity> GetAsync(long id)
+        public async Task<TEntity> GetById(long id)
         {
             return await GetQueryable().FirstOrDefaultAsync(e => e.Id == id);
         }
@@ -56,7 +61,7 @@ namespace PickEmLeagueServices.Repositories.Implementations
 
         public async Task<TEntity> UpdateAsync(TModel model)
         {
-            var entity = await GetAsync(model.Id);
+            var entity = await GetById(model.Id);
             _mapper.Map(model, entity);
             await Save();
             return entity;

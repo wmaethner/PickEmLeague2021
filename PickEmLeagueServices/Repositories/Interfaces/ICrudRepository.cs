@@ -12,7 +12,8 @@ namespace PickEmLeagueServices.Repositories.Interfaces
         where TModel : DbModel
     {
         Task<TEntity> CreateAsync();
-        Task<TEntity> GetAsync(long id);
+        Task<TEntity> CreateAsync(TEntity entity);
+        Task<TEntity> GetById(long id);
         IEnumerable<TEntity> GetAll();
         Task<TEntity> UpdateAsync(TModel model);
         Task<bool> DeleteAsync(long id);

@@ -7,10 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using PickEmLeague.Registrations;
 using PickEmLeagueDatabase;
 using PickEmLeagueModels.Profiles;
-using PickEmLeagueServices.Repositories.Implementations;
-using PickEmLeagueServices.Repositories.Interfaces;
 
 namespace PickEmLeague
 {
@@ -26,7 +25,6 @@ namespace PickEmLeague
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllers();
             services.AddControllers()
                 .AddNewtonsoftJson(x =>
                 {
@@ -45,24 +43,13 @@ namespace PickEmLeague
                                     });
             });
 
-            services.AddDbContext<PickEmLeagueDbContext>(opts =>
-            {
-                opts.UseNpgsql(Configuration.GetConnectionString("PostgresDbConnection"),
-                    b => b.MigrationsAssembly(Assembly.GetAssembly(typeof(PickEmLeagueDbContext)).GetName().FullName));
-            });
-
             services.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
             services.AddSwaggerGen();
             services.AddSwaggerGenNewtonsoftSupport();
 
-            AddRepositories(services);
-        }
-
-        private void AddRepositories(IServiceCollection services)
-        {
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.RegisterDatabase(Configuration);
+            services.RegisterServices();
+            services.RegisterRepositories();
         }
 
 

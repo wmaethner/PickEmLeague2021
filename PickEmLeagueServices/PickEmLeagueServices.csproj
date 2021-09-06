@@ -8,4 +8,14 @@
     <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj" />
     <ProjectReference Include="..\PickEmLeagueModels\PickEmLeagueModels.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="DomainServices\" />
+    <None Remove="DomainServices\Interfaces\" />
+    <None Remove="DomainServices\Implementations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainServices\" />
+    <Folder Include="DomainServices\Interfaces\" />
+    <Folder Include="DomainServices\Implementations\" />
+  </ItemGroup>
 </Project>

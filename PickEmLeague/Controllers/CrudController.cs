@@ -45,7 +45,7 @@ namespace PickEmLeague.Controllers
         public async Task<TModel> Get(long id)
         {
             _logger.LogDebug($"Getting {typeof(TModel)} with id {id}");
-            return MapEntity(await _repository.GetAsync(id));
+            return MapEntity(await _repository.GetById(id));
         }
 
         [HttpPut("update")]
