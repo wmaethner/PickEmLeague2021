@@ -36,10 +36,10 @@ export function GameEdit() {
 
   const handleHomeTeamChange = (id: any) => {
     setGame({ ...game, homeTeamId: id.value });
-  }
+  };
   const handleAwayTeamChange = (id: any) => {
     setGame({ ...game, awayTeamId: id.value });
-  }
+  };
 
   return (
     <Container>
@@ -49,7 +49,10 @@ export function GameEdit() {
             <Label>Home Team: </Label>
           </Col>
           <Col>
-            <TeamSelector id={game.homeTeamId} onTeamChanged={handleHomeTeamChange} />
+            <TeamSelector
+              id={game.homeTeamId}
+              onTeamChanged={handleHomeTeamChange}
+            />
           </Col>
         </Row>
         <Row>
@@ -57,7 +60,10 @@ export function GameEdit() {
             <Label>Away Team: </Label>
           </Col>
           <Col>
-            <TeamSelector id={game.awayTeamId} onTeamChanged={handleAwayTeamChange} />
+            <TeamSelector
+              id={game.awayTeamId}
+              onTeamChanged={handleAwayTeamChange}
+            />
           </Col>
         </Row>
         <Row>

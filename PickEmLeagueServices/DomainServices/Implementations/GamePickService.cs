@@ -52,6 +52,17 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 _gamePickRepository.GetByUserAndWeek(userId, week));
         }
 
+        public async Task<bool> UpdateByUserAndWeekAsync(IEnumerable<GamePick> gamePicks)
+        {
+            //TODO: Validate picks??
+
+            foreach (var pick in gamePicks)
+            {
+                await _gamePickRepository.UpdateAsync(pick);
+            }
+            return true;
+        }
+
         private async Task EnsurePicksExistAsync(List<PickEmLeagueDatabase.Entities.Game> games,
             PickEmLeagueDatabase.Entities.User user, int week)
         {

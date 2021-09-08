@@ -13,6 +13,7 @@
     "@mui/lab": "^5.0.0-alpha.45",
     "@mui/material": "^5.0.0-rc.0",
     "@openapitools/openapi-generator-cli": "^2.4.1",
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-bootstrap-date-picker": "^4.0.7",
     "@types/react-datepicker": "^4.1.5",
     "@types/react-dom": "^17.0.9",
@@ -27,13 +28,11 @@
     "moment": "^2.29.1",
     "oidc-client": "^1.11.5",
     "prettier": "^2.3.2",
-    "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-beta.6",
     "react-bootstrap-date-picker": "^5.1.0",
     "react-datepicker": "^4.2.1",
     "react-datetime": "^3.0.4",
     "react-datetime-picker": "^3.4.0",
-    "react-dom": "^16.14.0",
     "react-hook-form": "^7.14.2",
     "react-native": "^0.65.1",
     "react-native-custom-picker": "^0.4.0",
@@ -47,6 +46,8 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@dnd-kit/core": "^3.1.1",
+    "@dnd-kit/sortable": "^4.0.0",
     "@types/react-native": "^0.64.13",
     "@types/react-time-picker": "^4.0.2",
     "ajv": "^6.12.6",
@@ -57,7 +58,11 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.25.1",
+    "mdbreact": "^5.1.0",
     "nan": "^2.15.0",
+    "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-dom": "^17.0.2",
     "typescript": "^3.9.10"
   },
   "eslintConfig": {
