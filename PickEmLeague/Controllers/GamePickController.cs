@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PickEmLeagueModels.Models;
+using PickEmLeagueServices.DomainServices.Interfaces;
 using PickEmLeagueServices.Repositories.Interfaces;
 
 namespace PickEmLeague.Controllers
@@ -14,11 +15,13 @@ namespace PickEmLeague.Controllers
     public class GamePickController : ControllerBase
     {
         private readonly IGamePickRepository _gamePickRepository;
+        private readonly IGamePickService _gamePickService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public GamePickController(IGamePickRepository gamePickRepository, IMapper mapper, ILogger logger)
+        public GamePickController(IGamePickService gamePickService, IGamePickRepository gamePickRepository, IMapper mapper, ILogger<GamePickController> logger)
         {
+            _gamePickService = gamePickService;
             _gamePickRepository = gamePickRepository;
             _mapper = mapper;
             _logger = logger;
@@ -38,11 +41,17 @@ namespace PickEmLeague.Controllers
                 _gamePickRepository.GetByUser(userId));
         }
 
-        [HttpGet("getGamePickByUserAndWeek")]
-        public IEnumerable<GamePick> GetByUserAndWeek(long userId, int week)
+        [HttpGet("getGamePicksByUserAndWeek")]
+        public async Task<IEnumerable<GamePick>> GetByUserAndWeekAsync(long userId, int week)
         {
-            return _mapper.Map<IEnumerable<GamePick>>(
-                _gamePickRepository.GetByUserAndWeek(userId, week));
+            return await _gamePickService.GetByUserAndWeekAsync(userId, week);
+        }
+
+        [HttpPost("updateGamePicks")]
+        public async Task<bool> UpdateGamePicksAsync(IEnumerable<GamePick> gamePicks)
+        {
+            await _gamePickService.UpdateByUserAndWeekAsync(gamePicks);
+            return true;
         }
     }
 }

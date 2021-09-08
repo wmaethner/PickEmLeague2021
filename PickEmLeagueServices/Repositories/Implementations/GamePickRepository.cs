@@ -68,7 +68,7 @@ namespace PickEmLeagueServices.Repositories.Implementations
         {
             var entity = await GetAsync(gamePick.Id);
             _mapper.Map(gamePick, entity);
-            await _dbContext.SaveChangesAsync();
+            var result = _dbContext.SaveChanges();
             return entity;
         }
     }

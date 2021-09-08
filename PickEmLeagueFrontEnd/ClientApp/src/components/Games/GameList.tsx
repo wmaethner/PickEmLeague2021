@@ -53,8 +53,12 @@ export function GameList() {
           {games.map((game) => (
             <tr key={game.id}>
               <td>{game.id}</td>
-              <td><TeamDisplay id={game.homeTeamId} /></td>
-              <td><TeamDisplay id={game.awayTeamId} /></td>
+              <td>
+                <TeamDisplay id={game.homeTeamId} />
+              </td>
+              <td>
+                <TeamDisplay id={game.awayTeamId} />
+              </td>
               <td>{game.week}</td>
               <td>{game.gameTime?.toLocaleString("en-US")}</td>
               <td>{game.gameResult}</td>

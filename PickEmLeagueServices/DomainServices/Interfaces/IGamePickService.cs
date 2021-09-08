@@ -9,5 +9,6 @@ namespace PickEmLeagueServices.DomainServices.Interfaces
     {
         IEnumerable<GamePick> GetByUser(long userId);
         Task<IEnumerable<GamePick>> GetByUserAndWeekAsync(long userId, int week);
+        Task<bool> UpdateByUserAndWeekAsync(IEnumerable<GamePick> gamePicks);
     }
 }
