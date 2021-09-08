@@ -27,22 +27,6 @@ export function UserEdit() {
     history.goBack();
   };
 
-  const handleNameChange = (name: string) => {
-    let newUser = { ...user };
-    newUser.name = name;
-    setUser(newUser);
-  };
-  const handleEmailChange = (email: string) => {
-    let newUser = { ...user };
-    newUser.email = email;
-    setUser(newUser);
-  };
-  const handleAdminChange = (admin: boolean) => {
-    let newUser = { ...user };
-    newUser.isAdmin = admin;
-    setUser(newUser);
-  };
-
   const SaveUser = async (user: User): Promise<void> => {
     await useEditUser(user);
   };
@@ -57,7 +41,6 @@ export function UserEdit() {
               type="text"
               value={user.name || ""}
               onChange={(e) => setUser({ ...user, name: e.target.value })}
-              //onChange={(e) => handleNameChange(e.target.value)}
             />
           </label>
         </Row>
@@ -67,7 +50,17 @@ export function UserEdit() {
             <input
               type="text"
               value={user.email || ""}
-              onChange={(e) => handleEmailChange(e.target.value)}
+              onChange={(e) => setUser({ ...user, email: e.target.value})}
+            />
+          </label>
+        </Row>
+        <Row>
+          <label>
+            Password:
+            <input
+              type="text"
+              value={user.passwordHash || ""}
+              onChange={(e) => setUser({ ...user, passwordHash: e.target.value})}
             />
           </label>
         </Row>
@@ -77,7 +70,7 @@ export function UserEdit() {
             <input
               type="checkbox"
               checked={user.isAdmin || false}
-              onChange={(e) => handleAdminChange(e.target.checked)}
+              onChange={(e) => setUser({ ...user, isAdmin: e.target.checked})}
             />
           </label>
         </Row>

@@ -18,7 +18,8 @@ export function Home() {
 
   return loggedIn ? (
     <Container>
-      <h2>{user?.name}</h2>
+      <h2>Id: {user?.id}</h2>
+      <h2>Name: {user?.name}</h2>
       <TeamProvider>
         <Layout>
           <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>

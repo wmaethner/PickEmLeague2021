@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using PickEmLeagueDatabase;
 using PickEmLeagueDatabase.Entities;
@@ -10,6 +12,11 @@ namespace PickEmLeagueServices.Repositories.Implementations
     {
         public UserRepository(PickEmLeagueDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
+        }
+
+        public User GetByEmail(string email)
+        {
+            return GetQueryable().FirstOrDefault(u => u.Email == email);
         }
     }
 }

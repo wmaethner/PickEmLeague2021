@@ -1,9 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  DragDropContext,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useUserContext } from "../../Data/Contexts/UserContext";
 import { WeekContext } from "../../Data/Contexts/WeekContext";
 import { GamePick } from "../../Apis";
@@ -72,7 +68,7 @@ export function GamePicks() {
     // but the setGamePicks call is async so the state may not be
     // updated. Normally we use useEffect, but that handles the getter.
     // Need to research how to handle both getter and setting in useEffect
-    // Looks like multiple useEffects is allowed 
+    // Looks like multiple useEffects is allowed
     SavePicks(picks);
   };
 
@@ -102,6 +98,7 @@ export function GamePicks() {
                   key={gamePick.id}
                   gamePick={gamePick}
                   index={index}
+                  
                 ></SortablePickRow>
               ))}
               {provided.placeholder}

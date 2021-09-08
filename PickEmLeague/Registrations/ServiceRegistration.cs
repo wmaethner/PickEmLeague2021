@@ -10,6 +10,7 @@ namespace PickEmLeague.Registrations
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<IGamePickService, GamePickService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             return services;
         }

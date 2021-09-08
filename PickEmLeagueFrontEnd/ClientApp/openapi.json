@@ -5,6 +5,49 @@
     "version": "1.0"
   },
   "paths": {
+    "/Authentication/attemptLogin": {
+      "post": {
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "passwordHash",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Game/create": {
       "post": {
         "tags": ["Game"],
@@ -625,6 +668,18 @@
         "enum": ["NotPlayed", "HomeWin", "AwayWin", "Tie"],
         "type": "string"
       },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "loggedIn": {
+            "type": "boolean"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
       "Team": {
         "type": "object",
         "properties": {
@@ -656,6 +711,10 @@
           },
           "isAdmin": {
             "type": "boolean"
+          },
+          "passwordHash": {
+            "type": "string",
+            "nullable": true
           },
           "id": {
             "type": "integer",

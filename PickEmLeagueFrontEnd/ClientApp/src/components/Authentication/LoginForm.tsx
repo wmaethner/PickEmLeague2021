@@ -2,6 +2,7 @@ import React, { FormEvent } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { Col, Container, Form, Label, Row } from "reactstrap";
+import { useAttemptLogin } from "../../Data/Authentication/useAttemptLogin";
 import { UserContext, useUserContext } from "../../Data/Contexts/UserContext";
 
 export interface LoginParams {
@@ -10,27 +11,31 @@ export interface LoginParams {
 }
 
 export function LoginForm() {
-  const { user, setUser } = useUserContext();
+  const { setUser } = useUserContext();
+  const [hasError, setError] = useState<boolean>(false);
   const [loginParams, setParams] = useState<LoginParams>({
     email: "",
     password: "",
   });
 
-  const handleLogin = async (evt: FormEvent) => {
+  const HandleLogin = async (evt: FormEvent) => {
     evt.preventDefault();
-    //TODO: Actually attempt login
-    setUser({
-      id: 2,
-      name: "test",
-      email: loginParams.email,
-      isAdmin: true,
-    });
-    //alert("Email: " + loginParams.email + " Password: " + loginParams.password);
+    const user = await useAttemptLogin(loginParams.email, loginParams.password);
+    if (user) {
+      setUser(user);
+    } else {
+      setError(true);
+    }
+  };
+
+  let errorMessage = () => {
+    return hasError ? <div>There was an error logging in</div> : <div></div>;
   };
 
   return (
     <Container>
-      <Form onSubmit={handleLogin}>
+      {errorMessage()}
+      <Form onSubmit={HandleLogin}>
         <Row>
           <Col>
             <Label>Email: </Label>

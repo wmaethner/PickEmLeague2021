@@ -1,15 +1,9 @@
 import React from "react";
 import {
-  DragDropContext,
   Draggable,
   DraggingStyle,
-  Droppable,
-  DropResult,
   NotDraggingStyle,
 } from "react-beautiful-dnd";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { Card, CardBody, Col, Row } from "reactstrap";
 import { PickSelector } from "./PickSelector";
 import { GamePick, GameResult } from "../../Apis";
 
@@ -43,6 +37,7 @@ export function SortablePickRow(props: Props) {
       key={props.gamePick.id}
       draggableId={props.gamePick.id?.toString()!}
       index={props.index}
+      isDragDisabled={props.index == 2}
     >
       {(provided, snapshot): JSX.Element => (
         <div
