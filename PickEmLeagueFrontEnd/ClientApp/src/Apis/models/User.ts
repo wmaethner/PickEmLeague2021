@@ -39,6 +39,12 @@ export interface User {
   isAdmin?: boolean;
   /**
    *
+   * @type {string}
+   * @memberof User
+   */
+  passwordHash?: string | null;
+  /**
+   *
    * @type {number}
    * @memberof User
    */
@@ -60,6 +66,9 @@ export function UserFromJSONTyped(
     name: !exists(json, "name") ? undefined : json["name"],
     email: !exists(json, "email") ? undefined : json["email"],
     isAdmin: !exists(json, "isAdmin") ? undefined : json["isAdmin"],
+    passwordHash: !exists(json, "passwordHash")
+      ? undefined
+      : json["passwordHash"],
     id: !exists(json, "id") ? undefined : json["id"],
   };
 }
@@ -75,6 +84,7 @@ export function UserToJSON(value?: User | null): any {
     name: value.name,
     email: value.email,
     isAdmin: value.isAdmin,
+    passwordHash: value.passwordHash,
     id: value.id,
   };
 }
