@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using PickEmLeagueModels.Models;
+using PickEmLeagueModels.Models.Responses;
 using PickEmLeagueServices.DomainServices.Interfaces;
 using PickEmLeagueServices.Repositories.Interfaces;
 
@@ -17,16 +18,22 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             _mapper = mapper;
         }
 
-        public User AttempLogin(string email, string passwordHash)
+        public LoginResponse AttempLogin(string email, string passwordHash)
         {
+            User model = null;
             var user = _userRepository.GetByEmail(email);
 
             if (user?.PasswordHash == passwordHash)
             {
-                return _mapper.Map<User>(user);
+                model = _mapper.Map<User>(user);
             }
 
-            return null;
+            return new LoginResponse()
+            {
+                User = model,
+                LoggedIn = (model != null)
+            };
+
         }
     }
 }

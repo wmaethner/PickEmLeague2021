@@ -10,12 +10,12 @@ namespace PickEmLeague.Registrations
     public static class DatabaseRegistration
     {
         public static IServiceCollection RegisterDatabase(this IServiceCollection services,
-            IConfiguration configuration, bool useTestDatabase = false)
+            IConfiguration configuration, string testDatabse = null)
         {
-            if (useTestDatabase)
+            if (!string.IsNullOrEmpty(testDatabse))
             {
                 services.AddDbContext<PickEmLeagueDbContext>(opts =>
-                    opts.UseInMemoryDatabase("pickem")
+                    opts.UseInMemoryDatabase(testDatabse)
                 );
             }
             else
