@@ -1,10 +1,9 @@
-﻿using System;
-using PickEmLeagueModels.Models;
+﻿using PickEmLeagueModels.Models.Responses;
 
 namespace PickEmLeagueServices.DomainServices.Interfaces
 {
     public interface IAuthenticationService
     {
-        User AttempLogin(string email, string passwordHash);
+        LoginResponse AttempLogin(string email, string passwordHash);
     }
 }

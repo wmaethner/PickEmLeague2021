@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PickEmLeague.Registrations;
 using PickEmLeagueDatabase;
 using PickEmLeagueDatabase.Entities;
-using PickEmLeagueModels.Profiles;
 using PickEmLeagueServices.DomainServices.Interfaces;
 using PickEmLeagueServices.Repositories.Interfaces;
 using Xunit;
@@ -28,20 +23,7 @@ namespace PickEmLeagueServiceTests
 
         public GamePickServiceTests()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", true, true)
-                .AddJsonFile("appsettings.test.json", true, true)
-                .AddEnvironmentVariables()
-                .Build();
-
-            var servicesCollection = new ServiceCollection();
-            servicesCollection.RegisterRepositories();
-            servicesCollection.RegisterServices();
-            servicesCollection.RegisterDatabase(configuration, true);
-            servicesCollection.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
-
-            var serviceProvider = servicesCollection.BuildServiceProvider();
-
+            var serviceProvider = ServiceHelper.BuildUnitTestServices("gamePickTests");
 
             _userRepository = serviceProvider.GetRequiredService<IUserRepository>();
             _gameRepository = serviceProvider.GetRequiredService<IGameRepository>();
@@ -100,6 +82,23 @@ namespace PickEmLeagueServiceTests
             Assert.Equal(5, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).Count());
             Assert.Equal(5, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 2)).Count());
             Assert.Empty(await _gamePickService.GetByUserAndWeekAsync(user.Id, 3));
+        }
+
+        [Fact]
+        public async Task GetByUserAndWeek_PicksNotCreated_AllWagersSet()
+        {
+            InitializeDb();
+
+            var user = await _userRepository.CreateAsync();
+
+            await CreateGamesAsync(1, 5);
+
+            var picks = (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).ToList();
+            Assert.Equal(5, picks.Count());
+            for (int i = 1; i <= picks.Count(); i++)
+            {
+                Assert.NotNull(picks.Find(p => p.Wager == i));
+            }
         }
 
         private void InitializeDb()
