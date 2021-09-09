@@ -1,47 +1,45 @@
-import React from "react";
-import { TeamProvider } from "../Data/Contexts/TeamsContext";
+import React, { useContext, useEffect, useState } from "react";
 import { useUserContext } from "../Data/Contexts/UserContext";
-import { LoginForm } from "./Authentication/LoginForm";
-import AdapterDateFns from "@date-io/date-fns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import enLocale from "date-fns/locale/en-US";
-import { Route, Switch } from "react-router-dom";
-import { Games } from "./Games/Games";
-import { WeekProvider } from "../Data/Contexts/WeekContext";
-import { GamePicks } from "./GamePicks/GamePicks";
-import { Users } from "./Users/Users";
-import { Layout } from "./Layout";
-import { Container } from "reactstrap";
+import { WeekContext } from "../Data/Contexts/WeekContext";
+import { Container, Table } from "reactstrap";
+import { useGetScoreSummaryByWeek } from "../Data/ScoreSummary/useGetScoreSummaryByWeek";
+import { UsersWeeklyScoreSummary } from "../Apis/models/UsersWeeklyScoreSummary";
 
 export function Home() {
   const { user, loggedIn } = useUserContext();
+  const weekContext = useContext(WeekContext);
+  const [scoreSummary, setScoreSummary] = useState<Array<UsersWeeklyScoreSummary>>([]);
 
-  return loggedIn ? (
+  useEffect(() => {
+    (async () => {
+      await GetScoreSummary();
+    })();
+  }, []);
+
+  const GetScoreSummary = async (): Promise<void> => {
+    setScoreSummary(await useGetScoreSummaryByWeek(weekContext.week!));
+  };
+
+  return (
     <Container>
-      <h2>Id: {user?.id}</h2>
-      <h2>Name: {user?.name}</h2>
-      <TeamProvider>
-        <Layout>
-          <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
-            <Switch>
-              {/* <Route exact path="/" component={Home} /> */}
-              <Route path="/games">
-                <Games />
-              </Route>
-              <Route path="/gamePicks">
-                <WeekProvider>
-                  <GamePicks />
-                </WeekProvider>
-              </Route>
-              <Route path="/users">
-                <Users />
-              </Route>
-            </Switch>
-          </LocalizationProvider>
-        </Layout>
-      </TeamProvider>
+      <Table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Week Score</th>
+            <th>Season Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {scoreSummary?.map((userScore) => (
+            <tr key={userScore.user?.id}>
+              <td>{userScore.user?.name}</td>
+              <td>{userScore.weekScore}</td>
+              <td>{userScore.seasonScore}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </Container>
-  ) : (
-    <LoginForm></LoginForm>
-  );
+  )
 }

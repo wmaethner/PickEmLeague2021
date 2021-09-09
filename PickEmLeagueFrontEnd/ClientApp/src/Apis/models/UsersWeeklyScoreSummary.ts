@@ -23,39 +23,46 @@ import {
 /**
  * 
  * @export
- * @interface LoginResponse
+ * @interface UsersWeeklyScoreSummary
  */
-export interface LoginResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LoginResponse
-     */
-    loggedIn?: boolean;
+export interface UsersWeeklyScoreSummary {
     /**
      * 
      * @type {User}
-     * @memberof LoginResponse
+     * @memberof UsersWeeklyScoreSummary
      */
     user?: User;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsersWeeklyScoreSummary
+     */
+    weekScore?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsersWeeklyScoreSummary
+     */
+    seasonScore?: number;
 }
 
-export function LoginResponseFromJSON(json: any): LoginResponse {
-    return LoginResponseFromJSONTyped(json, false);
+export function UsersWeeklyScoreSummaryFromJSON(json: any): UsersWeeklyScoreSummary {
+    return UsersWeeklyScoreSummaryFromJSONTyped(json, false);
 }
 
-export function LoginResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponse {
+export function UsersWeeklyScoreSummaryFromJSONTyped(json: any, ignoreDiscriminator: boolean): UsersWeeklyScoreSummary {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'loggedIn': !exists(json, 'loggedIn') ? undefined : json['loggedIn'],
         'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
+        'weekScore': !exists(json, 'weekScore') ? undefined : json['weekScore'],
+        'seasonScore': !exists(json, 'seasonScore') ? undefined : json['seasonScore'],
     };
 }
 
-export function LoginResponseToJSON(value?: LoginResponse | null): any {
+export function UsersWeeklyScoreSummaryToJSON(value?: UsersWeeklyScoreSummary | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,8 +71,9 @@ export function LoginResponseToJSON(value?: LoginResponse | null): any {
     }
     return {
         
-        'loggedIn': value.loggedIn,
         'user': UserToJSON(value.user),
+        'weekScore': value.weekScore,
+        'seasonScore': value.seasonScore,
     };
 }
 

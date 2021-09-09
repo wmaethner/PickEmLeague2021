@@ -98,7 +98,6 @@ export function GamePicks() {
                   key={gamePick.id}
                   gamePick={gamePick}
                   index={index}
-                  
                 ></SortablePickRow>
               ))}
               {provided.placeholder}

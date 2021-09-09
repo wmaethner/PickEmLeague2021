@@ -50,7 +50,7 @@ export function UserEdit() {
             <input
               type="text"
               value={user.email || ""}
-              onChange={(e) => setUser({ ...user, email: e.target.value})}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
           </label>
         </Row>
@@ -60,7 +60,9 @@ export function UserEdit() {
             <input
               type="text"
               value={user.passwordHash || ""}
-              onChange={(e) => setUser({ ...user, passwordHash: e.target.value})}
+              onChange={(e) =>
+                setUser({ ...user, passwordHash: e.target.value })
+              }
             />
           </label>
         </Row>
@@ -70,7 +72,7 @@ export function UserEdit() {
             <input
               type="checkbox"
               checked={user.isAdmin || false}
-              onChange={(e) => setUser({ ...user, isAdmin: e.target.checked})}
+              onChange={(e) => setUser({ ...user, isAdmin: e.target.checked })}
             />
           </label>
         </Row>

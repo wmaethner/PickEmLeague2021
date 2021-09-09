@@ -1,4 +1,4 @@
-﻿import React, { Component, useState } from "react";
+import React, { Component, useState } from "react";
 import {
   Collapse,
   Container,
@@ -17,7 +17,7 @@ export function NavMenu() {
   const { user } = useUserContext();
 
   const adminPages = () => {
-    return user?.isAdmin ?
+    return user?.isAdmin ? (
       <ul className="navbar-nav flex-grow">
         <NavItem>
           <NavLink tag={Link} className="text-dark" to="/games">
@@ -29,23 +29,28 @@ export function NavMenu() {
             Users
           </NavLink>
         </NavItem>
-      </ul> : "";
-  }
+      </ul>
+    ) : (
+      ""
+    );
+  };
 
   const allUserPages = () => {
-    return <ul className="navbar-nav flex-grow">
-      <NavItem>
-        <NavLink tag={Link} className="text-dark" to="/">
-          Home
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink tag={Link} className="text-dark" to="/gamePicks">
-          Game Picks
-        </NavLink>
-      </NavItem>
-    </ul>
-  }
+    return (
+      <ul className="navbar-nav flex-grow">
+        <NavItem>
+          <NavLink tag={Link} className="text-dark" to="/">
+            Home
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink tag={Link} className="text-dark" to="/gamePicks">
+            Game Picks
+          </NavLink>
+        </NavItem>
+      </ul>
+    );
+  };
 
   return (
     <header>
@@ -57,7 +62,10 @@ export function NavMenu() {
           <NavbarBrand tag={Link} to="/">
             PickEmLeague
           </NavbarBrand>
-          <NavbarToggler onClick={() => setCollapse(!collapsed)} className="mr-2" />
+          <NavbarToggler
+            onClick={() => setCollapse(!collapsed)}
+            className="mr-2"
+          />
           <Collapse
             className="d-sm-inline-flex flex-sm-row-reverse"
             isOpen={!collapsed}
