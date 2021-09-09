@@ -11,6 +11,7 @@ namespace PickEmLeague.Registrations
         {
             services.AddScoped<IGamePickService, GamePickService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IScoreSummaryService, ScoreSummaryService>();
 
             return services;
         }

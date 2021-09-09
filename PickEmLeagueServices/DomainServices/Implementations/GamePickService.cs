@@ -113,6 +113,7 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                     {
                         pick.Wager = i + 1;
                         finalPicks[i] = pick;
+                        break;
                     }
                 }
             }

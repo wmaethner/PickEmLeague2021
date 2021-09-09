@@ -6,7 +6,7 @@ import { Home } from "./components/Home";
 import AdapterDateFns from "@date-io/date-fns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import enLocale from "date-fns/locale/en-US";
-
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "./custom.css";
 import { Switch } from "react-router";
 import { Users } from "./components/Users/Users";
@@ -19,6 +19,7 @@ import { useContext } from "react";
 import { UserContext } from "./Data/Contexts/UserContext";
 import { useState } from "react";
 import { User } from "./Apis";
+import { Container } from "reactstrap";
 
 //export default class App extends Component {
 export default function App() {
@@ -31,10 +32,47 @@ export default function App() {
     setLoggedIn(true);
   };
 
+  const pages = () => {
+    return loggedIn ? (
+      <Container>
+        <h2>Id: {user?.id}</h2>
+        <h2>Name: {user?.name}</h2>
+        <TeamProvider>
+          <Layout>
+            <LocalizationProvider
+              dateAdapter={AdapterDateFns}
+              locale={enLocale}
+            >
+              <Switch>
+                <Route exact path="/">
+                  <Home></Home>
+                </Route>
+                <Route path="/games">
+                  <Games />
+                </Route>
+                <Route path="/gamePicks">
+                  <WeekProvider>
+                    <GamePicks />
+                  </WeekProvider>
+                </Route>
+                <Route path="/users">
+                  <Users />
+                </Route>
+              </Switch>
+            </LocalizationProvider>
+          </Layout>
+        </TeamProvider>
+      </Container>
+    ) : (
+      <LoginForm></LoginForm>
+    );
+  };
+
   //render() {
   return (
     <UserContext.Provider value={{ user, loggedIn, setUser }}>
-      <Home></Home>
+      {pages()}
+      {/* <Home></Home> */}
     </UserContext.Provider>
     //<Home></Home>
     //<h2>TEST</h2>
