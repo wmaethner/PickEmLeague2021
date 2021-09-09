@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import {
-  ButtonToggle,
   Button,
   Row,
   Col,
   Label,
   Card,
   CardBody,
-  ButtonGroup,
 } from "reactstrap";
-import { Game, GamePick, GameResult } from "../../Apis";
+import { GamePick, GameResult } from "../../Apis";
 import { useUpdateGamePicks } from "../../Data/GamePicks/useUpdateGamePicks";
 import { TeamDisplay } from "../Teams/TeamDisplay";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 type Props = {
   gamePick: GamePick;
@@ -33,14 +31,10 @@ export const PickSelector: React.FC<Props> = ({ gamePick, onPickChanged }) => {
     UpdateGamePick();
   }, [pick]);
 
-  const getClassName = (
-    actualPick: GameResult | undefined,
-    expectedPick: GameResult
-  ) => {
-    let result = "btn btn-block hover-overlay ";
-    result += actualPick === expectedPick ? "btn-primary" : "btn-default";
-    return result;
-  };
+  const getColor = (actualPick: GameResult | undefined,
+    expectedPick: GameResult) => {
+      return (actualPick === expectedPick) ? "primary" : "secondary";
+    }
 
   return (
     <Card>
@@ -51,7 +45,7 @@ export const PickSelector: React.FC<Props> = ({ gamePick, onPickChanged }) => {
           </Col>
           <Col className="col-5 text-center">
             <Button
-              className={getClassName(pick.pick, GameResult.HomeWin)}
+              color={getColor(pick.pick, GameResult.HomeWin)}
               onClick={() => UpdatePick(GameResult.HomeWin)}
             >
               <TeamDisplay id={pick.game?.homeTeamId}></TeamDisplay>
@@ -59,7 +53,7 @@ export const PickSelector: React.FC<Props> = ({ gamePick, onPickChanged }) => {
           </Col>
           <Col className="col-5 text-center">
             <Button
-              className={getClassName(pick.pick, GameResult.AwayWin)}
+              color={getColor(pick.pick, GameResult.AwayWin)}
               onClick={() => UpdatePick(GameResult.AwayWin)}
             >
               <TeamDisplay id={pick.game?.awayTeamId}></TeamDisplay>

@@ -43,7 +43,7 @@ export function GameEdit() {
   };
 
   return (
-    <Container>
+    <Container className="data-table">
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Label>Home Team: </Label>
