@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./NavMenu.css";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useUserContext } from "../Data/Contexts/UserContext";
 
 export function NavMenu() {

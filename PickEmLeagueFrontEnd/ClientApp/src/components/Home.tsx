@@ -21,7 +21,7 @@ export function Home() {
   };
 
   return (
-    <Container>
+    <Container className="data-table">
       <Table>
         <thead>
           <tr>

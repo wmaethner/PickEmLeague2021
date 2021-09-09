@@ -37,7 +37,8 @@ export function SortablePickRow(props: Props) {
       key={props.gamePick.id}
       draggableId={props.gamePick.id?.toString()!}
       index={props.index}
-      isDragDisabled={props.index == 2}
+      //TODO: time based disabled
+      // isDragDisabled={props.index == 2}
     >
       {(provided, snapshot): JSX.Element => (
         <div

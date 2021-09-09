@@ -79,7 +79,7 @@ export function GamePicks() {
   // Normally you would want to split things out into separate components.
   // But in this example everything is just done in one place for simplicity
   return (
-    <Container>
+    <Container className="data-table">
       <Row>
         <Col className="col-2 text-center">Wager</Col>
         <Col className="col-5 text-center">Home Team</Col>

@@ -37,7 +37,7 @@ export function GameList() {
   };
 
   return (
-    <Container>
+    <Container className="data-table">
       <Table striped bordered>
         <thead>
           <tr>
