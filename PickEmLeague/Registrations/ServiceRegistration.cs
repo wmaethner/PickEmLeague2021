@@ -9,6 +9,7 @@ namespace PickEmLeague.Registrations
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
+            services.AddScoped<IGameService, GameService>();
             services.AddScoped<IGamePickService, GamePickService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IScoreSummaryService, ScoreSummaryService>();

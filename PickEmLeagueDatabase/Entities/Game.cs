@@ -6,7 +6,7 @@ namespace PickEmLeagueDatabase.Entities
     public class Game : DbEntity
     {
         public int Week { get; set; }
-        public DateTime GameTime { get; set; }
+        public DateTime GameTime { get; set; } = DateTime.Now;
         public GameResult GameResult { get; set; }
 
         public Team HomeTeam { get; set; }

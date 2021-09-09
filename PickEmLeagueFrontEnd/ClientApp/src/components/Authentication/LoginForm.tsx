@@ -49,7 +49,10 @@ export function LoginForm() {
                 type="email"
                 className="form-control"
                 value={loginParams.email}
-                onChange={(e) => setParams({ ...loginParams, email: e.target.value })} />
+                onChange={(e) =>
+                  setParams({ ...loginParams, email: e.target.value })
+                }
+              />
             </div>
 
             <div className="form-group">
@@ -58,7 +61,10 @@ export function LoginForm() {
                 type="password"
                 className="form-control"
                 value={loginParams.password}
-                onChange={(e) => setParams({ ...loginParams, password: e.target.value })} />
+                onChange={(e) =>
+                  setParams({ ...loginParams, password: e.target.value })
+                }
+              />
             </div>
 
             {/* <div className="form-group">
@@ -68,7 +74,9 @@ export function LoginForm() {
         </div>
       </div> */}
 
-            <button type="submit" className="btn btn-primary btn-block">Submit</button>
+            <button type="submit" className="btn btn-primary btn-block">
+              Submit
+            </button>
             {/* <p className="forgot-password text-right">
         Forgot <a href="#">password?</a>
       </p> */}

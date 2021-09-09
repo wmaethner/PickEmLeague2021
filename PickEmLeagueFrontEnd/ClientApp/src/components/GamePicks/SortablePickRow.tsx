@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Draggable,
   DraggingStyle,
@@ -6,10 +6,12 @@ import {
 } from "react-beautiful-dnd";
 import { PickSelector } from "./PickSelector";
 import { GamePick, GameResult } from "../../Apis";
+import { GamePickContext } from "../../Data/Contexts/GamePickContext";
 
 type Props = {
   gamePick: GamePick;
   index: number;
+  setGamePick: (gamePick: GamePick) => void;
 };
 
 const grid = 8;
@@ -32,13 +34,12 @@ const getItemStyle = (
 
 export function SortablePickRow(props: Props) {
   return (
-    // <div ref={setNodeRef} className="moveable-item" {...attributes} {...listeners}>
     <Draggable
       key={props.gamePick.id}
       draggableId={props.gamePick.id?.toString()!}
       index={props.index}
       //TODO: time based disabled
-      // isDragDisabled={props.index == 2}
+      isDragDisabled={!props.gamePick.editable}
     >
       {(provided, snapshot): JSX.Element => (
         <div
@@ -50,13 +51,13 @@ export function SortablePickRow(props: Props) {
             provided.draggableProps.style
           )}
         >
-          <PickSelector
-            gamePick={props.gamePick}
-            onPickChanged={(e: GameResult) => (props.gamePick.pick = e)}
-          ></PickSelector>
+          <GamePickContext.Provider
+            value={{ gamePick: props.gamePick, setGamePick: props.setGamePick }}
+          >
+            <PickSelector />
+          </GamePickContext.Provider>
         </div>
       )}
     </Draggable>
-    // </div>
   );
 }

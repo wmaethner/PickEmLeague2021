@@ -60,7 +60,7 @@ export const TeamSelector: React.FC<Props> = ({ id, onTeamChanged }) => {
   const handleValueChange = (value: any) => {
     //setTeamId(value.value);
     onTeamChanged(value.value);
-  }
+  };
 
   return (
     <CustomPicker

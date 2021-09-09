@@ -15,7 +15,9 @@ namespace PickEmLeagueModels.Profiles
             CreateMap<PickEmLeagueDatabase.Entities.Team, Team>().ReverseMap();
 
             CreateMap<PickEmLeagueDatabase.Entities.Game, Game>()
+                .ForMember(model => model.GameTimeString, opts => opts.MapFrom(e => e.GameTime.ToString("MM/dd/yyyy hh:mm")))
                 .ReverseMap()
+                .ForMember(entity => entity.GameTime, opts => opts.MapFrom(m => DateTime.Parse(m.GameTimeString)))
                 .ForMember(model => model.HomeTeam, opts => opts.Ignore())
                 .ForMember(model => model.AwayTeam, opts => opts.Ignore());
 

@@ -1,17 +1,17 @@
 .app-container {
-    background: url(../Assets/background.jpeg); 
-    height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  background: url(../Assets/background.jpeg);
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .home-summary {
-    background-color:white;
-    opacity: 0.9;
+  background-color: white;
+  opacity: 0.9;
 }
 
 .data-table {
-    background-color:white;
-    opacity: 0.9;
+  background-color: white;
+  opacity: 0.9;
 }

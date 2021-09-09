@@ -7,6 +7,7 @@ import { useGetAllGames } from "../../Data/Game/userGetGameAll";
 import { useCreateGame } from "../../Data/Game/useCreateGame";
 import { useDeleteGame } from "../../Data/Game/useDeleteGame";
 import { TeamDisplay } from "../Teams/TeamDisplay";
+import { format } from "date-fns";
 
 export function GameList() {
   const [games, setGames] = useState<Game[]>([]);
@@ -60,7 +61,7 @@ export function GameList() {
                 <TeamDisplay id={game.awayTeamId} />
               </td>
               <td>{game.week}</td>
-              <td>{game.gameTime?.toLocaleString("en-US")}</td>
+              <td>{game.gameTimeString}</td>
               <td>{game.gameResult}</td>
               <td>
                 <Link to={"games/" + game.id} className="btn btn-primary">
