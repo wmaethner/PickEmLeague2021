@@ -8,6 +8,7 @@ namespace PickEmLeagueModels.Models
         public GameResult Pick { get; set; }
         public int Wager { get; set; }
         public bool Locked { get; set; }
+        public bool Editable => DateTime.UtcNow < Game.GameTime;
 
         public User User { get; set; }
         public Game Game { get; set; }

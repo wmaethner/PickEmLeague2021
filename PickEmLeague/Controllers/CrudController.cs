@@ -38,7 +38,8 @@ namespace PickEmLeague.Controllers
         public IEnumerable<TModel> GetAll()
         {
             _logger.LogDebug($"Getting all {typeof(TModel)}");
-            return _mapper.Map<IEnumerable<TModel>>(_repository.GetAll());
+            IEnumerable<TEntity> entities = _repository.GetAll();
+            return _mapper.Map<IEnumerable<TModel>>(entities);
         }
 
         [HttpGet("get")]

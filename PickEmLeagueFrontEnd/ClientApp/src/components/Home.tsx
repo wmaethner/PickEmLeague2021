@@ -8,7 +8,9 @@ import { UsersWeeklyScoreSummary } from "../Apis/models/UsersWeeklyScoreSummary"
 export function Home() {
   const { user, loggedIn } = useUserContext();
   const weekContext = useContext(WeekContext);
-  const [scoreSummary, setScoreSummary] = useState<Array<UsersWeeklyScoreSummary>>([]);
+  const [scoreSummary, setScoreSummary] = useState<
+    Array<UsersWeeklyScoreSummary>
+  >([]);
 
   useEffect(() => {
     (async () => {
@@ -41,5 +43,5 @@ export function Home() {
         </tbody>
       </Table>
     </Container>
-  )
+  );
 }

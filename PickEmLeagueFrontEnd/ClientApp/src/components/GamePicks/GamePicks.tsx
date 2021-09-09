@@ -7,6 +7,7 @@ import { useGetGamePicksByUserAndWeek } from "../../Data/GamePicks/useGetGamePic
 import { SortablePickRow } from "./SortablePickRow";
 import { Col, Container, Row } from "reactstrap";
 import { useUpdateGamePicks } from "../../Data/GamePicks/useUpdateGamePicks";
+import { GamePickContext } from "../../Data/Contexts/GamePickContext";
 
 // a little function to help us with reordering the result
 const reorder = (
@@ -14,11 +15,34 @@ const reorder = (
   startIndex: number,
   endIndex: number
 ): GamePick[] => {
+  // Result will be the intended order
+  // Next check for the locked rows
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
 
-  return result;
+  const copy = Array.from(result);
+  const final = Array(result.length);
+
+  // First put all locked picks in
+  for (let i = 0; i < result.length; i++) {
+    if (!result[i].editable) {
+      let index = copy.findIndex((x) => x.id === result[i].id);
+      const [pick] = copy.splice(index, 1);
+      final[result.length - pick.wager!] = pick;
+    }
+  }
+
+  for (let i = 0; i < copy.length; i++) {
+    for (let j = 0; j < final.length; j++) {
+      if (final[j] === undefined) {
+        final[j] = copy[i];
+        break;
+      }
+    }
+  }
+
+  return final;
 };
 
 const grid = 8;
@@ -45,6 +69,14 @@ export function GamePicks() {
     }
     GetGamePicks();
   }, [user, weekContext.week]);
+
+  const setSingleGamePick = (gamePick: GamePick) => {
+    console.log("Updating game pick " + gamePick.id);
+    let index = gamePicks.findIndex((gp) => gp.id === gamePick.id);
+    let newArr = [...gamePicks];
+    newArr[index] = gamePick;
+    setGamePicks(newArr);
+  };
 
   const onDragEnd = (result: DropResult): void => {
     // dropped outside the list
@@ -98,6 +130,7 @@ export function GamePicks() {
                   key={gamePick.id}
                   gamePick={gamePick}
                   index={index}
+                  setGamePick={setSingleGamePick}
                 ></SortablePickRow>
               ))}
               {provided.placeholder}

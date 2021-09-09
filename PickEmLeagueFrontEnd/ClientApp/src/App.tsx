@@ -6,7 +6,7 @@ import { Home } from "./components/Home";
 import AdapterDateFns from "@date-io/date-fns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import enLocale from "date-fns/locale/en-US";
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Switch } from "react-router";
 import { Users } from "./components/Users/Users";
 import { Games } from "./components/Games/Games";

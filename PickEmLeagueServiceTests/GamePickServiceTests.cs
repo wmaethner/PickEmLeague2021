@@ -20,6 +20,7 @@ namespace PickEmLeagueServiceTests
         private readonly IGameRepository _gameRepository;
         private readonly IGamePickRepository _gamePickRepository;
         private readonly IGamePickService _gamePickService;
+        private readonly IGameService _gameService;
 
         public GamePickServiceTests()
         {
@@ -28,6 +29,7 @@ namespace PickEmLeagueServiceTests
             _userRepository = serviceProvider.GetRequiredService<IUserRepository>();
             _gameRepository = serviceProvider.GetRequiredService<IGameRepository>();
             _gamePickRepository = serviceProvider.GetRequiredService<IGamePickRepository>();
+            _gameService = serviceProvider.GetRequiredService<IGameService>();
             _gamePickService = serviceProvider.GetRequiredService<IGamePickService>();
 
             _dbContext = serviceProvider.GetRequiredService<PickEmLeagueDbContext>();
@@ -85,6 +87,68 @@ namespace PickEmLeagueServiceTests
         }
 
         [Fact]
+        public async Task GetByUserAndWeek_PicksCreated_GameNoLongerExists_CreatesAndRemovesPicks()
+        {
+            InitializeDb();
+
+            var user = await _userRepository.CreateAsync();
+
+            await CreateGamesAsync(2, 5);
+
+            foreach (var game in _games)
+            {
+                await CreateGamePick(game, user);
+            }
+
+            var games = _gameRepository.GetAll();
+            var game1 = games.First(g => g.Week == 1);
+            var game2 = games.Where(g => g.Week == 2).ToList();
+            await _gameRepository.DeleteAsync(game1.Id);
+            await _gameRepository.DeleteAsync(game2[0].Id);
+            await _gameRepository.DeleteAsync(game2[1].Id);
+
+            Assert.Equal(4, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).Count());
+            Assert.Equal(3, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 2)).Count());
+            Assert.Empty(await _gamePickService.GetByUserAndWeekAsync(user.Id, 3));
+        }
+
+        [Fact]
+        public async Task GetByUserAndWeek_PicksAndWagersCreated_RemoveGame_AdjustsWagersCorrectly()
+        {
+            InitializeDb();
+
+            var user = await _userRepository.CreateAsync();
+
+            await CreateGamesAsync(1, 5);
+
+            foreach (var game in _games)
+            {
+                await CreateGamePick(game, user);
+            }
+            // Sets wagers
+            var picks = await _gamePickService.GetByUserAndWeekAsync(user.Id, 1);
+            await _gameService.DeleteGame(picks.Where(p => p.Wager == 4).First().GameId);
+            
+            Assert.Equal(4, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).Count());
+            var wagers = (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).Select(p => p.Wager).ToList();
+
+            for (int i = 1; i <= 4; i++)
+            {
+                Assert.Contains(i, wagers);
+            }
+
+            await _gameService.DeleteGame(picks.Where(p => p.Wager == 2).First().GameId);
+
+            Assert.Equal(3, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).Count());
+            wagers = (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).Select(p => p.Wager).ToList();
+
+            for (int i = 1; i <= 3; i++)
+            {
+                Assert.Contains(i, wagers);
+            }
+        }
+
+        [Fact]
         public async Task GetByUserAndWeek_PicksNotCreated_AllWagersSet()
         {
             InitializeDb();
@@ -99,6 +163,17 @@ namespace PickEmLeagueServiceTests
             {
                 Assert.NotNull(picks.Find(p => p.Wager == i));
             }
+        }
+
+        [Fact]
+        public async Task GetByUserAndWeek_BadWeek_NoErrorAsync()
+        {
+            InitializeDb();
+
+            var user = await _userRepository.CreateAsync();
+
+            await CreateGamesAsync(1, 5);
+            var picks = (await _gamePickService.GetByUserAndWeekAsync(user.Id, 2)).ToList();
         }
 
         private void InitializeDb()
