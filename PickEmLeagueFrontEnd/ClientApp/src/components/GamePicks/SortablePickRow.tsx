@@ -15,7 +15,7 @@ type Props = {
   setGamePick: (gamePick: GamePick) => void;
 };
 
-const grid = 8;
+const grid = 4;
 
 const getItemStyle = (
   isDragging: boolean,
@@ -40,31 +40,40 @@ export function SortablePickRow(props: Props) {
     return props.gamePick.editable || user?.isAdmin;
   }
 
+  const getDivClass = () => {
+    let style = "border border-dark ";
+    style += (editable() ? "bg-light" : "bg-secondary");
+    return style;
+  }
+
   return (
-    <Draggable
-      key={props.gamePick.id}
-      draggableId={props.gamePick.id?.toString()!}
-      index={props.index}
-      //TODO: time based disabled
-      isDragDisabled={!editable()}
-    >
-      {(provided, snapshot): JSX.Element => (
-        <div
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          style={getItemStyle(
-            snapshot.isDragging,
-            provided.draggableProps.style
-          )}
-        >
-          <GamePickContext.Provider
-            value={{ gamePick: props.gamePick, setGamePick: props.setGamePick }}
+    <div className={getDivClass()}>
+      <Draggable
+        key={props.gamePick.id}
+        draggableId={props.gamePick.id?.toString()!}
+        index={props.index}
+        //TODO: time based disabled
+        isDragDisabled={!editable()}
+      >
+        {(provided, snapshot): JSX.Element => (
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            style={getItemStyle(
+              snapshot.isDragging,
+              provided.draggableProps.style
+            )}
           >
-            <PickSelector />
-          </GamePickContext.Provider>
-        </div>
-      )}
-    </Draggable>
+            <GamePickContext.Provider
+              value={{ gamePick: props.gamePick, setGamePick: props.setGamePick }}
+            >
+              <PickSelector />
+            </GamePickContext.Provider>
+          </div>
+        )}
+      </Draggable>
+    </div>
+
   );
 }

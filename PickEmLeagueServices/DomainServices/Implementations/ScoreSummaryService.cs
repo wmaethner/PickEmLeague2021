@@ -34,7 +34,7 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 usersWeeklyScoreSummaries.Add(GetUsersWeeklyScoreSummary(user, week));
             }
 
-            return usersWeeklyScoreSummaries;
+            return usersWeeklyScoreSummaries.OrderByDescending(x => x.WeekScore).ThenBy(y => y.User.Name);
         }
 
         private UsersWeeklyScoreSummary GetUsersWeeklyScoreSummary(User user, int week)
