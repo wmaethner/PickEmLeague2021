@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PickEmLeagueModels.Models;
@@ -37,5 +39,18 @@ namespace PickEmLeague.Controllers
         {
             await _gameService.DeleteGame(id);
         }
+
+        [HttpPost("add-game-schedule")]
+        public async Task AddScheduleAsync(IFormFile csvFile)
+        {
+            if (csvFile.FileName.EndsWith(".csv"))
+            {
+                using (var stream = new StreamReader(csvFile.OpenReadStream()))
+                {
+                    await _gameService.AddScheduleAsync(stream);
+                }
+            }
+        }
+
     }
 }

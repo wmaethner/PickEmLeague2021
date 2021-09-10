@@ -7,6 +7,7 @@ namespace PickEmLeagueDatabase.Entities
     {
         public int Week { get; set; }
         public DateTime GameTime { get; set; } = DateTime.Now;
+        public string GameIsoString { get; set; }
         public GameResult GameResult { get; set; }
 
         public Team HomeTeam { get; set; }

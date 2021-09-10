@@ -7,7 +7,9 @@
   "paths": {
     "/Authentication/attemptLogin": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "parameters": [
           {
             "name": "email",
@@ -50,7 +52,9 @@
     },
     "/Game/create-game-for-week": {
       "post": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "parameters": [
           {
             "name": "week",
@@ -87,7 +91,9 @@
     },
     "/Game/get-games-for-week": {
       "get": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "parameters": [
           {
             "name": "week",
@@ -133,7 +139,9 @@
     },
     "/Game/delete-game": {
       "delete": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -151,9 +159,43 @@
         }
       }
     },
+    "/Game/add-game-schedule": {
+      "post": {
+        "tags": [
+          "Game"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "csvFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "csvFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/Game/create": {
       "post": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -180,7 +222,9 @@
     },
     "/Game/get-all": {
       "get": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -216,7 +260,9 @@
     },
     "/Game/get": {
       "get": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -253,7 +299,9 @@
     },
     "/Game/update": {
       "put": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "requestBody": {
           "content": {
             "application/json-patch+json": {
@@ -287,7 +335,9 @@
     },
     "/Game/delete": {
       "delete": {
-        "tags": ["Game"],
+        "tags": [
+          "Game"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -307,7 +357,9 @@
     },
     "/GamePick/getGamePick": {
       "get": {
-        "tags": ["GamePick"],
+        "tags": [
+          "GamePick"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -344,7 +396,9 @@
     },
     "/GamePick/getGamePickByUser": {
       "get": {
-        "tags": ["GamePick"],
+        "tags": [
+          "GamePick"
+        ],
         "parameters": [
           {
             "name": "userId",
@@ -390,7 +444,9 @@
     },
     "/GamePick/getGamePicksByUserAndWeek": {
       "get": {
-        "tags": ["GamePick"],
+        "tags": [
+          "GamePick"
+        ],
         "parameters": [
           {
             "name": "userId",
@@ -444,7 +500,9 @@
     },
     "/GamePick/updateGamePicks": {
       "post": {
-        "tags": ["GamePick"],
+        "tags": [
+          "GamePick"
+        ],
         "requestBody": {
           "content": {
             "application/json-patch+json": {
@@ -507,7 +565,9 @@
     },
     "/ScoreSummary/getScoreSummary": {
       "get": {
-        "tags": ["ScoreSummary"],
+        "tags": [
+          "ScoreSummary"
+        ],
         "parameters": [
           {
             "name": "week",
@@ -553,7 +613,9 @@
     },
     "/Team": {
       "get": {
-        "tags": ["Team"],
+        "tags": [
+          "Team"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -589,7 +651,9 @@
     },
     "/User/create": {
       "post": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -616,7 +680,9 @@
     },
     "/User/get-all": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -652,7 +718,9 @@
     },
     "/User/get": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -689,7 +757,9 @@
     },
     "/User/update": {
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "requestBody": {
           "content": {
             "application/json-patch+json": {
@@ -723,7 +793,9 @@
     },
     "/User/delete": {
       "delete": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -756,6 +828,10 @@
             "format": "date-time"
           },
           "gameTimeString": {
+            "type": "string",
+            "nullable": true
+          },
+          "gameIsoString": {
             "type": "string",
             "nullable": true
           },
@@ -822,7 +898,12 @@
         "additionalProperties": false
       },
       "GameResult": {
-        "enum": ["NotPlayed", "HomeWin", "AwayWin", "Tie"],
+        "enum": [
+          "NotPlayed",
+          "HomeWin",
+          "AwayWin",
+          "Tie"
+        ],
         "type": "string"
       },
       "LoginResponse": {

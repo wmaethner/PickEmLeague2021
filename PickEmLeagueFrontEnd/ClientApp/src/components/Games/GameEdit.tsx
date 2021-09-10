@@ -68,6 +68,7 @@ export function GameEdit() {
                 ...game,
                 gameTime: date,
                 gameTimeString: date.toISOString(),
+                gameIsoString: date.toISOString(),
               })
             }
           ></DateTimePicker>
