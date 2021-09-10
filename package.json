@@ -1,13 +1,14 @@
 {
   "scripts": {
     "migration": "dotnet ef migrations add $1 --project PickEmLeagueDatabase/PickEmLeagueDatabase.csproj --startup-project PickEmLeague/PickEmLeague.csproj",
-    "publish": "dotnet publish PickEmLeague/PickEmLeague.csproj -o publishes/api",
+    "publish": "rimraf ./publishes && dotnet publish PickEmLeague/PickEmLeague.csproj -o publishes/api",
     "package": "cd publishes/api && zip ../deploy.zip *"
   },
   "dependencies": {
     "@dnd-kit/sortable": "^4.0.0",
     "npm-pack-zip": "^1.2.9",
     "react-query": "^3.21.1",
+    "rimraf": "^2.7.1",
     "static-route-paths": "^0.2.2"
   },
   "devDependencies": {
