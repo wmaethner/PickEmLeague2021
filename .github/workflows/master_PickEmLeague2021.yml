@@ -53,5 +53,6 @@ jobs:
       with:
         app-name: 'PickEmLeague2021'
         slot-name: 'production'
+        credentials: ${{ secrets.AzureAppService_PublishProfile_9c629063288243d2b30bc7a0eb88ced2 }}
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_9c629063288243d2b30bc7a0eb88ced2 }}
         package: .
