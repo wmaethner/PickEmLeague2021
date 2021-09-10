@@ -9,7 +9,7 @@ namespace PickEmLeagueModels.Profiles
         public AutoMapperProfile()
         {
             CreateMap<PickEmLeagueDatabase.Entities.User, User>()
-                .ForMember(u => u.PasswordHash, opts => opts.Ignore())
+                //.ForMember(u => u.PasswordHash, opts => opts.Ignore())
                 .ReverseMap();
 
             CreateMap<PickEmLeagueDatabase.Entities.Team, Team>().ReverseMap();
