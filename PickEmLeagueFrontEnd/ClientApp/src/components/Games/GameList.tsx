@@ -1,25 +1,27 @@
 import { Button, Container } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Game } from "../../Apis/models/Game";
-import { useGetAllGames } from "../../Data/Game/userGetGameAll";
 import { useCreateGame } from "../../Data/Game/useCreateGame";
 import { useDeleteGame } from "../../Data/Game/useDeleteGame";
 import { TeamDisplay } from "../Teams/TeamDisplay";
-import { format } from "date-fns";
+import { WeekContext } from "../../Data/Contexts/WeekContext";
+import { useGetGamesByWeek } from "../../Data/Game/useGetGamesByWeek";
+import { WeekSelector } from "../Week/WeekSelector";
 
 export function GameList() {
+  const { week, setWeek } = useContext(WeekContext);
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
     (async () => {
       await GetGames();
     })();
-  }, []);
+  }, [week]);
 
   const GetGames = async (): Promise<void> => {
-    const games = await useGetAllGames();
+    const games = await useGetGamesByWeek(week!);
     setGames(games);
   };
 
@@ -29,7 +31,7 @@ export function GameList() {
   };
 
   const AddGame = async () => {
-    await useCreateGame();
+    await useCreateGame(week!);
     await GetGames();
   };
 
@@ -39,6 +41,8 @@ export function GameList() {
 
   return (
     <Container className="data-table">
+      <WeekSelector />
+
       <Table striped bordered>
         <thead>
           <tr>
@@ -77,8 +81,8 @@ export function GameList() {
           ))}
         </tbody>
       </Table>
-      <Button onClick={AddGame}>Add User</Button>
-      <Button onClick={GetGames}>Get Users</Button>
+      <Button onClick={AddGame}>Add Game</Button>
+      <Button onClick={GetGames}>Get Games</Button>
     </Container>
   );
 }

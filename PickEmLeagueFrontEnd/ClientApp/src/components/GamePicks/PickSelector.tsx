@@ -5,8 +5,10 @@ import { useUpdateGamePicks } from "../../Data/GamePicks/useUpdateGamePicks";
 import { TeamDisplay } from "../Teams/TeamDisplay";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { GamePickContext } from "../../Data/Contexts/GamePickContext";
+import { UserContext } from "../../Data/Contexts/UserContext";
 
 export const PickSelector = () => {
+  const { user } = useContext(UserContext);
   const { gamePick, setGamePick } = useContext(GamePickContext);
 
   const UpdatePick = async (result: GameResult) => {
@@ -27,6 +29,10 @@ export const PickSelector = () => {
     return actualPick === expectedPick ? "primary" : "secondary";
   };
 
+  const editable = () => {
+    return gamePick.editable || user?.isAdmin;
+  }
+
   return (
     <Card color={gamePick.editable ? "light" : "secondary"}>
       <CardBody>
@@ -38,7 +44,7 @@ export const PickSelector = () => {
             <Button
               color={getColor(gamePick.pick, GameResult.HomeWin)}
               onClick={() => UpdatePick(GameResult.HomeWin)}
-              disabled={!gamePick.editable}
+              disabled={!editable()}
             >
               <TeamDisplay id={gamePick.game?.homeTeamId}></TeamDisplay>
             </Button>
@@ -47,13 +53,13 @@ export const PickSelector = () => {
             <Button
               color={getColor(gamePick.pick, GameResult.AwayWin)}
               onClick={() => UpdatePick(GameResult.AwayWin)}
-              disabled={!gamePick.editable}
+              disabled={!editable()}
             >
               <TeamDisplay id={gamePick.game?.awayTeamId}></TeamDisplay>
             </Button>
           </Col>
           <Col className="col-2 text-center">
-            <Label>{gamePick.editable ? "Editable" : "Locked"}</Label>
+            <Label>{gamePick.editable ? "" : "Locked"}</Label>
           </Col>
         </Row>
       </CardBody>

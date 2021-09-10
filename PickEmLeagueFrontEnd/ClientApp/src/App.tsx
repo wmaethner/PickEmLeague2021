@@ -13,7 +13,7 @@ import { Games } from "./components/Games/Games";
 import { TeamProvider } from "./Data/Contexts/TeamsContext";
 import { LoginForm } from "./components/Authentication/LoginForm";
 import { GamePicks } from "./components/GamePicks/GamePicks";
-import { WeekProvider } from "./Data/Contexts/WeekContext";
+import { WeekContext, WeekProvider } from "./Data/Contexts/WeekContext";
 import { UserContext } from "./Data/Contexts/UserContext";
 import { useState } from "react";
 import { User } from "./Apis";
@@ -43,7 +43,9 @@ export default function App() {
             >
               <Switch>
                 <Route exact path="/">
-                  <Home></Home>
+                  <WeekProvider>
+                    <Home />
+                  </WeekProvider>
                 </Route>
                 <Route path="/games">
                   <Games />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Draggable,
   DraggingStyle,
@@ -7,6 +7,7 @@ import {
 import { PickSelector } from "./PickSelector";
 import { GamePick, GameResult } from "../../Apis";
 import { GamePickContext } from "../../Data/Contexts/GamePickContext";
+import { UserContext } from "../../Data/Contexts/UserContext";
 
 type Props = {
   gamePick: GamePick;
@@ -33,13 +34,19 @@ const getItemStyle = (
 });
 
 export function SortablePickRow(props: Props) {
+  const { user } = useContext(UserContext);
+
+  const editable = () => {
+    return props.gamePick.editable || user?.isAdmin;
+  }
+
   return (
     <Draggable
       key={props.gamePick.id}
       draggableId={props.gamePick.id?.toString()!}
       index={props.index}
       //TODO: time based disabled
-      isDragDisabled={!props.gamePick.editable}
+      isDragDisabled={!editable()}
     >
       {(provided, snapshot): JSX.Element => (
         <div

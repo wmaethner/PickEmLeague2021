@@ -15,12 +15,20 @@
 import * as runtime from "../runtime";
 import { Game, GameFromJSON, GameToJSON } from "../models";
 
+export interface GameCreateGameForWeekPostRequest {
+  week?: number;
+}
+
 export interface GameDeleteDeleteRequest {
   id?: number;
 }
 
 export interface GameDeleteGameDeleteRequest {
   id?: number;
+}
+
+export interface GameGetGamesForWeekGetRequest {
+  week?: number;
 }
 
 export interface GameGetGetRequest {
@@ -35,6 +43,40 @@ export interface GameUpdatePutRequest {
  *
  */
 export class GameApi extends runtime.BaseAPI {
+  /**
+   */
+  async gameCreateGameForWeekPostRaw(
+    requestParameters: GameCreateGameForWeekPostRequest
+  ): Promise<runtime.ApiResponse<Game>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.week !== undefined) {
+      queryParameters["week"] = requestParameters.week;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/Game/create-game-for-week`,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GameFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   */
+  async gameCreateGameForWeekPost(
+    requestParameters: GameCreateGameForWeekPostRequest
+  ): Promise<Game> {
+    const response = await this.gameCreateGameForWeekPostRaw(requestParameters);
+    return await response.value();
+  }
+
   /**
    */
   async gameCreatePostRaw(): Promise<runtime.ApiResponse<Game>> {
@@ -146,6 +188,40 @@ export class GameApi extends runtime.BaseAPI {
    */
   async gameGetAllGet(): Promise<Array<Game>> {
     const response = await this.gameGetAllGetRaw();
+    return await response.value();
+  }
+
+  /**
+   */
+  async gameGetGamesForWeekGetRaw(
+    requestParameters: GameGetGamesForWeekGetRequest
+  ): Promise<runtime.ApiResponse<Array<Game>>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.week !== undefined) {
+      queryParameters["week"] = requestParameters.week;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/Game/get-games-for-week`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(GameFromJSON)
+    );
+  }
+
+  /**
+   */
+  async gameGetGamesForWeekGet(
+    requestParameters: GameGetGamesForWeekGetRequest
+  ): Promise<Array<Game>> {
+    const response = await this.gameGetGamesForWeekGetRaw(requestParameters);
     return await response.value();
   }
 
