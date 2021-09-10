@@ -26,7 +26,7 @@ export const PickSelector = () => {
     actualPick: GameResult | undefined,
     expectedPick: GameResult
   ) => {
-    return actualPick === expectedPick ? "primary" : "secondary";
+    return actualPick === expectedPick ? "primary" : "light";
   };
 
   const editable = () => {
@@ -34,35 +34,41 @@ export const PickSelector = () => {
   }
 
   return (
-    <Card color={gamePick.editable ? "light" : "secondary"}>
-      <CardBody>
-        <Row>
-          <Col className="col-2">
-            <Label>{gamePick.wager}</Label>
-          </Col>
-          <Col className="col-4 text-center">
-            <Button
-              color={getColor(gamePick.pick, GameResult.HomeWin)}
-              onClick={() => UpdatePick(GameResult.HomeWin)}
-              disabled={!editable()}
-            >
-              <TeamDisplay id={gamePick.game?.homeTeamId}></TeamDisplay>
-            </Button>
-          </Col>
-          <Col className="col-4 text-center">
-            <Button
-              color={getColor(gamePick.pick, GameResult.AwayWin)}
-              onClick={() => UpdatePick(GameResult.AwayWin)}
-              disabled={!editable()}
-            >
-              <TeamDisplay id={gamePick.game?.awayTeamId}></TeamDisplay>
-            </Button>
-          </Col>
-          <Col className="col-2 text-center">
-            <Label>{gamePick.editable ? "" : "Locked"}</Label>
-          </Col>
-        </Row>
-      </CardBody>
-    </Card>
+    // <Card color={gamePick.editable ? "light" : "secondary"}>
+    //   <CardBody>
+    <Row color={gamePick.editable ? "light" : "secondary"}>
+      <Col className="col-2">
+        <Label>{gamePick.wager}</Label>
+      </Col>
+      <Col className="col-4 text-center">
+        <div className="d-grid gap-2">
+          <Button
+            color={getColor(gamePick.pick, GameResult.HomeWin)}
+            className="border border-dark"
+            onClick={() => UpdatePick(GameResult.HomeWin)}
+            disabled={!editable()}
+          >
+            <TeamDisplay id={gamePick.game?.homeTeamId}></TeamDisplay>
+          </Button>
+        </div>
+      </Col>
+      <Col className="col-4 text-center">
+        <div className="d-grid gap-2">
+          <Button
+            color={getColor(gamePick.pick, GameResult.AwayWin)}
+            className="border border-dark"
+            onClick={() => UpdatePick(GameResult.AwayWin)}
+            disabled={!editable()}
+          >
+            <TeamDisplay id={gamePick.game?.awayTeamId}></TeamDisplay>
+          </Button>
+        </div>
+      </Col>
+      <Col className="col-2 text-center">
+        <Label>{gamePick.editable ? "" : "Locked"}</Label>
+      </Col>
+    </Row>
+    //   </CardBody>
+    // </Card>
   );
 };
