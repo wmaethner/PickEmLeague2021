@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using PickEmLeagueModels.Models;
 using PickEmLeagueServices.DomainServices.Interfaces;
 using PickEmLeagueServices.Repositories.Interfaces;
 
@@ -11,12 +14,27 @@ namespace PickEmLeagueServices.DomainServices.Implementations
         private readonly IGameRepository _gameRepository;
         private readonly IUserRepository _userRepository;
         private readonly IGamePickService _gamePickService;
+        private readonly IMapper _mapper;
 
-        public GameService(IGameRepository gamerepository, IUserRepository userRepository, IGamePickService gamePickService)
+        public GameService(IGameRepository gamerepository, IUserRepository userRepository,
+            IGamePickService gamePickService, IMapper mapper)
         {
             _gameRepository = gamerepository;
             _userRepository = userRepository;
             _gamePickService = gamePickService;
+            _mapper = mapper;
+        }
+
+        public async Task<Game> CreateForWeek(int week)
+        {
+            return _mapper.Map<Game>(
+                await _gameRepository.CreateAsync(
+                    new PickEmLeagueDatabase.Entities.Game() { Week = week }));
+        }
+
+        public IEnumerable<Game> GetForWeek(int week)
+        {
+            return _mapper.Map<IEnumerable<Game>>(_gameRepository.GetByWeek(week));
         }
 
         public async Task<bool> DeleteGame(long id)
@@ -44,5 +62,6 @@ namespace PickEmLeagueServices.DomainServices.Implementations
 
             return true;
         }
+
     }
 }

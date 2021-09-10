@@ -8,67 +8,72 @@ import { SortablePickRow } from "./SortablePickRow";
 import { Col, Container, Row } from "reactstrap";
 import { useUpdateGamePicks } from "../../Data/GamePicks/useUpdateGamePicks";
 import { GamePickContext } from "../../Data/Contexts/GamePickContext";
-
-// a little function to help us with reordering the result
-const reorder = (
-  list: GamePick[],
-  startIndex: number,
-  endIndex: number
-): GamePick[] => {
-  // Result will be the intended order
-  // Next check for the locked rows
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  const copy = Array.from(result);
-  const final = Array(result.length);
-
-  // First put all locked picks in
-  for (let i = 0; i < result.length; i++) {
-    if (!result[i].editable) {
-      let index = copy.findIndex((x) => x.id === result[i].id);
-      const [pick] = copy.splice(index, 1);
-      final[result.length - pick.wager!] = pick;
-    }
-  }
-
-  for (let i = 0; i < copy.length; i++) {
-    for (let j = 0; j < final.length; j++) {
-      if (final[j] === undefined) {
-        final[j] = copy[i];
-        break;
-      }
-    }
-  }
-
-  return final;
-};
-
-const grid = 8;
-
-const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: grid,
-  //width: 250
-});
+import { WeekSelector } from "../Week/WeekSelector";
+import { Button } from "reactstrap";
 
 export function GamePicks() {
   const { user } = useUserContext();
-  const weekContext = useContext(WeekContext);
+  const { week, setWeek } = useContext(WeekContext);
   const [gamePicks, setGamePicks] = useState<GamePick[]>([]);
+  const [ignoreLocked, setIgnoreLocked] = useState(false);
 
   useEffect(() => {
     async function GetGamePicks() {
       let picks = await useGetGamePicksByUserAndWeek(
         user?.id!,
-        weekContext.week!
+        week!
       );
       picks.sort((a, b) => (a.wager! < b.wager! ? 1 : -1));
       setGamePicks(picks);
     }
     GetGamePicks();
-  }, [user, weekContext.week]);
+  }, [user, week]);
+
+  // a little function to help us with reordering the result
+  const reorder = (
+    list: GamePick[],
+    startIndex: number,
+    endIndex: number
+  ): GamePick[] => {
+    // Result will be the intended order
+    // Next check for the locked rows
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    if (ignoreLocked) { return result; }
+
+    const copy = Array.from(result);
+    const final = Array(result.length);
+
+    // First put all locked picks in
+    for (let i = 0; i < result.length; i++) {
+      if (!result[i].editable) {
+        let index = copy.findIndex((x) => x.id === result[i].id);
+        const [pick] = copy.splice(index, 1);
+        final[result.length - pick.wager!] = pick;
+      }
+    }
+
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < final.length; j++) {
+        if (final[j] === undefined) {
+          final[j] = copy[i];
+          break;
+        }
+      }
+    }
+
+    return final;
+  };
+
+  const grid = 8;
+
+  const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
+    background: isDraggingOver ? "lightblue" : "lightgrey",
+    padding: grid,
+    //width: 250
+  });
 
   const setSingleGamePick = (gamePick: GamePick) => {
     console.log("Updating game pick " + gamePick.id);
@@ -112,6 +117,8 @@ export function GamePicks() {
   // But in this example everything is just done in one place for simplicity
   return (
     <Container className="data-table">
+      <WeekSelector />
+
       <Row>
         <Col className="col-2 text-center">Wager</Col>
         <Col className="col-5 text-center">Home Team</Col>
@@ -138,6 +145,10 @@ export function GamePicks() {
           )}
         </Droppable>
       </DragDropContext>
+      <Button hidden={!user?.isAdmin} onClick={() => setIgnoreLocked(!ignoreLocked)}
+        color={ignoreLocked ? "primary" : "secondary"}>
+        Ignore Locked
+      </Button>
     </Container>
   );
 }

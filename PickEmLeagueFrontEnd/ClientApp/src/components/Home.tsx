@@ -4,10 +4,11 @@ import { WeekContext } from "../Data/Contexts/WeekContext";
 import { Container, Table } from "reactstrap";
 import { useGetScoreSummaryByWeek } from "../Data/ScoreSummary/useGetScoreSummaryByWeek";
 import { UsersWeeklyScoreSummary } from "../Apis/models/UsersWeeklyScoreSummary";
+import { WeekSelector } from "./Week/WeekSelector";
 
 export function Home() {
   const { user, loggedIn } = useUserContext();
-  const weekContext = useContext(WeekContext);
+  const { week, setWeek } = useContext(WeekContext);
   const [scoreSummary, setScoreSummary] = useState<
     Array<UsersWeeklyScoreSummary>
   >([]);
@@ -16,14 +17,15 @@ export function Home() {
     (async () => {
       await GetScoreSummary();
     })();
-  }, []);
+  }, [week]);
 
   const GetScoreSummary = async (): Promise<void> => {
-    setScoreSummary(await useGetScoreSummaryByWeek(weekContext.week!));
+    setScoreSummary(await useGetScoreSummaryByWeek(week!));
   };
 
   return (
     <Container className="data-table">
+      <WeekSelector />
       <Table>
         <thead>
           <tr>

@@ -20,11 +20,21 @@ namespace PickEmLeague.Controllers
             _gameService = gameService;
         }
 
+        [HttpPost("create-game-for-week")]
+        public async Task<Game> Create(int week)
+        {
+            return await _gameService.CreateForWeek(week);
+        }
+
+        [HttpGet("get-games-for-week")]
+        public IEnumerable<Game> GetForWeek(int week)
+        {
+            return _gameService.GetForWeek(week);
+        }
+
         [HttpDelete("delete-game")]
         public new async Task Delete(long id)
         {
-            //_logger.LogDebug($"Deleting {typeof(TModel)} with id {id}");
-            //await _repository.DeleteAsync(id);
             await _gameService.DeleteGame(id);
         }
     }
