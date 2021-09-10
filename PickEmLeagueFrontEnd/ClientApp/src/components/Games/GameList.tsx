@@ -9,8 +9,12 @@ import { TeamDisplay } from "../Teams/TeamDisplay";
 import { WeekContext } from "../../Data/Contexts/WeekContext";
 import { useGetGamesByWeek } from "../../Data/Game/useGetGamesByWeek";
 import { WeekSelector } from "../Week/WeekSelector";
+import { format, formatDistance, formatRelative, subDays } from 'date-fns'
+import { UserContext, useUserContext } from "../../Data/Contexts/UserContext";
+import { Row } from "reactstrap";
 
 export function GameList() {
+  const { user } = useContext(UserContext);
   const { week, setWeek } = useContext(WeekContext);
   const [games, setGames] = useState<Game[]>([]);
 
@@ -39,6 +43,12 @@ export function GameList() {
     await useDeleteGame(id);
   };
 
+  const formatDate = (isoString: string | null | undefined) => {
+    if (!isoString) return "";
+    let dt = new Date(isoString);
+    return format(dt, "eeee dd, MMM 'at' h:mm aa");
+  }
+
   return (
     <Container className="data-table">
       <WeekSelector />
@@ -46,33 +56,29 @@ export function GameList() {
       <Table striped bordered>
         <thead>
           <tr>
-            <th>Id</th>
             <th>Home Team</th>
             <th>Away Team</th>
-            <th>Week</th>
-            <th>Game Time</th>
+            <th>Game Time (ET)</th>
             <th>Result</th>
           </tr>
         </thead>
         <tbody>
           {games.map((game) => (
             <tr key={game.id}>
-              <td>{game.id}</td>
               <td>
                 <TeamDisplay id={game.homeTeamId} />
               </td>
               <td>
                 <TeamDisplay id={game.awayTeamId} />
               </td>
-              <td>{game.week}</td>
-              <td>{game.gameTimeString}</td>
+              <td>{formatDate(game.gameIsoString)}</td>
               <td>{game.gameResult}</td>
-              <td>
+              <td hidden={!user?.isAdmin}>
                 <Link to={"games/" + game.id} className="btn btn-primary">
                   Edit
                 </Link>
               </td>
-              <td>
+              <td hidden={!user?.isAdmin}>
                 <Button onClick={(e) => handleDeleteGame(game.id!)}>
                   Delete
                 </Button>
@@ -81,8 +87,10 @@ export function GameList() {
           ))}
         </tbody>
       </Table>
-      <Button onClick={AddGame}>Add Game</Button>
-      <Button onClick={GetGames}>Get Games</Button>
+      <Row hidden={!user?.isAdmin}>
+        <Button onClick={AddGame}>Add Game</Button>
+        <Button onClick={GetGames}>Get Games</Button>
+      </Row>
     </Container>
   );
 }

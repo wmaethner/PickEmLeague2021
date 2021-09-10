@@ -10,9 +10,11 @@ import { useUpdateGamePicks } from "../../Data/GamePicks/useUpdateGamePicks";
 import { GamePickContext } from "../../Data/Contexts/GamePickContext";
 import { WeekSelector } from "../Week/WeekSelector";
 import { Button } from "reactstrap";
+import { UserSelector } from "../Users/UserSelector";
 
 export function GamePicks() {
   const { user } = useUserContext();
+  const [pickUser, setPickUser] = useState(user);
   const { week, setWeek } = useContext(WeekContext);
   const [gamePicks, setGamePicks] = useState<GamePick[]>([]);
   const [ignoreLocked, setIgnoreLocked] = useState(false);
@@ -20,14 +22,14 @@ export function GamePicks() {
   useEffect(() => {
     async function GetGamePicks() {
       let picks = await useGetGamePicksByUserAndWeek(
-        user?.id!,
+        pickUser?.id!,
         week!
       );
       picks.sort((a, b) => (a.wager! < b.wager! ? 1 : -1));
       setGamePicks(picks);
     }
     GetGamePicks();
-  }, [user, week]);
+  }, [user, pickUser, week]);
 
   // a little function to help us with reordering the result
   const reorder = (
@@ -117,8 +119,10 @@ export function GamePicks() {
   // But in this example everything is just done in one place for simplicity
   return (
     <Container className="data-table">
+      <div hidden={!user?.isAdmin}>
+        <UserSelector user={pickUser!} setUser={setPickUser} />
+      </div>
       <WeekSelector />
-
       <Row>
         <Col className="col-2 text-center">Wager</Col>
         <Col className="col-5 text-center">Home Team</Col>

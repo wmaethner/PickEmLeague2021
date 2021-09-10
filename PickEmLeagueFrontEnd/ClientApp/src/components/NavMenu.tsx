@@ -21,11 +21,6 @@ export function NavMenu() {
     return user?.isAdmin ? (
       <ul className="navbar-nav flex-grow">
         <NavItem>
-          <NavLink tag={Link} className="text-dark" to="/games">
-            Games
-          </NavLink>
-        </NavItem>
-        <NavItem>
           <NavLink tag={Link} className="text-dark" to="/users">
             Users
           </NavLink>
@@ -47,6 +42,11 @@ export function NavMenu() {
         <NavItem>
           <NavLink tag={Link} className="text-dark" to="/gamePicks">
             Game Picks
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink tag={Link} className="text-dark" to="/games">
+            Schedule
           </NavLink>
         </NavItem>
       </ul>
