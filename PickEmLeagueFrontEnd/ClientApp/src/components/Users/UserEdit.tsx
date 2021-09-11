@@ -95,7 +95,7 @@ export function UserEdit() {
                 />
               </div>
             </div>
-            <div className="row form-group">
+            <div className="row form-group" hidden={!userToEdit.isAdmin}>
               <div className="col-3">
                 <label>Admin: </label>
               </div>
