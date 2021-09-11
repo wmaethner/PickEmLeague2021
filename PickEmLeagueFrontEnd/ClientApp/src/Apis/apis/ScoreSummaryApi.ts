@@ -13,13 +13,9 @@
  */
 
 import * as runtime from "../runtime";
-import {
-  UsersWeeklyScoreSummary,
-  UsersWeeklyScoreSummaryFromJSON,
-  UsersWeeklyScoreSummaryToJSON,
-} from "../models";
+import { UserSummary, UserSummaryFromJSON, UserSummaryToJSON } from "../models";
 
-export interface ScoreSummaryGetScoreSummaryGetRequest {
+export interface ScoreSummaryGetScoreSummariesGetRequest {
   week?: number;
 }
 
@@ -29,9 +25,9 @@ export interface ScoreSummaryGetScoreSummaryGetRequest {
 export class ScoreSummaryApi extends runtime.BaseAPI {
   /**
    */
-  async scoreSummaryGetScoreSummaryGetRaw(
-    requestParameters: ScoreSummaryGetScoreSummaryGetRequest
-  ): Promise<runtime.ApiResponse<Array<UsersWeeklyScoreSummary>>> {
+  async scoreSummaryGetScoreSummariesGetRaw(
+    requestParameters: ScoreSummaryGetScoreSummariesGetRequest
+  ): Promise<runtime.ApiResponse<Array<UserSummary>>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     if (requestParameters.week !== undefined) {
@@ -41,23 +37,23 @@ export class ScoreSummaryApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/ScoreSummary/getScoreSummary`,
+      path: `/ScoreSummary/getScoreSummaries`,
       method: "GET",
       headers: headerParameters,
       query: queryParameters,
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(UsersWeeklyScoreSummaryFromJSON)
+      jsonValue.map(UserSummaryFromJSON)
     );
   }
 
   /**
    */
-  async scoreSummaryGetScoreSummaryGet(
-    requestParameters: ScoreSummaryGetScoreSummaryGetRequest
-  ): Promise<Array<UsersWeeklyScoreSummary>> {
-    const response = await this.scoreSummaryGetScoreSummaryGetRaw(
+  async scoreSummaryGetScoreSummariesGet(
+    requestParameters: ScoreSummaryGetScoreSummariesGetRequest
+  ): Promise<Array<UserSummary>> {
+    const response = await this.scoreSummaryGetScoreSummariesGetRaw(
       requestParameters
     );
     return await response.value();

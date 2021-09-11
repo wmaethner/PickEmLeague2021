@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "run": "cd PickEmLeague && dotnet run",
     "migration": "dotnet ef migrations add $1 --project PickEmLeagueDatabase/PickEmLeagueDatabase.csproj --startup-project PickEmLeague/PickEmLeague.csproj",
     "publish": "rimraf ./publishes && dotnet publish PickEmLeague/PickEmLeague.csproj -o publishes/api",
     "package": "cd publishes/api && zip ../deploy.zip *"

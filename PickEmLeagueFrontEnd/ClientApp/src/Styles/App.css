@@ -1,28 +1,15 @@
 .app-container {
-
 }
-
-/* .background-image {
-  background: url(../Assets/background.jpeg);
-  width: 100vw;
-  height: 100vh;
-  background-position: center;
-  background-repeat:unset;
-  background-size: cover;
-  position:absolute;
-  top: 0;
-  left: 0;
-} */
 
 img.bg {
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 1024px;
-	
+
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
-	
+
   /* Set up positioning */
   /* position:relative ; */
   top: 0;
@@ -39,8 +26,9 @@ img.bg {
   opacity: 0.9;
 }
 
-body{margin:40px;}
-
+body {
+  margin: 40px;
+}
 
 .btn-circle {
   width: 30px;
@@ -66,4 +54,9 @@ body{margin:40px;}
   font-size: 24px;
   line-height: 1.33;
   border-radius: 35px;
+}
+
+.status-circle {
+  border: 1px solid black;
+  border-radius: 50%;
 }

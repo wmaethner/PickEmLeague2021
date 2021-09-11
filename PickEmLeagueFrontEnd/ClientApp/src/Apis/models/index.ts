@@ -5,4 +5,7 @@ export * from "./InlineObject";
 export * from "./LoginResponse";
 export * from "./Team";
 export * from "./User";
-export * from "./UsersWeeklyScoreSummary";
+export * from "./UserSeasonSummary";
+export * from "./UserSummary";
+export * from "./UserWeekSummary";
+export * from "./WeekPickStatus";

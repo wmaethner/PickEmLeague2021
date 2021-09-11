@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PickEmLeagueModels.Models;
 using PickEmLeagueModels.Models.Responses;
 using PickEmLeagueServices.DomainServices.Interfaces;
 
@@ -11,16 +13,19 @@ namespace PickEmLeague.Controllers
     public class ScoreSummaryController : ControllerBase
     {
         private readonly IScoreSummaryService _scoreSummaryService;
+        private readonly ILogger _logger;
 
-        public ScoreSummaryController(IScoreSummaryService scoreSummaryService)
+        public ScoreSummaryController(IScoreSummaryService scoreSummaryService, ILogger<ScoreSummaryController> logger)
         {
             _scoreSummaryService = scoreSummaryService;
+            _logger = logger;
         }
 
-        [HttpGet("getScoreSummary")]
-        public IEnumerable<UsersWeeklyScoreSummary> GetScoreSummary(int week)
+        [HttpGet("getScoreSummaries")]
+        public IEnumerable<UserSummary> GetScoreSummary(int week)
         {
-            return _scoreSummaryService.GetScoreSummary(week);
+            _logger.LogInformation($"Get score summaries: {week}");
+            return _scoreSummaryService.GetSummaries(week);
         }
     }
 }
