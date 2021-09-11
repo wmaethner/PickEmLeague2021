@@ -31,7 +31,7 @@ export const PickSelector = () => {
 
   const editable = () => {
     return gamePick.editable || user?.isAdmin;
-  }
+  };
 
   return (
     // <Card color={gamePick.editable ? "light" : "secondary"}>

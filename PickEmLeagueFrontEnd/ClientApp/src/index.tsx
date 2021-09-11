@@ -7,6 +7,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 // import 'custom.css';
+import './custom.css';
 
 const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");
 const rootElement = document.getElementById("root");

@@ -13,15 +13,13 @@ import { Games } from "./components/Games/Games";
 import { TeamProvider } from "./Data/Contexts/TeamsContext";
 import { LoginForm } from "./components/Authentication/LoginForm";
 import { GamePicks } from "./components/GamePicks/GamePicks";
-import { WeekContext, WeekProvider } from "./Data/Contexts/WeekContext";
+import { WeekProvider } from "./Data/Contexts/WeekContext";
 import { UserContext } from "./Data/Contexts/UserContext";
 import { useState } from "react";
 import { User } from "./Apis";
-import { Container } from "reactstrap";
 
 import "./Styles/App.css";
 
-//export default class App extends Component {
 export default function App() {
   //static displayName = App.name;
   const [user, setUserState] = useState<User>({});

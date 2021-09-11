@@ -17,6 +17,17 @@ export function NavMenu() {
   const [collapsed, setCollapse] = useState<boolean>(false);
   const { user } = useUserContext();
 
+  const userInitials = () => {
+    if (!user) { return ""; }
+    let names = user?.name!.split(" ");
+    if (!names) { return ""; }
+    let initials = "";
+    for (let i = 0; i < names.length; i++) {
+      initials += names[i][0].toUpperCase();
+    }
+    return initials;
+  }
+
   const adminPages = () => {
     return user?.isAdmin ? (
       <ul className="navbar-nav flex-grow">
@@ -53,6 +64,22 @@ export function NavMenu() {
     );
   };
 
+  const userLogo = () => {
+    return (
+      <ul className="navbar-nav flex-grow">
+        <NavItem>
+          <NavLink tag={Link} className="text-dark" to={"/users/" + user?.id}>
+            <button type="button"
+              className="btn btn-default btn-circle btn-lg"
+              style={{ backgroundColor: "lightblue" }}>
+              {userInitials()}
+            </button>
+          </NavLink>
+        </NavItem>
+      </ul>
+    );
+  }
+
   return (
     <header>
       <Navbar
@@ -72,6 +99,7 @@ export function NavMenu() {
             isOpen={!collapsed}
             navbar
           >
+            {userLogo()}
             {allUserPages()}
             {adminPages()}
           </Collapse>

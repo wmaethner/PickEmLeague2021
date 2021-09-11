@@ -21,10 +21,7 @@ export function GamePicks() {
 
   useEffect(() => {
     async function GetGamePicks() {
-      let picks = await useGetGamePicksByUserAndWeek(
-        pickUser?.id!,
-        week!
-      );
+      let picks = await useGetGamePicksByUserAndWeek(pickUser?.id!, week!);
       picks.sort((a, b) => (a.wager! < b.wager! ? 1 : -1));
       setGamePicks(picks);
     }
@@ -43,7 +40,9 @@ export function GamePicks() {
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
-    if (ignoreLocked) { return result; }
+    if (ignoreLocked) {
+      return result;
+    }
 
     const copy = Array.from(result);
     const final = Array(result.length);
@@ -149,8 +148,11 @@ export function GamePicks() {
           )}
         </Droppable>
       </DragDropContext>
-      <Button hidden={!user?.isAdmin} onClick={() => setIgnoreLocked(!ignoreLocked)}
-        color={ignoreLocked ? "primary" : "secondary"}>
+      <Button
+        hidden={!user?.isAdmin}
+        onClick={() => setIgnoreLocked(!ignoreLocked)}
+        color={ignoreLocked ? "primary" : "secondary"}
+      >
         Ignore Locked
       </Button>
     </Container>
