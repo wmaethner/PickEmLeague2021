@@ -1,8 +1,9 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import { Container, Form, Row } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { FormGroup, Label } from "reactstrap";
 import { User } from "../../Apis";
+import { UserContext } from "../../Data/Contexts/UserContext";
 import { useEditUser } from "../../Data/User/useEditUser";
 import { useGetUser } from "../../Data/User/useGetUser";
 
@@ -12,19 +13,20 @@ type UserEditParams = {
 
 export function UserEdit() {
   const history = useHistory();
-  const [user, setUser] = useState<User>({});
+  const { user } = useContext(UserContext);
+  const [userToEdit, setUserToEdit] = useState<User>({});
   const id = parseInt(useParams<UserEditParams>().userId);
 
   useEffect(() => {
     async function GetUser() {
-      setUser(await useGetUser(id));
+      setUserToEdit(await useGetUser(id));
     }
     GetUser();
   }, [id]);
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault();
-    SaveUser(user);
+    SaveUser(userToEdit);
     history.goBack();
   };
 
@@ -33,42 +35,74 @@ export function UserEdit() {
   };
 
   return (
-    <Container className="data-table">
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label>Name: </Label>
-          <input
-            type="text"
-            value={user.name || ""}
-            onChange={(e) => setUser({ ...user, name: e.target.value })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Email: </Label>
-          <input
-            type="text"
-            value={user.email || ""}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Password: </Label>
-          <input
-            type="text"
-            value={user.passwordHash || ""}
-            onChange={(e) => setUser({ ...user, passwordHash: e.target.value })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Admin: </Label>
-          <input
-            type="checkbox"
-            checked={user.isAdmin || false}
-            onChange={(e) => setUser({ ...user, isAdmin: e.target.checked })}
-          />
-        </FormGroup>
-        <input type="submit" value="Save" />
-      </Form>
-    </Container>
+    <div className="container">
+      <div className="auth-wrapper">
+        <div className="auth-inner">
+          <form onSubmit={handleSubmit}>
+            <div className="row form-group">
+              <div className="col-3">
+                <label>Name: </label>
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  value={userToEdit.name || ""}
+                  onChange={(e) => setUserToEdit({ ...user, name: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label>Username: </label>
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  value={userToEdit.username || ""}
+                  onChange={(e) => setUserToEdit({ ...user, username: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label>Email: </label>
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  value={userToEdit.email || ""}
+                  onChange={(e) => setUserToEdit({ ...user, email: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label>Password: </label>
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  value={userToEdit.passwordHash || ""}
+                  onChange={(e) => setUserToEdit({ ...user, passwordHash: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label>Admin: </label>
+              </div>
+              <div className="col">
+                <input
+                  type="checkbox"
+                  checked={userToEdit.isAdmin || false}
+                  onChange={(e) => setUserToEdit({ ...user, isAdmin: e.target.checked })}
+                />
+              </div>
+            </div>
+            <input type="submit" value="Save" disabled={user?.id != userToEdit.id && !user?.isAdmin} />
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }

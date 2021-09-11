@@ -9,7 +9,7 @@ import { TeamDisplay } from "../Teams/TeamDisplay";
 import { WeekContext } from "../../Data/Contexts/WeekContext";
 import { useGetGamesByWeek } from "../../Data/Game/useGetGamesByWeek";
 import { WeekSelector } from "../Week/WeekSelector";
-import { format, formatDistance, formatRelative, subDays } from 'date-fns'
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import { UserContext, useUserContext } from "../../Data/Contexts/UserContext";
 import { Row } from "reactstrap";
 
@@ -18,16 +18,16 @@ export function GameList() {
   const { week, setWeek } = useContext(WeekContext);
   const [games, setGames] = useState<Game[]>([]);
 
+  async function GetGames() {
+    const games = await useGetGamesByWeek(week!);
+    setGames(games);
+  }
+  
   useEffect(() => {
     (async () => {
       await GetGames();
     })();
-  }, [week]);
-
-  const GetGames = async (): Promise<void> => {
-    const games = await useGetGamesByWeek(week!);
-    setGames(games);
-  };
+  }, [GetGames, week]);
 
   const handleDeleteGame = async (gameId: number) => {
     await DeleteGame(gameId);
@@ -47,7 +47,7 @@ export function GameList() {
     if (!isoString) return "";
     let dt = new Date(isoString);
     return format(dt, "eeee dd, MMM 'at' h:mm aa");
-  }
+  };
 
   return (
     <Container className="data-table">

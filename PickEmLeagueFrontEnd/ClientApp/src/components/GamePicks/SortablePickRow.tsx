@@ -38,13 +38,13 @@ export function SortablePickRow(props: Props) {
 
   const editable = () => {
     return props.gamePick.editable || user?.isAdmin;
-  }
+  };
 
   const getDivClass = () => {
     let style = "border border-dark ";
-    style += (editable() ? "bg-light" : "bg-secondary");
+    style += editable() ? "bg-light" : "bg-secondary";
     return style;
-  }
+  };
 
   return (
     <div className={getDivClass()}>
@@ -66,7 +66,10 @@ export function SortablePickRow(props: Props) {
             )}
           >
             <GamePickContext.Provider
-              value={{ gamePick: props.gamePick, setGamePick: props.setGamePick }}
+              value={{
+                gamePick: props.gamePick,
+                setGamePick: props.setGamePick,
+              }}
             >
               <PickSelector />
             </GamePickContext.Provider>
@@ -74,6 +77,5 @@ export function SortablePickRow(props: Props) {
         )}
       </Draggable>
     </div>
-
   );
 }

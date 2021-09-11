@@ -46,6 +46,15 @@ body {
   display: flex;
   font-weight: 400;
   font-family: "Fira Sans", sans-serif;
+  background: url(./Assets/background.jpeg);
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-repeat:no-repeat;
+  background-size: cover;
+  position:absolute;
+  top: 0;
+  left: 0;
 }
 
 h1,
