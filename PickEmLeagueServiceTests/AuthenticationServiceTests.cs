@@ -12,6 +12,7 @@ namespace PickEmLeagueServiceTests
         private readonly IAuthenticationService _authenticationService;
 
         private string ValidEmail = "valid@valid.com";
+        private string ValidEmailDifferentCase = "Valid@valid.com";
         private string InvalidEmail = "invalid@valid.com";
         private string ValidPassword = "valid";
         private string InvalidPassword = "invalid";
@@ -31,6 +32,15 @@ namespace PickEmLeagueServiceTests
         public void AttemptLogin_ValidCredentials_ReturnsSuccess()
         {
             var response = _authenticationService.AttempLogin(ValidEmail, ValidPassword);
+
+            Assert.True(response.LoggedIn);
+            Assert.NotNull(response.User);
+        }
+
+        [Fact]
+        public void AttemptLogin_ValidCredentials_DifferentEmailCase_ReturnsSuccess()
+        {
+            var response = _authenticationService.AttempLogin(ValidEmailDifferentCase, ValidPassword);
 
             Assert.True(response.LoggedIn);
             Assert.NotNull(response.User);
