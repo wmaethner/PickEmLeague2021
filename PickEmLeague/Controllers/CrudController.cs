@@ -30,14 +30,14 @@ namespace PickEmLeague.Controllers
         [HttpPost("create")]
         public async Task<TModel> Add()
         {
-            _logger.LogDebug($"Adding new {typeof(TModel)}");
+            _logger.LogInformation($"Adding new {typeof(TModel)}");
             return MapEntity(await _repository.CreateAsync());
         }
 
         [HttpGet("get-all")]
         public IEnumerable<TModel> GetAll()
         {
-            _logger.LogDebug($"Getting all {typeof(TModel)}");
+            _logger.LogInformation($"Getting all {typeof(TModel)}");
             IEnumerable<TEntity> entities = _repository.GetAll();
             return _mapper.Map<IEnumerable<TModel>>(entities);
         }
@@ -45,21 +45,21 @@ namespace PickEmLeague.Controllers
         [HttpGet("get")]
         public async Task<TModel> Get(long id)
         {
-            _logger.LogDebug($"Getting {typeof(TModel)} with id {id}");
+            _logger.LogInformation($"Getting {typeof(TModel)} with id {id}");
             return MapEntity(await _repository.GetById(id));
         }
 
         [HttpPut("update")]
         public async Task Edit(TModel model)
         {
-            _logger.LogDebug($"Editing {typeof(TModel)} with id {model.Id}");
+            _logger.LogInformation($"Editing {typeof(TModel)} with id {model.Id}");
             await _repository.UpdateAsync(model);
         }
 
         [HttpDelete("delete")]
         public async Task Delete(long id)
         {
-            _logger.LogDebug($"Deleting {typeof(TModel)} with id {id}");
+            _logger.LogInformation($"Deleting {typeof(TModel)} with id {id}");
             await _repository.DeleteAsync(id);
         }
 

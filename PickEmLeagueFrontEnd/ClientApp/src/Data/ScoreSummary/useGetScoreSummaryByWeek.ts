@@ -1,13 +1,10 @@
-import { GamePickApi } from "../../Apis/apis/GamePickApi";
+import { UserSummary } from "../../Apis";
 import { ScoreSummaryApi } from "../../Apis/apis/ScoreSummaryApi";
-import { GamePick } from "../../Apis/models/GamePick";
-import { ScoreSummaryResponse } from "../../Apis/models/ScoreSummaryResponse";
-import { UsersWeeklyScoreSummary } from "../../Apis/models/UsersWeeklyScoreSummary";
 import { useApi } from "../useApi";
 
 export const useGetScoreSummaryByWeek = async (
   week: number
-): Promise<Array<UsersWeeklyScoreSummary>> => {
+): Promise<Array<UserSummary>> => {
   const scoreSummaryApi = useApi(ScoreSummaryApi);
-  return await scoreSummaryApi.scoreSummaryGetScoreSummaryGet({ week: week });
+  return await scoreSummaryApi.scoreSummaryGetScoreSummariesGet({ week: week });
 };

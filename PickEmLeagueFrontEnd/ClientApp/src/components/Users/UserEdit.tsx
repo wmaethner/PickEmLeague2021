@@ -47,7 +47,9 @@ export function UserEdit() {
                 <input
                   type="text"
                   value={userToEdit.name || ""}
-                  onChange={(e) => setUserToEdit({ ...user, name: e.target.value })}
+                  onChange={(e) =>
+                    setUserToEdit({ ...user, name: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -59,7 +61,9 @@ export function UserEdit() {
                 <input
                   type="text"
                   value={userToEdit.username || ""}
-                  onChange={(e) => setUserToEdit({ ...user, username: e.target.value })}
+                  onChange={(e) =>
+                    setUserToEdit({ ...user, username: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -71,7 +75,9 @@ export function UserEdit() {
                 <input
                   type="text"
                   value={userToEdit.email || ""}
-                  onChange={(e) => setUserToEdit({ ...user, email: e.target.value })}
+                  onChange={(e) =>
+                    setUserToEdit({ ...user, email: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -83,7 +89,9 @@ export function UserEdit() {
                 <input
                   type="text"
                   value={userToEdit.passwordHash || ""}
-                  onChange={(e) => setUserToEdit({ ...user, passwordHash: e.target.value })}
+                  onChange={(e) =>
+                    setUserToEdit({ ...user, passwordHash: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -95,11 +103,17 @@ export function UserEdit() {
                 <input
                   type="checkbox"
                   checked={userToEdit.isAdmin || false}
-                  onChange={(e) => setUserToEdit({ ...user, isAdmin: e.target.checked })}
+                  onChange={(e) =>
+                    setUserToEdit({ ...user, isAdmin: e.target.checked })
+                  }
                 />
               </div>
             </div>
-            <input type="submit" value="Save" disabled={user?.id != userToEdit.id && !user?.isAdmin} />
+            <input
+              type="submit"
+              value="Save"
+              disabled={user?.id != userToEdit.id && !user?.isAdmin}
+            />
           </form>
         </div>
       </div>

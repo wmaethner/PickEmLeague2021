@@ -535,7 +535,7 @@
         }
       }
     },
-    "/ScoreSummary/getScoreSummary": {
+    "/ScoreSummary/getScoreSummaries": {
       "get": {
         "tags": ["ScoreSummary"],
         "parameters": [
@@ -556,7 +556,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UsersWeeklyScoreSummary"
+                    "$ref": "#/components/schemas/UserSummary"
                   }
                 }
               },
@@ -564,7 +564,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UsersWeeklyScoreSummary"
+                    "$ref": "#/components/schemas/UserSummary"
                   }
                 }
               },
@@ -572,7 +572,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UsersWeeklyScoreSummary"
+                    "$ref": "#/components/schemas/UserSummary"
                   }
                 }
               }
@@ -918,22 +918,55 @@
         },
         "additionalProperties": false
       },
-      "UsersWeeklyScoreSummary": {
+      "UserSeasonSummary": {
         "type": "object",
         "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
-          },
-          "weekScore": {
+          "seasonScore": {
             "type": "integer",
             "format": "int32"
           },
-          "seasonScore": {
+          "correctPicks": {
             "type": "integer",
             "format": "int32"
           }
         },
         "additionalProperties": false
+      },
+      "UserSummary": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "weekSummary": {
+            "$ref": "#/components/schemas/UserWeekSummary"
+          },
+          "seasonSummary": {
+            "$ref": "#/components/schemas/UserSeasonSummary"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserWeekSummary": {
+        "type": "object",
+        "properties": {
+          "weekScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "weekPickStatus": {
+            "$ref": "#/components/schemas/WeekPickStatus"
+          },
+          "correctPicks": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeekPickStatus": {
+        "enum": ["NotPicked", "PartiallyPicked", "FullyPicked"],
+        "type": "string"
       }
     }
   }

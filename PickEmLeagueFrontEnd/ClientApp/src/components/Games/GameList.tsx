@@ -22,7 +22,7 @@ export function GameList() {
     const games = await useGetGamesByWeek(week!);
     setGames(games);
   }
-  
+
   useEffect(() => {
     (async () => {
       await GetGames();

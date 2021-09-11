@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using PickEmLeagueModels.Models.Responses;
+﻿using System.Collections.Generic;
+using PickEmLeagueModels.Models;
 
 namespace PickEmLeagueServices.DomainServices.Interfaces
 {
     public interface IScoreSummaryService
     {
-        IEnumerable<UsersWeeklyScoreSummary> GetScoreSummary(int week);
+        IEnumerable<UserSummary> GetSummaries(int week);
     }
 }

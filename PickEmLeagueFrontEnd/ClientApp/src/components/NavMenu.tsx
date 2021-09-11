@@ -18,15 +18,19 @@ export function NavMenu() {
   const { user } = useUserContext();
 
   const userInitials = () => {
-    if (!user) { return ""; }
+    if (!user) {
+      return "";
+    }
     let names = user?.name!.split(" ");
-    if (!names) { return ""; }
+    if (!names) {
+      return "";
+    }
     let initials = "";
     for (let i = 0; i < names.length; i++) {
       initials += names[i][0].toUpperCase();
     }
     return initials;
-  }
+  };
 
   const adminPages = () => {
     return user?.isAdmin ? (
@@ -69,16 +73,18 @@ export function NavMenu() {
       <ul className="navbar-nav flex-grow">
         <NavItem>
           <NavLink tag={Link} className="text-dark" to={"/users/" + user?.id}>
-            <button type="button"
+            <button
+              type="button"
               className="btn btn-default btn-circle btn-lg"
-              style={{ backgroundColor: "lightblue" }}>
+              style={{ backgroundColor: "lightblue" }}
+            >
               {userInitials()}
             </button>
           </NavLink>
         </NavItem>
       </ul>
     );
-  }
+  };
 
   return (
     <header>
