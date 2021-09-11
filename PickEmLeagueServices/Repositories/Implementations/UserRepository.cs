@@ -16,7 +16,7 @@ namespace PickEmLeagueServices.Repositories.Implementations
 
         public User GetByEmail(string email)
         {
-            return GetQueryable().FirstOrDefault(u => u.Email == email);
+            return GetQueryable().FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
         }
     }
 }
