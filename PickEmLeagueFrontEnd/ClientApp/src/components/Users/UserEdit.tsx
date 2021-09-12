@@ -2,22 +2,29 @@ import React, { FormEvent, useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { User } from "../../Apis";
 import { UserContext } from "../../Data/Contexts/UserContext";
+import { SetUserImage } from "../../Data/Images/useSetUserImage";
 import { useEditUser } from "../../Data/User/useEditUser";
 import { useGetUser } from "../../Data/User/useGetUser";
+import { ProfilePicture } from "../Images/ProfilePicture";
 
 type UserEditParams = {
   userId: string;
 };
 
+async function GetUserExt(id: number) {
+  return await useGetUser(id);
+}
+
 export function UserEdit() {
   const history = useHistory();
   const { user } = useContext(UserContext);
   const [userToEdit, setUserToEdit] = useState<User>({});
+  const [file, setFile] = useState<File | null>();
   const id = parseInt(useParams<UserEditParams>().userId);
 
   useEffect(() => {
     async function GetUser() {
-      setUserToEdit(await useGetUser(id));
+      setUserToEdit(await GetUserExt(id))
     }
     GetUser();
   }, [id]);
@@ -26,6 +33,16 @@ export function UserEdit() {
     evt.preventDefault();
     SaveUser(userToEdit);
     history.goBack();
+  };
+
+  const handleFileChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (evt.target.files) {
+      setFile(evt.target.files[0]);
+      SetUserImage(user?.id!, evt.target.files[0]);
+      setUserToEdit(await GetUserExt(id));
+    } else {
+      setFile(null);
+    }
   };
 
   const SaveUser = async (user: User): Promise<void> => {
@@ -88,7 +105,10 @@ export function UserEdit() {
                   type="text"
                   value={userToEdit.passwordHash || ""}
                   onChange={(e) =>
-                    setUserToEdit({ ...userToEdit, passwordHash: e.target.value })
+                    setUserToEdit({
+                      ...userToEdit,
+                      passwordHash: e.target.value,
+                    })
                   }
                 />
               </div>
@@ -107,6 +127,11 @@ export function UserEdit() {
                 />
               </div>
             </div>
+            <div className="row form-group">
+              <input type="file" onChange={handleFileChange} />
+              <label>{"File name: " + file?.name}</label>         
+            </div>
+            <ProfilePicture userId={userToEdit.id} />
             <input
               type="submit"
               value="Save"

@@ -51,7 +51,7 @@ namespace PickEmLeagueServiceTests
         [Fact]
         public void GetSummaries_UserHasntMadePicks_ZeroPointsAndCorrectStatus()
         {
-            var summary = _scoreSummaryService.GetSummaries(1);
+            var summary = _scoreSummaryService.GetSummariesAsync(1);
             var userSummary = summary.ToList()[0];
 
             Assert.Equal(1, userSummary.User.Id);
@@ -71,7 +71,7 @@ namespace PickEmLeagueServiceTests
 
             await _gamePickService.UpdateByUserAndWeekAsync(gamePicks);
 
-            var summary = _scoreSummaryService.GetSummaries(2);
+            var summary = _scoreSummaryService.GetSummariesAsync(2);
             var userSummary = summary.ToList()[0];
 
             Assert.Equal(1, userSummary.User.Id);

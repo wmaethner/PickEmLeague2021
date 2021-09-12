@@ -8,8 +8,7 @@ import { Game, GameResult, User, UserSummary, WeekPickStatus } from "../Apis";
 import { BsCircleFill } from "react-icons/bs";
 import ReactTooltip from "react-tooltip";
 import { useGetGamesByWeek } from "../Data/Game/useGetGamesByWeek";
-import { useGetUserImage } from "../Data/Images/useGetUserImage";
-import { Image } from "react-bootstrap";
+import { ProfilePicture } from "./Images/ProfilePicture";
 
 function useGetGames(week: number | undefined) {
   const [games, setGames] = useState<Game[]>([]);
@@ -32,7 +31,8 @@ function useGetScoreSummaries(week: number | undefined) {
 
   useEffect(() => {
     async function GetSummaries() {
-      setScoreSummary(await useGetScoreSummaryByWeek(week));
+      let response = await useGetScoreSummaryByWeek(week);
+      setScoreSummary(response);
     }
     GetSummaries();
   }, [week]);
@@ -42,48 +42,22 @@ function useGetScoreSummaries(week: number | undefined) {
 
 export function Home() {
   const { user, loggedIn } = useUserContext();
-  // const [image, setImage] = useState("");
   const { week } = useContext(WeekContext);
-  // const [scoreSummary, setScoreSummary] = useState<Array<UserSummary>>([]);
-  //const [games, setGames] = useState<Game[]>([]);
   const games = useGetGames(week);
   const scoreSummary = useGetScoreSummaries(week);
 
-  // const GetGames = useCallback(async () => {
-  //   const games = await useGetGamesByWeek(week!);
-  //   setGames(games);
-  // }, [week])
-  // async function GetGames() {
-  //   const games = await useGetGamesByWeek(week!);
-  //   setGames(games);
-  // }
+  function userDisplay(user: User, index: number) {
+    return (
+      <div className="row align-items-center">
+        <div className="col">{usersNameDisplay(user, index)}</div>
+        <div className="col">
+          <ProfilePicture userId={user.id} />
+        </div>
+      </div>
+    );
+  }
 
-  // const GetScoreSummary = useCallback(async () => {
-  //   setScoreSummary(await useGetScoreSummaryByWeek(week!));
-  // }, [week])
-
-  // async function GetScoreSummary() {
-
-  // }
-
-  // async function GetImage(userId: number) {
-  //   return await useGetUserImage(userId);
-  //   // setImage("data:image/jpeg;base64," + response.valueOf());
-  // }
-
-  // useEffect(() => {
-  //   (async () => {
-  //     await GetGames();
-  //   })();
-  // }, [GetGames]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     await GetScoreSummary();
-  //   })();
-  // }, [GetScoreSummary]);
-
-  async function userDisplay(user: User, index: number) {
+  function usersNameDisplay(user: User, index: number) {
     if (user.username) {
       return (
         <div>
@@ -94,14 +68,17 @@ export function Home() {
           >
             {user.username}
           </label>
-          {/* <Image src={await GetImage(user.id!)} /> */}
           <ReactTooltip id={user.id?.toString()} type="info">
             <span>{user.name}</span>
           </ReactTooltip>
         </div>
       );
     }
-    return <label>{user.name}</label>;
+    return (
+      <div>
+        <label>{user.name}</label>
+      </div>
+    );
   }
 
   function displayPickStatus(status: WeekPickStatus | undefined) {
@@ -157,11 +134,16 @@ export function Home() {
     <Container className="data-table">
       <WeekSelector />
       {/* <Image src={image} /> */}
+
       <Table>
         <thead>
           <tr>
             <th>User</th>
-            <th></th>
+            <th>
+              <label id="pick-status" data-tip data-for="pick-status">
+                Pick Status
+              </label>
+            </th>
             <th>Week Score</th>
             <th>Correct Picks</th>
             <th>Season Score</th>
@@ -183,6 +165,11 @@ export function Home() {
           ))}
         </tbody>
       </Table>
+      <ReactTooltip id="pick-status" type="info">
+        <p>Green = Fully picked</p>
+        <p>Yellow = Some picked</p>
+        <p>Red = None picked</p>
+      </ReactTooltip>
       {/* <Button onClick={() => GetImage()}>Image</Button> */}
       {/* <Button onClick={() => GetScoreSummary()}>Refresh</Button> */}
     </Container>

@@ -574,6 +574,44 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": ["Image"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "formFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "formFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/ScoreSummary/getScoreSummaries": {
@@ -949,6 +987,15 @@
             "type": "boolean"
           },
           "passwordHash": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePic": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "picType": {
             "type": "string",
             "nullable": true
           },

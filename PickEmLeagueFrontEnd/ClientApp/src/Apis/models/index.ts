@@ -2,6 +2,7 @@ export * from "./Game";
 export * from "./GamePick";
 export * from "./GameResult";
 export * from "./InlineObject";
+export * from "./InlineObject1";
 export * from "./LoginResponse";
 export * from "./Team";
 export * from "./User";

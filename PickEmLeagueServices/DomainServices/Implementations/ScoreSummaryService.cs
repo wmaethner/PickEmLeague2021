@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using PickEmLeagueModels.Models;
 using PickEmLeagueServices.DomainServices.Interfaces;
@@ -12,27 +13,54 @@ namespace PickEmLeagueServices.DomainServices.Implementations
     {
         private readonly IUserRepository _userRepository;
         private readonly IGamePickRepository _gamePickRepository;
+        private readonly IAwsS3Service _awsS3Service;
         private readonly IMapper _mapper;
 
         public ScoreSummaryService(IUserRepository userRepository, IGamePickRepository gamePickRepository,
-            IMapper mapper)
+            IAwsS3Service awsS3Service, IMapper mapper)
         {
             _userRepository = userRepository;
             _gamePickRepository = gamePickRepository;
+            _awsS3Service = awsS3Service;
             _mapper = mapper;
         }
 
-        public IEnumerable<UserSummary> GetSummaries(int week)
+        public async Task<IEnumerable<UserSummary>> GetSummariesAsync(int week)
         {
             var summaries = new List<UserSummary>();
             var users = _userRepository.GetAll().ToList();
 
-            foreach (var user in _mapper.Map<List<User>>(users))
+            foreach (var user in await MapUsersAsync(users))
             {
                 summaries.Add(GetUserSummary(user, week));
             }
 
             return summaries.OrderByDescending(x => x.WeekSummary.WeekScore).ThenBy(y => y.User.Name);
+        }
+
+        private async Task<IEnumerable<User>> MapUsersAsync(IEnumerable<PickEmLeagueDatabase.Entities.User> entities)
+        {
+            var models = new List<User>();
+
+            foreach (var entity in entities)
+            {
+                var model = _mapper.Map<User>(entity);
+                if (string.IsNullOrEmpty(entity.ProfilePictureKey))
+                {
+                    //model.ProfilePic = await _awsS3Service.GetDefaultUserImageAsync();
+                    model.PicType = "svg";
+                }
+                else
+                {
+                    //model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
+                    model.PicType = entity.ProfilePictureKey.Split(".").Last();
+                }
+                model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
+
+                models.Add(model);
+            }
+
+            return models;
         }
 
         private UserSummary GetUserSummary(User user, int week)
@@ -76,6 +104,7 @@ namespace PickEmLeagueServices.DomainServices.Implementations
 
             return summary;
         }
+
 
         private bool CorrectPick(GameResult usersPick, PickEmLeagueDatabase.Entities.Game game)
         {

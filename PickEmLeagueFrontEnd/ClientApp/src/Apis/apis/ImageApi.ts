@@ -18,6 +18,11 @@ export interface ImageGetRequest {
   userId?: number;
 }
 
+export interface ImagePostRequest {
+  userId?: number;
+  formFile?: Blob;
+}
+
 /**
  *
  */
@@ -50,5 +55,55 @@ export class ImageApi extends runtime.BaseAPI {
   async imageGet(requestParameters: ImageGetRequest): Promise<string> {
     const response = await this.imageGetRaw(requestParameters);
     return await response.value();
+  }
+
+  /**
+   */
+  async imagePostRaw(
+    requestParameters: ImagePostRequest
+  ): Promise<runtime.ApiResponse<void>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.userId !== undefined) {
+      queryParameters["userId"] = requestParameters.userId;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const consumes: runtime.Consume[] = [
+      { contentType: "multipart/form-data" },
+    ];
+    // @ts-ignore: canConsumeForm may be unused
+    const canConsumeForm = runtime.canConsumeForm(consumes);
+
+    let formParams: { append(param: string, value: any): any };
+    let useForm = false;
+    // use FormData to transmit files using content-type "multipart/form-data"
+    useForm = canConsumeForm;
+    if (useForm) {
+      formParams = new FormData();
+    } else {
+      formParams = new URLSearchParams();
+    }
+
+    if (requestParameters.formFile !== undefined) {
+      formParams.append("formFile", requestParameters.formFile as any);
+    }
+
+    const response = await this.request({
+      path: `/Image`,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: formParams,
+    });
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   */
+  async imagePost(requestParameters: ImagePostRequest): Promise<void> {
+    await this.imagePostRaw(requestParameters);
   }
 }
