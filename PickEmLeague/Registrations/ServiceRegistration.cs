@@ -13,6 +13,7 @@ namespace PickEmLeague.Registrations
             services.AddScoped<IGamePickService, GamePickService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IScoreSummaryService, ScoreSummaryService>();
+            services.AddScoped<IAwsS3Service, AwsS3Service>();
 
             return services;
         }

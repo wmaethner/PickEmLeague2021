@@ -17,6 +17,7 @@ namespace PickEmLeagueServices.Repositories.Interfaces
         IEnumerable<TEntity> GetAll();
         Task<TEntity> UpdateAsync(TModel model);
         Task<bool> DeleteAsync(long id);
+        Task SaveAsync();
 
         IQueryable<TEntity> GetQueryable();
     }

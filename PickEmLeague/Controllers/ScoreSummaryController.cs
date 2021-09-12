@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PickEmLeagueModels.Models;
@@ -22,10 +23,10 @@ namespace PickEmLeague.Controllers
         }
 
         [HttpGet("getScoreSummaries")]
-        public IEnumerable<UserSummary> GetScoreSummary(int week)
+        public async Task<IEnumerable<UserSummary>> GetScoreSummaryAsync(int week)
         {
             _logger.LogInformation($"Get score summaries: {week}");
-            return _scoreSummaryService.GetSummaries(week);
+            return await _scoreSummaryService.GetSummariesAsync(week);
         }
     }
 }

@@ -67,9 +67,16 @@ namespace PickEmLeagueServices.Repositories.Implementations
             return entity;
         }
 
+        public async Task SaveAsync()
+        {
+            await Save();
+        }
+
         private async Task Save()
         {
             await _dbContext.SaveChangesAsync();
         }
+
+
     }
 }

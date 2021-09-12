@@ -51,6 +51,18 @@ export interface User {
   passwordHash?: string | null;
   /**
    *
+   * @type {string}
+   * @memberof User
+   */
+  profilePic?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  picType?: string | null;
+  /**
+   *
    * @type {number}
    * @memberof User
    */
@@ -76,6 +88,8 @@ export function UserFromJSONTyped(
     passwordHash: !exists(json, "passwordHash")
       ? undefined
       : json["passwordHash"],
+    profilePic: !exists(json, "profilePic") ? undefined : json["profilePic"],
+    picType: !exists(json, "picType") ? undefined : json["picType"],
     id: !exists(json, "id") ? undefined : json["id"],
   };
 }
@@ -93,6 +107,8 @@ export function UserToJSON(value?: User | null): any {
     email: value.email,
     isAdmin: value.isAdmin,
     passwordHash: value.passwordHash,
+    profilePic: value.profilePic,
+    picType: value.picType,
     id: value.id,
   };
 }
