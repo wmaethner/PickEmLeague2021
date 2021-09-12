@@ -1,7 +1,5 @@
 import React, { FormEvent, useContext, useEffect, useState } from "react";
-import { Container, Form, Row } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
-import { FormGroup, Label } from "reactstrap";
 import { User } from "../../Apis";
 import { UserContext } from "../../Data/Contexts/UserContext";
 import { useEditUser } from "../../Data/User/useEditUser";
@@ -48,7 +46,7 @@ export function UserEdit() {
                   type="text"
                   value={userToEdit.name || ""}
                   onChange={(e) =>
-                    setUserToEdit({ ...user, name: e.target.value })
+                    setUserToEdit({ ...userToEdit, name: e.target.value })
                   }
                 />
               </div>
@@ -62,7 +60,7 @@ export function UserEdit() {
                   type="text"
                   value={userToEdit.username || ""}
                   onChange={(e) =>
-                    setUserToEdit({ ...user, username: e.target.value })
+                    setUserToEdit({ ...userToEdit, username: e.target.value })
                   }
                 />
               </div>
@@ -76,7 +74,7 @@ export function UserEdit() {
                   type="text"
                   value={userToEdit.email || ""}
                   onChange={(e) =>
-                    setUserToEdit({ ...user, email: e.target.value })
+                    setUserToEdit({ ...userToEdit, email: e.target.value })
                   }
                 />
               </div>
@@ -90,7 +88,7 @@ export function UserEdit() {
                   type="text"
                   value={userToEdit.passwordHash || ""}
                   onChange={(e) =>
-                    setUserToEdit({ ...user, passwordHash: e.target.value })
+                    setUserToEdit({ ...userToEdit, passwordHash: e.target.value })
                   }
                 />
               </div>
@@ -104,7 +102,7 @@ export function UserEdit() {
                   type="checkbox"
                   checked={userToEdit.isAdmin || false}
                   onChange={(e) =>
-                    setUserToEdit({ ...user, isAdmin: e.target.checked })
+                    setUserToEdit({ ...userToEdit, isAdmin: e.target.checked })
                   }
                 />
               </div>
