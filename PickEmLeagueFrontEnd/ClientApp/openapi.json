@@ -942,6 +942,10 @@
             "type": "boolean",
             "readOnly": true
           },
+          "correctPick": {
+            "type": "boolean",
+            "readOnly": true
+          },
           "user": {
             "$ref": "#/components/schemas/User"
           },
