@@ -7,7 +7,10 @@ import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { GamePickContext } from "../../Data/Contexts/GamePickContext";
 import { UserContext } from "../../Data/Contexts/UserContext";
 
-export const PickSelector = () => {
+type Props = {
+  ignoreLock: boolean;
+};
+export function PickSelector (props: Props) {
   const { user } = useContext(UserContext);
   const { gamePick, setGamePick } = useContext(GamePickContext);
 
@@ -30,7 +33,7 @@ export const PickSelector = () => {
   };
 
   const editable = () => {
-    return gamePick.editable || user?.isAdmin;
+    return gamePick.editable || props.ignoreLock; //user?.isAdmin;
   };
 
   return (

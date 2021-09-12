@@ -12,6 +12,7 @@ import { UserContext } from "../../Data/Contexts/UserContext";
 type Props = {
   gamePick: GamePick;
   index: number;
+  ignoreLock: boolean;
   setGamePick: (gamePick: GamePick) => void;
 };
 
@@ -74,7 +75,7 @@ export function SortablePickRow(props: Props) {
                 setGamePick: props.setGamePick,
               }}
             >
-              <PickSelector />
+              <PickSelector ignoreLock={props.ignoreLock}/>
             </GamePickContext.Provider>
           </div>
         )}
