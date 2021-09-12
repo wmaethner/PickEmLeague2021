@@ -12,10 +12,14 @@
     <None Remove="DomainServices\" />
     <None Remove="DomainServices\Interfaces\" />
     <None Remove="DomainServices\Implementations\" />
+    <None Remove="AWSSDK.S3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DomainServices\" />
     <Folder Include="DomainServices\Interfaces\" />
     <Folder Include="DomainServices\Implementations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.2.4" />
   </ItemGroup>
 </Project>
