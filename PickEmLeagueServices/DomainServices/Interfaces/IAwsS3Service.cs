@@ -6,9 +6,9 @@ namespace PickEmLeagueServices.DomainServices.Interfaces
 {
     public interface IAwsS3Service
     {
-        Task<byte[]> GetUserImageAsync(long userId);
-        Task<byte[]> GetDefaultUserImageAsync();
+        Task<byte[]> GetUserImageAsync(long userId, string access, string secret);
+        Task<byte[]> GetDefaultUserImageAsync(string access, string secret);
 
-        Task SetUserImage(long userId, Stream file, string key);
+        Task SetUserImage(long userId, Stream file, string key, string access, string secret);
     }
 }

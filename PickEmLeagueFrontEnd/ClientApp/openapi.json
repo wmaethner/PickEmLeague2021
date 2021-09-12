@@ -535,7 +535,7 @@
         }
       }
     },
-    "/Image": {
+    "/Image/getUsersImage": {
       "get": {
         "tags": ["Image"],
         "parameters": [
@@ -544,8 +544,21 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int64",
-              "default": 0
+              "format": "int64"
+            }
+          },
+          {
+            "name": "access",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "secret",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -574,7 +587,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/Image/setUsersImage": {
       "post": {
         "tags": ["Image"],
         "parameters": [
@@ -584,6 +599,20 @@
             "schema": {
               "type": "integer",
               "format": "int64"
+            }
+          },
+          {
+            "name": "access",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "secret",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],

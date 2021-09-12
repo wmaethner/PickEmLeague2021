@@ -14,12 +14,16 @@
 
 import * as runtime from "../runtime";
 
-export interface ImageGetRequest {
+export interface ImageGetUsersImageGetRequest {
   userId?: number;
+  access?: string;
+  secret?: string;
 }
 
-export interface ImagePostRequest {
+export interface ImageSetUsersImagePostRequest {
   userId?: number;
+  access?: string;
+  secret?: string;
   formFile?: Blob;
 }
 
@@ -29,8 +33,8 @@ export interface ImagePostRequest {
 export class ImageApi extends runtime.BaseAPI {
   /**
    */
-  async imageGetRaw(
-    requestParameters: ImageGetRequest
+  async imageGetUsersImageGetRaw(
+    requestParameters: ImageGetUsersImageGetRequest
   ): Promise<runtime.ApiResponse<string>> {
     const queryParameters: runtime.HTTPQuery = {};
 
@@ -38,10 +42,18 @@ export class ImageApi extends runtime.BaseAPI {
       queryParameters["userId"] = requestParameters.userId;
     }
 
+    if (requestParameters.access !== undefined) {
+      queryParameters["access"] = requestParameters.access;
+    }
+
+    if (requestParameters.secret !== undefined) {
+      queryParameters["secret"] = requestParameters.secret;
+    }
+
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/Image`,
+      path: `/Image/getUsersImage`,
       method: "GET",
       headers: headerParameters,
       query: queryParameters,
@@ -52,20 +64,30 @@ export class ImageApi extends runtime.BaseAPI {
 
   /**
    */
-  async imageGet(requestParameters: ImageGetRequest): Promise<string> {
-    const response = await this.imageGetRaw(requestParameters);
+  async imageGetUsersImageGet(
+    requestParameters: ImageGetUsersImageGetRequest
+  ): Promise<string> {
+    const response = await this.imageGetUsersImageGetRaw(requestParameters);
     return await response.value();
   }
 
   /**
    */
-  async imagePostRaw(
-    requestParameters: ImagePostRequest
+  async imageSetUsersImagePostRaw(
+    requestParameters: ImageSetUsersImagePostRequest
   ): Promise<runtime.ApiResponse<void>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     if (requestParameters.userId !== undefined) {
       queryParameters["userId"] = requestParameters.userId;
+    }
+
+    if (requestParameters.access !== undefined) {
+      queryParameters["access"] = requestParameters.access;
+    }
+
+    if (requestParameters.secret !== undefined) {
+      queryParameters["secret"] = requestParameters.secret;
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -91,7 +113,7 @@ export class ImageApi extends runtime.BaseAPI {
     }
 
     const response = await this.request({
-      path: `/Image`,
+      path: `/Image/setUsersImage`,
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
@@ -103,7 +125,9 @@ export class ImageApi extends runtime.BaseAPI {
 
   /**
    */
-  async imagePost(requestParameters: ImagePostRequest): Promise<void> {
-    await this.imagePostRaw(requestParameters);
+  async imageSetUsersImagePost(
+    requestParameters: ImageSetUsersImagePostRequest
+  ): Promise<void> {
+    await this.imageSetUsersImagePostRaw(requestParameters);
   }
 }

@@ -30,7 +30,8 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             var summaries = new List<UserSummary>();
             var users = _userRepository.GetAll().ToList();
 
-            foreach (var user in await MapUsersAsync(users))
+            //foreach (var user in await MapUsersAsync(users)) 
+            foreach (var user in _mapper.Map<IEnumerable<User>>(users))
             {
                 summaries.Add(GetUserSummary(user, week));
             }
@@ -38,30 +39,30 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             return summaries.OrderByDescending(x => x.WeekSummary.WeekScore).ThenBy(y => y.User.Name);
         }
 
-        private async Task<IEnumerable<User>> MapUsersAsync(IEnumerable<PickEmLeagueDatabase.Entities.User> entities)
-        {
-            var models = new List<User>();
+        //private async Task<IEnumerable<User>> MapUsersAsync(IEnumerable<PickEmLeagueDatabase.Entities.User> entities)
+        //{
+        //    var models = new List<User>();
 
-            foreach (var entity in entities)
-            {
-                var model = _mapper.Map<User>(entity);
-                if (string.IsNullOrEmpty(entity.ProfilePictureKey))
-                {
-                    //model.ProfilePic = await _awsS3Service.GetDefaultUserImageAsync();
-                    model.PicType = "svg";
-                }
-                else
-                {
-                    //model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
-                    model.PicType = entity.ProfilePictureKey.Split(".").Last();
-                }
-                model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
+        //    foreach (var entity in entities)
+        //    {
+        //        var model = _mapper.Map<User>(entity);
+        //        if (string.IsNullOrEmpty(entity.ProfilePictureKey))
+        //        {
+        //            //model.ProfilePic = await _awsS3Service.GetDefaultUserImageAsync();
+        //            model.PicType = "svg";
+        //        }
+        //        else
+        //        {
+        //            //model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
+        //            model.PicType = entity.ProfilePictureKey.Split(".").Last();
+        //        }
+        //        model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
 
-                models.Add(model);
-            }
+        //        models.Add(model);
+        //    }
 
-            return models;
-        }
+        //    return models;
+        //}
 
         private UserSummary GetUserSummary(User user, int week)
         {

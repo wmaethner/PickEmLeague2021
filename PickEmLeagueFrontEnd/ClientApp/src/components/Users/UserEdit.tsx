@@ -24,7 +24,7 @@ export function UserEdit() {
 
   useEffect(() => {
     async function GetUser() {
-      setUserToEdit(await GetUserExt(id))
+      setUserToEdit(await GetUserExt(id));
     }
     GetUser();
   }, [id]);
@@ -129,7 +129,7 @@ export function UserEdit() {
             </div>
             <div className="row form-group">
               <input type="file" onChange={handleFileChange} />
-              <label>{"File name: " + file?.name}</label>         
+              <label>{"File name: " + file?.name}</label>
             </div>
             <ProfilePicture userId={userToEdit.id} />
             <input
