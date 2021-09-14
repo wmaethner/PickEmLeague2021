@@ -37,6 +37,9 @@ jobs:
         
       - name: Publish
         run: npm run publish
+        
+      - name: Package
+        run: npm run package
 
 #       # Runs a single command using the runners shell
 #       - name: Run a one-line script
