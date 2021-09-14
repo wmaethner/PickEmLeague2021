@@ -40,6 +40,33 @@ jobs:
         
       - name: Package
         run: npm run package
+        
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
+
+      - name: Beanstalk Deploy my app
+        uses: einaregilsson/beanstalk-deploy@v4
+        with:
+          aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+          aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
+          application_name: PickEmLeague2021
+          environment_name: PickEmLeague2021-env
+          region: us-east-1
+          version_label: "pickemleague2021-${{ steps.format-time.outputs.replaced }}" #Using timestamp create on earlier step
+          deployment_package: deploy.zip
+
+      - name: Deployed successfully!
+        run: echo App deployed to ELB
 
 #       # Runs a single command using the runners shell
 #       - name: Run a one-line script
