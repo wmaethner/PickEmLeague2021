@@ -34,6 +34,9 @@ jobs:
 
       - name: Building application
         run: dotnet build
+        
+      - name: Publish
+        run: npm run publish
 
 #       # Runs a single command using the runners shell
 #       - name: Run a one-line script
