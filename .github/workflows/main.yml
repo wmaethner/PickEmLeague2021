@@ -38,6 +38,14 @@ jobs:
       - name: Publish
         run: npm run publish
         
+      - uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: publishes/api/AwsCred.txt
+          contents: |
+            echo "AWS_ACCESS_KEY=" + ${{secrets.AWS_ACCESS_KEY}}
+            echo "AWS_SECRET_KEY=" + ${{secrets.AWS_SECRET_KEY}}
+          write-mode: append
+        
       - name: Package
         run: npm run package
         
