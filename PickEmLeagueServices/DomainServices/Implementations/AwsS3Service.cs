@@ -24,16 +24,16 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             _mapper = mapper;
         }
 
-        public async Task<byte[]> GetDefaultUserImageAsync(string access, string secret)
+        public async Task<byte[]> GetDefaultUserImageAsync()
         {
             return await GetImage(new GetObjectRequest()
             {
                 BucketName = BUCKET_NAME,
                 Key = DEFAULT_LOGO,
-            }, access, secret);
+            });
         }
 
-        public async Task<byte[]> GetUserImageAsync(long userId, string access, string secret)
+        public async Task<byte[]> GetUserImageAsync(long userId)
         {
             var user = await _userRepository.GetById(userId);
             if (string.IsNullOrEmpty(user.ProfilePictureKey))
@@ -46,10 +46,10 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 BucketName = BUCKET_NAME,
                 Key = string.IsNullOrEmpty(user.ProfilePictureKey) ?
                             DEFAULT_LOGO : user.ProfilePictureKey,
-            }, access, secret);
+            });
         }
 
-        public async Task SetUserImage(long userId, Stream file, string key, string access, string secret)
+        public async Task SetUserImage(long userId, Stream file, string key)
         {
             var user = await _userRepository.GetById(userId);
             var putRequest = new PutObjectRequest()
@@ -59,21 +59,19 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 Key = key,
             };
 
-            var s3Client = new AmazonS3Client(access, secret);
-            //var s3Client = new AmazonS3Client();
-
-            var response = await s3Client.PutObjectAsync(putRequest);
-            user.ProfilePictureKey = key;
-            await _userRepository.SaveAsync();
+            var response = await GetClient().PutObjectAsync(putRequest);
+            if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+            {
+                user.ProfilePictureKey = key;
+                await _userRepository.SaveAsync();
+            }
         }
 
-        private async Task<byte[]> GetImage(GetObjectRequest request, string access, string secret)
+        private async Task<byte[]> GetImage(GetObjectRequest request)
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                var s3Client = new AmazonS3Client(access, secret);
-
-                using (GetObjectResponse response = await s3Client.GetObjectAsync(request))
+                using (GetObjectResponse response = await GetClient().GetObjectAsync(request))
                 {
                     using (Stream stream = response.ResponseStream)
                     {
@@ -84,6 +82,11 @@ namespace PickEmLeagueServices.DomainServices.Implementations
 
                 return ms.ToArray();
             }
+        }
+
+        private AmazonS3Client GetClient()
+        {
+            return new AmazonS3Client();
         }
     }
 }

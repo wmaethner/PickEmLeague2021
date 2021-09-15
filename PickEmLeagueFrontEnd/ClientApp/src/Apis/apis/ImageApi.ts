@@ -16,14 +16,10 @@ import * as runtime from "../runtime";
 
 export interface ImageGetUsersImageGetRequest {
   userId?: number;
-  access?: string;
-  secret?: string;
 }
 
 export interface ImageSetUsersImagePostRequest {
   userId?: number;
-  access?: string;
-  secret?: string;
   formFile?: Blob;
 }
 
@@ -40,14 +36,6 @@ export class ImageApi extends runtime.BaseAPI {
 
     if (requestParameters.userId !== undefined) {
       queryParameters["userId"] = requestParameters.userId;
-    }
-
-    if (requestParameters.access !== undefined) {
-      queryParameters["access"] = requestParameters.access;
-    }
-
-    if (requestParameters.secret !== undefined) {
-      queryParameters["secret"] = requestParameters.secret;
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -80,14 +68,6 @@ export class ImageApi extends runtime.BaseAPI {
 
     if (requestParameters.userId !== undefined) {
       queryParameters["userId"] = requestParameters.userId;
-    }
-
-    if (requestParameters.access !== undefined) {
-      queryParameters["access"] = requestParameters.access;
-    }
-
-    if (requestParameters.secret !== undefined) {
-      queryParameters["secret"] = requestParameters.secret;
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
