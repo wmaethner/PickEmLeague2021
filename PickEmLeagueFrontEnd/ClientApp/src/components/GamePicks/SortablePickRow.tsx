@@ -29,8 +29,13 @@ const getItemStyle = (
   margin: `0 0 ${grid}px 0`,
 
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : (gamePick.game?.gameResult === GameResult.NotPlayed ? "" :
-    (gamePick.correctPick ? "green" : "red")),
+  background: isDragging
+    ? "lightgreen"
+    : gamePick.game?.gameResult === GameResult.NotPlayed
+    ? ""
+    : gamePick.correctPick
+    ? "green"
+    : "red",
 
   // styles we need to apply on draggables
   ...draggableStyle,
@@ -75,7 +80,7 @@ export function SortablePickRow(props: Props) {
                 setGamePick: props.setGamePick,
               }}
             >
-              <PickSelector ignoreLock={props.ignoreLock}/>
+              <PickSelector ignoreLock={props.ignoreLock} />
             </GamePickContext.Provider>
           </div>
         )}

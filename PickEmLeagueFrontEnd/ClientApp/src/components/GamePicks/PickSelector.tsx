@@ -10,7 +10,7 @@ import { UserContext } from "../../Data/Contexts/UserContext";
 type Props = {
   ignoreLock: boolean;
 };
-export function PickSelector (props: Props) {
+export function PickSelector(props: Props) {
   const { user } = useContext(UserContext);
   const { gamePick, setGamePick } = useContext(GamePickContext);
 
@@ -74,4 +74,4 @@ export function PickSelector (props: Props) {
     //   </CardBody>
     // </Card>
   );
-};
+}

@@ -52,5 +52,11 @@ namespace PickEmLeague.Controllers
             }
         }
 
+        [HttpGet("current-week")]
+        public int GetCurrentWeek()
+        {
+            // TODO: Make this actually check the games
+            return 2;
+        }
     }
 }
