@@ -19,15 +19,15 @@ namespace PickEmLeague.Controllers
         }
 
         [HttpGet("getUsersImage")]
-        public async Task<byte[]> GetUsersImage(long userId, string access, string secret)
+        public async Task<byte[]> GetUsersImage(long userId)
         {
-            return await _awsS3Service.GetUserImageAsync(userId, access, secret);
+            return await _awsS3Service.GetUserImageAsync(userId);
         }
 
         [HttpPost("setUsersImage")]
-        public async Task SetUserImage(long userId, IFormFile formFile, string access, string secret)
+        public async Task SetUserImage(long userId, IFormFile formFile)
         {
-            await _awsS3Service.SetUserImage(userId, formFile.OpenReadStream(), formFile.FileName, access, secret);
+            await _awsS3Service.SetUserImage(userId, formFile.OpenReadStream(), formFile.FileName);
         }
     }
 }

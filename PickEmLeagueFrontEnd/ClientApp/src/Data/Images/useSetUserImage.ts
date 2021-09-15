@@ -9,7 +9,5 @@ export const SetUserImage = async (
   await imageApi.imageSetUsersImagePost({
     userId: userId,
     formFile: file,
-    access: "AKIAZVIHCDVESXGA4PNR",
-    secret: "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",
   });
 };
