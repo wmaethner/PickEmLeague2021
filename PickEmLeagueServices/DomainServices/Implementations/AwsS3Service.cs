@@ -59,7 +59,8 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 Key = key,
             };
 
-            var s3Client = new AmazonS3Client(access, secret);
+            //var s3Client = new AmazonS3Client(access, secret);
+            var s3Client = new AmazonS3Client();
 
             var response = await s3Client.PutObjectAsync(putRequest);
             user.ProfilePictureKey = key;
