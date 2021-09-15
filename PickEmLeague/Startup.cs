@@ -57,17 +57,17 @@ namespace PickEmLeague
             services.RegisterRepositories();
 
 
-            var creds = File.ReadAllLines(Path.Combine(
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                    "AwsCreds.txt"));
+            //var creds = File.ReadAllLines(Path.Combine(
+            //        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+            //        "AwsCreds.txt"));
 
-            services.AddDefaultAWSOptions(new Amazon.Extensions.NETCore.Setup.AWSOptions()
-            {
-                Credentials = new BasicAWSCredentials(creds[0].Split("=")[1], creds[1].Split("=")[1])
-            });
+            //services.AddDefaultAWSOptions(new Amazon.Extensions.NETCore.Setup.AWSOptions()
+            //{
+            //    Credentials = new BasicAWSCredentials(creds[0].Split("=")[1], creds[1].Split("=")[1])
+            //});
 
-            Console.WriteLine(creds[0]);
-            Console.WriteLine(creds[1]);
+            //Console.WriteLine(creds[0]);
+            //Console.WriteLine(creds[1]);
         }
 
 
