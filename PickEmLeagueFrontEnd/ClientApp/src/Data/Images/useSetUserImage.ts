@@ -6,5 +6,10 @@ export const SetUserImage = async (
   file: File
 ): Promise<void> => {
   const imageApi = useApi(ImageApi);
-  await imageApi.imageSetUsersImagePost({ userId: userId, formFile: file , access: "AKIAZVIHCDVESXGA4PNR", secret: "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"});
+  await imageApi.imageSetUsersImagePost({
+    userId: userId,
+    formFile: file,
+    access: "AKIAZVIHCDVESXGA4PNR",
+    secret: "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",
+  });
 };

@@ -60,6 +60,12 @@ export interface GamePick {
   readonly editable?: boolean;
   /**
    *
+   * @type {boolean}
+   * @memberof GamePick
+   */
+  readonly correctPick?: boolean;
+  /**
+   *
    * @type {User}
    * @memberof GamePick
    */
@@ -106,6 +112,7 @@ export function GamePickFromJSONTyped(
     wager: !exists(json, "wager") ? undefined : json["wager"],
     locked: !exists(json, "locked") ? undefined : json["locked"],
     editable: !exists(json, "editable") ? undefined : json["editable"],
+    correctPick: !exists(json, "correctPick") ? undefined : json["correctPick"],
     user: !exists(json, "user") ? undefined : UserFromJSON(json["user"]),
     game: !exists(json, "game") ? undefined : GameFromJSON(json["game"]),
     userId: !exists(json, "userId") ? undefined : json["userId"],

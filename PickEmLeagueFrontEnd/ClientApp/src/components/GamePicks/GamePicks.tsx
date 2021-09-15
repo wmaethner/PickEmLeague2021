@@ -141,6 +141,7 @@ export function GamePicks() {
                   gamePick={gamePick}
                   index={index}
                   setGamePick={setSingleGamePick}
+                  ignoreLock={ignoreLocked}
                 ></SortablePickRow>
               ))}
               {provided.placeholder}
