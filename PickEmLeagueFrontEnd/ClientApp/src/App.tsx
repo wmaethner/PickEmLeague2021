@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router";
 import { Layout } from "./components/Layout";
 import { Home } from "./components/Home";
@@ -13,17 +13,26 @@ import { Games } from "./components/Games/Games";
 import { TeamProvider } from "./Data/Contexts/TeamsContext";
 import { LoginForm } from "./components/Authentication/LoginForm";
 import { GamePicks } from "./components/GamePicks/GamePicks";
-import { WeekProvider } from "./Data/Contexts/WeekContext";
+import { WeekContext, WeekProvider } from "./Data/Contexts/WeekContext";
 import { UserContext } from "./Data/Contexts/UserContext";
 import { useState } from "react";
 import { User } from "./Apis";
 
 import "./Styles/App.css";
+import { useGetCurrentWeek } from "./Data/Game/useGetCurrentWeek";
 
 export default function App() {
   //static displayName = App.name;
   const [user, setUserState] = useState<User>({});
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [week, setWeek] = useState(1);
+
+  useEffect(() => {
+    async function GetCurrentWeek() {
+      setWeek(await useGetCurrentWeek());
+    }
+    GetCurrentWeek();
+  }, [week]);
 
   const setUser = (user: User) => {
     setUserState(user);
@@ -41,17 +50,17 @@ export default function App() {
             >
               <Switch>
                 <Route exact path="/">
-                  <WeekProvider>
+                  <WeekContext.Provider value={{ week, setWeek }}>
                     <Home />
-                  </WeekProvider>
+                  </WeekContext.Provider>
                 </Route>
                 <Route path="/games">
                   <Games />
                 </Route>
                 <Route path="/gamePicks">
-                  <WeekProvider>
+                  <WeekContext.Provider value={{ week, setWeek }}>
                     <GamePicks />
-                  </WeekProvider>
+                  </WeekContext.Provider>
                 </Route>
                 <Route path="/users">
                   <Users />
