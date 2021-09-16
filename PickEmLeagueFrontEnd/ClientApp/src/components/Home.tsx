@@ -1,177 +1,120 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useUserContext } from "../Data/Contexts/UserContext";
-import { WeekContext } from "../Data/Contexts/WeekContext";
-import { Container, Table, Button } from "reactstrap";
-import { useGetScoreSummaryByWeek } from "../Data/ScoreSummary/useGetScoreSummaryByWeek";
-import { WeekSelector } from "./Week/WeekSelector";
-import { Game, GameResult, User, UserSummary, WeekPickStatus } from "../Apis";
-import { BsCircleFill } from "react-icons/bs";
+import React, { useContext, useEffect, useState } from "react";
+import { Col, Container, Row } from "reactstrap";
+import { Tab, Nav } from "react-bootstrap";
+import { UserWeekSummary, WeekSummary } from "./Home/WeekSumary";
+import { SeasonSummary, UserSeasonSummary } from "./Home/SeasonSummary";
+import { ProfilePicture } from "./Images/ProfilePicture";
+import { Game, User, UserSummary } from "../Apis";
 import ReactTooltip from "react-tooltip";
 import { useGetGamesByWeek } from "../Data/Game/useGetGamesByWeek";
-import { ProfilePicture } from "./Images/ProfilePicture";
+import { useGetScoreSummaryByWeek } from "../Data/ScoreSummary/useGetScoreSummaryByWeek";
+import { WeekContext } from "../Data/Contexts/WeekContext";
 
-function useGetGames(week: number | undefined) {
-  const [games, setGames] = useState<Game[]>([]);
-
-  useEffect(() => {
-    if (week === undefined) {
-      return;
-    }
-    async function GetGames() {
-      setGames(await useGetGamesByWeek(week!));
-    }
-    GetGames();
-  }, [week]);
-
-  return games;
+export function userDisplay(user: User, index: number) {
+  return (
+    <div className="row align-items-center">
+      <div className="col">{usersNameDisplay(user, index)}</div>
+      <div className="col">
+        <ProfilePicture userId={user.id} />
+      </div>
+    </div>
+  );
 }
 
-function useGetScoreSummaries(week: number | undefined) {
-  const [scoreSummary, setScoreSummary] = useState<Array<UserSummary>>([]);
-
-  useEffect(() => {
-    async function GetSummaries() {
-      let response = await useGetScoreSummaryByWeek(week);
-      setScoreSummary(response);
-    }
-    GetSummaries();
-  }, [week]);
-
-  return scoreSummary;
+export function usersNameDisplay(user: User, index: number) {
+  if (user.username) {
+    return (
+      <div>
+        <label
+          id={"user-label-" + index}
+          data-tip
+          data-for={user.id?.toString()}
+        >
+          {user.username}
+        </label>
+        <ReactTooltip id={user.id?.toString()} type="info">
+          <span>{user.name}</span>
+        </ReactTooltip>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <label>{user.name}</label>
+    </div>
+  );
 }
 
 export function Home() {
-  const { user, loggedIn } = useUserContext();
-  const { week } = useContext(WeekContext);
-  const games = useGetGames(week);
-  const scoreSummary = useGetScoreSummaries(week);
+  const { week, setWeek } = useContext(WeekContext);
+  const [scoreSummary, setScoreSummary] = useState<Array<UserSummary>>([]);
+  const [games, setGames] = useState<Game[]>([]);
 
-  function userDisplay(user: User, index: number) {
-    return (
-      <div className="row align-items-center">
-        <div className="col">{usersNameDisplay(user, index)}</div>
-        <div className="col">
-          <ProfilePicture userId={user.id} />
-        </div>
-      </div>
-    );
-  }
-
-  function usersNameDisplay(user: User, index: number) {
-    if (user.username) {
-      return (
-        <div>
-          <label
-            id={"user-label-" + index}
-            data-tip
-            data-for={user.id?.toString()}
-          >
-            {user.username}
-          </label>
-          <ReactTooltip id={user.id?.toString()} type="info">
-            <span>{user.name}</span>
-          </ReactTooltip>
-        </div>
-      );
+  useEffect(() => {
+    async function GetData() {
+      setScoreSummary(await useGetScoreSummaryByWeek(week));
+      setGames(await useGetGamesByWeek(week!));
     }
-    return (
-      <div>
-        <label>{user.name}</label>
-      </div>
-    );
+    GetData();
+  }, [week]);
+
+  function buildWeekSummaries(): UserWeekSummary[] {
+    let weekSummaries: Array<UserWeekSummary> = [];
+
+    scoreSummary.forEach(item => {
+      weekSummaries.push({
+        user: item.user!,
+        displayName: item.user?.username ? item.user?.username! : item.user?.name!,
+        pickStatus: item.weekSummary?.weekPickStatus!,
+        score: item.weekSummary?.weekScore!,
+        correctPicks: item.weekSummary?.correctPicks!
+      })
+    });
+
+    return weekSummaries;
   }
 
-  function displayPickStatus(status: WeekPickStatus | undefined) {
-    switch (status) {
-      case WeekPickStatus.NotPicked:
-        return (
-          <div>
-            <BsCircleFill color="red" size="1.5em" className="status-circle" />
-          </div>
-        );
-      case WeekPickStatus.PartiallyPicked:
-        return (
-          <div>
-            <BsCircleFill
-              color="yellow"
-              size="1.5em"
-              className="status-circle"
-            />
-          </div>
-        );
-      case WeekPickStatus.FullyPicked:
-        return (
-          <div>
-            <BsCircleFill
-              color="green"
-              size="1.5em"
-              className="status-circle"
-            />
-          </div>
-        );
-    }
-    return "";
-  }
+  function buildSeasonSummaries(): UserSeasonSummary[] {
+    let seasonSummaries: Array<UserSeasonSummary> = [];
 
-  function displayCorrectPicks(correctPicks: number | undefined) {
-    let count = correctPicks ? correctPicks : 0;
+    scoreSummary.forEach(item => {
+      seasonSummaries.push({
+        user: item.user!,
+        displayName: item.user?.username ? item.user?.username! : item.user?.name!,
+        score: item.seasonSummary?.seasonScore!,
+        correctPicks: item.seasonSummary?.correctPicks!
+      })
+    });
 
-    return (
-      <div>
-        <label>
-          {count}/{getGamesPlayed()}
-        </label>
-      </div>
-    );
-  }
-
-  function getGamesPlayed() {
-    return games.filter((game) => game.gameResult !== GameResult.NotPlayed)
-      .length;
+    return seasonSummaries;
   }
 
   return (
     <Container className="data-table">
-      <WeekSelector />
-      {/* <Image src={image} /> */}
-
-      <Table>
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>
-              <label id="pick-status" data-tip data-for="pick-status">
-                Pick Status
-              </label>
-            </th>
-            <th>Week Score</th>
-            <th>Correct Picks</th>
-            <th>Season Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scoreSummary?.map((userScore, index) => (
-            <tr key={userScore.user?.id}>
-              <td>{userDisplay(userScore.user!, index)}</td>
-              <td>
-                {displayPickStatus(userScore.weekSummary?.weekPickStatus)}
-              </td>
-              <td>{userScore.weekSummary?.weekScore}</td>
-              <td>
-                {displayCorrectPicks(userScore.weekSummary?.correctPicks)}
-              </td>
-              <td>{userScore.seasonSummary?.seasonScore}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <ReactTooltip id="pick-status" type="info">
-        <p>Green = Fully picked</p>
-        <p>Yellow = Some picked</p>
-        <p>Red = None picked</p>
-      </ReactTooltip>
-      {/* <Button onClick={() => GetImage()}>Image</Button> */}
-      {/* <Button onClick={() => GetScoreSummary()}>Refresh</Button> */}
+      <Tab.Container id="left-tabs-example" defaultActiveKey="week">
+        <Row>
+          <Col sm={2}>
+            <Nav variant="pills" className="flex-column">
+              <Nav.Item>
+                <Nav.Link eventKey="week">Week Summary</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="season">Season Summary</Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Col>
+          <Col sm={10}>
+            <Tab.Content>
+              <Tab.Pane eventKey="week">
+                <WeekSummary weekSummaries={buildWeekSummaries()} games={games} />
+              </Tab.Pane>
+              <Tab.Pane eventKey="season">
+                <SeasonSummary seasonSummaries={buildSeasonSummaries()} />
+              </Tab.Pane>
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
     </Container>
   );
 }
