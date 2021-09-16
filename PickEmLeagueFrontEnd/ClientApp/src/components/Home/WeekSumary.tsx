@@ -8,77 +8,32 @@ import { BsCircleFill } from "react-icons/bs";
 import ReactTooltip from "react-tooltip";
 import { useGetGamesByWeek } from "../../Data/Game/useGetGamesByWeek";
 import { ProfilePicture } from "../Images/ProfilePicture";
+import { userDisplay } from "../Home";
+import { WeekSelector } from "../Week/WeekSelector";
 
-function useGetGames(week: number | undefined) {
-    const [games, setGames] = useState<Game[]>([]);
-
-    useEffect(() => {
-        if (week === undefined) {
-            return;
-        }
-        async function GetGames() {
-            setGames(await useGetGamesByWeek(week!));
-        }
-        GetGames();
-    }, [week]);
-
-    return games;
+export type UserWeekSummary = {
+    user: User;
+    displayName: string;
+    pickStatus: WeekPickStatus;
+    score: number;
+    correctPicks: number;
 }
 
-function useGetScoreSummaries(week: number | undefined) {
-    const [scoreSummary, setScoreSummary] = useState<Array<UserSummary>>([]);
-
-    useEffect(() => {
-        async function GetSummaries() {
-            let response = await useGetScoreSummaryByWeek(week);
-            setScoreSummary(response);
-        }
-        GetSummaries();
-    }, [week]);
-
-    return scoreSummary;
+export type WeekSummaryProps = {
+    weekSummaries: UserWeekSummary[];
+    games: Game[];
+    // setWeek: () => void;
 }
 
-export function WeekSummary() {
+
+
+export function WeekSummary(props: WeekSummaryProps) {
     const { user, loggedIn } = useUserContext();
     const { week } = useContext(WeekContext);
-    const games = useGetGames(week);
-    const scoreSummary = useGetScoreSummaries(week);
+    // const [games, setGames] = useState<Game[]>([]);
+    // const scoreSummary = useGetScoreSummaries(week);
 
-    function userDisplay(user: User, index: number) {
-        return (
-            <div className="row align-items-center">
-                <div className="col">{usersNameDisplay(user, index)}</div>
-                <div className="col">
-                    <ProfilePicture userId={user.id} />
-                </div>
-            </div>
-        );
-    }
 
-    function usersNameDisplay(user: User, index: number) {
-        if (user.username) {
-            return (
-                <div>
-                    <label
-                        id={"user-label-" + index}
-                        data-tip
-                        data-for={user.id?.toString()}
-                    >
-                        {user.username}
-                    </label>
-                    <ReactTooltip id={user.id?.toString()} type="info">
-                        <span>{user.name}</span>
-                    </ReactTooltip>
-                </div>
-            );
-        }
-        return (
-            <div>
-                <label>{user.name}</label>
-            </div>
-        );
-    }
 
     function displayPickStatus(status: WeekPickStatus | undefined) {
         switch (status) {
@@ -125,12 +80,13 @@ export function WeekSummary() {
     }
 
     function getGamesPlayed() {
-        return games.filter((game) => game.gameResult !== GameResult.NotPlayed)
+        return props.games.filter((game) => game.gameResult !== GameResult.NotPlayed)
             .length;
     }
 
     return (
         <div>
+            <WeekSelector />
             <Table>
                 <thead>
                     <tr>
@@ -145,18 +101,19 @@ export function WeekSummary() {
                     </tr>
                 </thead>
                 <tbody>
-                    {scoreSummary?.map((userScore, index) => (
-                        <tr key={userScore.user?.id}>
-                            <td>{userDisplay(userScore.user!, index)}</td>
-                            <td>
-                                {displayPickStatus(userScore.weekSummary?.weekPickStatus)}
-                            </td>
-                            <td>{userScore.weekSummary?.weekScore}</td>
-                            <td>
-                                {displayCorrectPicks(userScore.weekSummary?.correctPicks)}
-                            </td>
-                        </tr>
-                    ))}
+                    {props.weekSummaries?.sort((a, b) => (a.score < b.score ? 1 : -1))
+                        .map((userSummary, index) => (
+                            <tr key={userSummary.user?.id}>
+                                <td>{userDisplay(userSummary.user!, index)}</td>
+                                <td>
+                                    {displayPickStatus(userSummary.pickStatus)}
+                                </td>
+                                <td>{userSummary.score}</td>
+                                <td>
+                                    {displayCorrectPicks(userSummary.correctPicks)}
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </Table>
             <ReactTooltip id="pick-status" type="info">
