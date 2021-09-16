@@ -181,6 +181,36 @@
         }
       }
     },
+    "/Game/current-week": {
+      "get": {
+        "tags": ["Game"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Game/create": {
       "post": {
         "tags": ["Game"],
@@ -546,20 +576,6 @@
               "type": "integer",
               "format": "int64"
             }
-          },
-          {
-            "name": "access",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "secret",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -599,20 +615,6 @@
             "schema": {
               "type": "integer",
               "format": "int64"
-            }
-          },
-          {
-            "name": "access",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "secret",
-            "in": "query",
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -939,6 +941,10 @@
             "type": "boolean"
           },
           "editable": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "correctPick": {
             "type": "boolean",
             "readOnly": true
           },

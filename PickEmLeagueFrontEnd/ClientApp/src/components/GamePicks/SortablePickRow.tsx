@@ -12,6 +12,7 @@ import { UserContext } from "../../Data/Contexts/UserContext";
 type Props = {
   gamePick: GamePick;
   index: number;
+  ignoreLock: boolean;
   setGamePick: (gamePick: GamePick) => void;
 };
 
@@ -19,7 +20,8 @@ const grid = 4;
 
 const getItemStyle = (
   isDragging: boolean,
-  draggableStyle: DraggingStyle | NotDraggingStyle | undefined
+  draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
+  gamePick: GamePick
 ): React.CSSProperties => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
@@ -27,7 +29,13 @@ const getItemStyle = (
   margin: `0 0 ${grid}px 0`,
 
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "",
+  background: isDragging
+    ? "lightgreen"
+    : gamePick.game?.gameResult === GameResult.NotPlayed
+    ? ""
+    : gamePick.correctPick
+    ? "green"
+    : "red",
 
   // styles we need to apply on draggables
   ...draggableStyle,
@@ -62,7 +70,8 @@ export function SortablePickRow(props: Props) {
             {...provided.dragHandleProps}
             style={getItemStyle(
               snapshot.isDragging,
-              provided.draggableProps.style
+              provided.draggableProps.style,
+              props.gamePick
             )}
           >
             <GamePickContext.Provider
@@ -71,7 +80,7 @@ export function SortablePickRow(props: Props) {
                 setGamePick: props.setGamePick,
               }}
             >
-              <PickSelector />
+              <PickSelector ignoreLock={props.ignoreLock} />
             </GamePickContext.Provider>
           </div>
         )}

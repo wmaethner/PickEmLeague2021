@@ -24,6 +24,9 @@
     <None Remove="Helpers\" />
     <None Remove="Services\" />
     <None Remove="Microsoft.EntityFrameworkCore.InMemory" />
+    <None Remove="AWSSDK.S3" />
+    <None Remove="AWSSDK.Core" />
+    <None Remove="AWSSDK.Extensions.NETCore.Setup" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +52,9 @@
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.1.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.9" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.2.5" />
+    <PackageReference Include="AWSSDK.Core" Version="3.7.3.5" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PickEmLeagueDatabase\PickEmLeagueDatabase.csproj">
@@ -64,5 +70,10 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Registrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="AwsCreds.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

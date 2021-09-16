@@ -32,6 +32,8 @@ export const ProfilePicture: React.FC<Props> = ({ userId }) => {
   return image === "" ? (
     <div></div>
   ) : (
-    <Image src={image!} width={75} height={75} />
+    <div className="img-wrapper">
+      <Image src={image!} width={75} height={75} className="hover-zoom" />
+    </div>
   );
 };

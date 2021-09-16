@@ -157,6 +157,30 @@ export class GameApi extends runtime.BaseAPI {
 
   /**
    */
+  async gameCurrentWeekGetRaw(): Promise<runtime.ApiResponse<number>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/Game/current-week`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.TextApiResponse(response) as any;
+  }
+
+  /**
+   */
+  async gameCurrentWeekGet(): Promise<number> {
+    const response = await this.gameCurrentWeekGetRaw();
+    return await response.value();
+  }
+
+  /**
+   */
   async gameDeleteDeleteRaw(
     requestParameters: GameDeleteDeleteRequest
   ): Promise<runtime.ApiResponse<void>> {
