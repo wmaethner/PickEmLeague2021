@@ -25,14 +25,14 @@ export default function App() {
   //static displayName = App.name;
   const [user, setUserState] = useState<User>({});
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [week, setWeek] = useState(1);
+  const [week, setWeek] = useState<number>(1);
 
   useEffect(() => {
     async function GetCurrentWeek() {
-      setWeek(await useGetCurrentWeek());
+      setWeek(Number.parseInt(await (await useGetCurrentWeek()).toString()));
     }
     GetCurrentWeek();
-  }, [week]);
+  }, []);
 
   const setUser = (user: User) => {
     setUserState(user);
