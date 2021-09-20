@@ -13,5 +13,7 @@ namespace PickEmLeagueServices.DomainServices.Interfaces
         Task<bool> DeleteGame(long id);
 
         Task AddScheduleAsync(StreamReader stream);
+
+        bool IsWeekDone(int week);
     }
 }

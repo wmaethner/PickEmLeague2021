@@ -13,9 +13,20 @@
  */
 
 import * as runtime from "../runtime";
-import { UserSummary, UserSummaryFromJSON, UserSummaryToJSON } from "../models";
+import {
+  UserSummary,
+  UserSummaryFromJSON,
+  UserSummaryToJSON,
+  WeekWinnerResponse,
+  WeekWinnerResponseFromJSON,
+  WeekWinnerResponseToJSON,
+} from "../models";
 
 export interface ScoreSummaryGetScoreSummariesGetRequest {
+  week?: number;
+}
+
+export interface ScoreSummaryGetWeekWinnerGetRequest {
   week?: number;
 }
 
@@ -54,6 +65,42 @@ export class ScoreSummaryApi extends runtime.BaseAPI {
     requestParameters: ScoreSummaryGetScoreSummariesGetRequest
   ): Promise<Array<UserSummary>> {
     const response = await this.scoreSummaryGetScoreSummariesGetRaw(
+      requestParameters
+    );
+    return await response.value();
+  }
+
+  /**
+   */
+  async scoreSummaryGetWeekWinnerGetRaw(
+    requestParameters: ScoreSummaryGetWeekWinnerGetRequest
+  ): Promise<runtime.ApiResponse<WeekWinnerResponse>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.week !== undefined) {
+      queryParameters["week"] = requestParameters.week;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/ScoreSummary/getWeekWinner`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      WeekWinnerResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   */
+  async scoreSummaryGetWeekWinnerGet(
+    requestParameters: ScoreSummaryGetWeekWinnerGetRequest
+  ): Promise<WeekWinnerResponse> {
+    const response = await this.scoreSummaryGetWeekWinnerGetRaw(
       requestParameters
     );
     return await response.value();

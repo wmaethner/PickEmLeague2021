@@ -10,3 +10,4 @@ export * from "./UserSeasonSummary";
 export * from "./UserSummary";
 export * from "./UserWeekSummary";
 export * from "./WeekPickStatus";
+export * from "./WeekWinnerResponse";

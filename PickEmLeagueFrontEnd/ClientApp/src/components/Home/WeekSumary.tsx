@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useUserContext } from "../../Data/Contexts/UserContext";
 import { WeekContext } from "../../Data/Contexts/WeekContext";
 import { Table } from "reactstrap";
-import { useGetScoreSummaryByWeek } from "../../Data/ScoreSummary/useGetScoreSummaryByWeek";
-import { Game, GameResult, User, UserSummary, WeekPickStatus } from "../../Apis";
+import {
+    Game,
+    GameResult,
+    User,
+    WeekPickStatus,
+} from "../../Apis";
 import { BsCircleFill } from "react-icons/bs";
 import ReactTooltip from "react-tooltip";
 import { useGetGamesByWeek } from "../../Data/Game/useGetGamesByWeek";
-import { ProfilePicture } from "../Images/ProfilePicture";
 import { userDisplay } from "../Home";
 import { WeekSelector } from "../Week/WeekSelector";
+import { WinnersCircle } from "./WinnersCircle";
+import { useGetWeekWinner } from "../../Data/ScoreSummary/useGetWeekWinner";
 
 export type UserWeekSummary = {
     user: User;
@@ -17,23 +21,24 @@ export type UserWeekSummary = {
     pickStatus: WeekPickStatus;
     score: number;
     correctPicks: number;
-}
+};
 
 export type WeekSummaryProps = {
     weekSummaries: UserWeekSummary[];
-    games: Game[];
-    // setWeek: () => void;
-}
-
-
+};
 
 export function WeekSummary(props: WeekSummaryProps) {
-    const { user, loggedIn } = useUserContext();
     const { week } = useContext(WeekContext);
-    // const [games, setGames] = useState<Game[]>([]);
-    // const scoreSummary = useGetScoreSummaries(week);
+    const [prevWeekWinner, setPrevWeekWinner] = useState<User | undefined>(undefined);
+    const [games, setGames] = useState<Game[]>([]);
 
-
+    useEffect(() => {
+        async function GetInfo() {
+            setGames(await useGetGamesByWeek(week!));
+            setPrevWeekWinner(await useGetWeekWinner(week! - 1));
+        }
+        GetInfo();
+    }, [week]);
 
     function displayPickStatus(status: WeekPickStatus | undefined) {
         switch (status) {
@@ -80,12 +85,18 @@ export function WeekSummary(props: WeekSummaryProps) {
     }
 
     function getGamesPlayed() {
-        return props.games.filter((game) => game.gameResult !== GameResult.NotPlayed)
-            .length;
+        return games.filter(
+            (game) => game.gameResult !== GameResult.NotPlayed
+        ).length;
     }
 
     return (
         <div>
+            <WinnersCircle
+                winner={prevWeekWinner}
+                message={"Week " + (week! - 1) + " Winner"}
+            />
+            <br />
             <WeekSelector />
             <Table>
                 <thead>
@@ -101,17 +112,14 @@ export function WeekSummary(props: WeekSummaryProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.weekSummaries?.sort((a, b) => (a.score < b.score ? 1 : -1))
+                    {props.weekSummaries
+                        ?.sort((a, b) => (a.score < b.score ? 1 : -1))
                         .map((userSummary, index) => (
                             <tr key={userSummary.user?.id}>
                                 <td>{userDisplay(userSummary.user!, index)}</td>
-                                <td>
-                                    {displayPickStatus(userSummary.pickStatus)}
-                                </td>
+                                <td>{displayPickStatus(userSummary.pickStatus)}</td>
                                 <td>{userSummary.score}</td>
-                                <td>
-                                    {displayCorrectPicks(userSummary.correctPicks)}
-                                </td>
+                                <td>{displayCorrectPicks(userSummary.correctPicks)}</td>
                             </tr>
                         ))}
                 </tbody>
@@ -122,8 +130,5 @@ export function WeekSummary(props: WeekSummaryProps) {
                 <p>Red = None picked</p>
             </ReactTooltip>
         </div>
-
-    )
-
-
+    );
 }

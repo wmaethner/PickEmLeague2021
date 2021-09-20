@@ -691,6 +691,43 @@
         }
       }
     },
+    "/ScoreSummary/getWeekWinner": {
+      "get": {
+        "tags": ["ScoreSummary"],
+        "parameters": [
+          {
+            "name": "week",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeekWinnerResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeekWinnerResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeekWinnerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Team": {
       "get": {
         "tags": ["Team"],
@@ -1090,6 +1127,18 @@
       "WeekPickStatus": {
         "enum": ["NotPicked", "PartiallyPicked", "FullyPicked"],
         "type": "string"
+      },
+      "WeekWinnerResponse": {
+        "type": "object",
+        "properties": {
+          "winner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "foundWinner": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
       }
     }
   }
