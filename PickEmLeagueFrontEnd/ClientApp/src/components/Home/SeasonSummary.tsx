@@ -3,6 +3,7 @@ import { Table } from "reactstrap";
 import { Game, GameResult, User } from "../../Apis";
 import { useGetAllGames } from "../../Data/Game/userGetGameAll";
 import { userDisplay } from "../Home";
+import { WinnersCircle } from "./WinnersCircle";
 
 export type UserSeasonSummary = {
   user: User;
@@ -44,6 +45,12 @@ export function SeasonSummary(props: SeasonSummaryProps) {
 
   return (
     <div>
+      <WinnersCircle
+        winner={props.seasonSummaries
+          ?.sort((a, b) => (a.score < b.score ? 1 : -1))[0]?.user}
+        message={"Season Leader"}
+      />
+      <br />
       <Table>
         <thead>
           <tr>
