@@ -28,5 +28,16 @@ namespace PickEmLeague.Controllers
             _logger.LogInformation($"Get score summaries: {week}");
             return await _scoreSummaryService.GetSummariesAsync(week);
         }
+
+        [HttpGet("getWeekWinner")]
+        public async Task<WeekWinnerResponse> GetWeekWinner(int week)
+        {
+            var winner = await _scoreSummaryService.GetWeekWinner(week);
+            return new WeekWinnerResponse()
+            {
+                Winner = winner,
+                FoundWinner = winner != null
+            };
+        }
     }
 }

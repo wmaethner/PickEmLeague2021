@@ -14,14 +14,16 @@ namespace PickEmLeagueServices.DomainServices.Implementations
         private readonly IUserRepository _userRepository;
         private readonly IGamePickRepository _gamePickRepository;
         private readonly IAwsS3Service _awsS3Service;
+        private readonly IGameService _gameService;
         private readonly IMapper _mapper;
 
         public ScoreSummaryService(IUserRepository userRepository, IGamePickRepository gamePickRepository,
-            IAwsS3Service awsS3Service, IMapper mapper)
+            IAwsS3Service awsS3Service, IGameService gameService, IMapper mapper)
         {
             _userRepository = userRepository;
             _gamePickRepository = gamePickRepository;
             _awsS3Service = awsS3Service;
+            _gameService = gameService;
             _mapper = mapper;
         }
 
@@ -39,30 +41,16 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             return summaries.OrderByDescending(x => x.WeekSummary.WeekScore).ThenBy(y => y.User.Name);
         }
 
-        //private async Task<IEnumerable<User>> MapUsersAsync(IEnumerable<PickEmLeagueDatabase.Entities.User> entities)
-        //{
-        //    var models = new List<User>();
+        public async Task<User> GetWeekWinner(int week)
+        {
+            if (week < 1 || !_gameService.IsWeekDone(week))
+            {
+                return null;
+            }
 
-        //    foreach (var entity in entities)
-        //    {
-        //        var model = _mapper.Map<User>(entity);
-        //        if (string.IsNullOrEmpty(entity.ProfilePictureKey))
-        //        {
-        //            //model.ProfilePic = await _awsS3Service.GetDefaultUserImageAsync();
-        //            model.PicType = "svg";
-        //        }
-        //        else
-        //        {
-        //            //model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
-        //            model.PicType = entity.ProfilePictureKey.Split(".").Last();
-        //        }
-        //        model.ProfilePic = await _awsS3Service.GetUserImageAsync(entity.Id);
-
-        //        models.Add(model);
-        //    }
-
-        //    return models;
-        //}
+            var summaries = await GetSummariesAsync(week);
+            return summaries.ToList()[0].User;
+        }
 
         private UserSummary GetUserSummary(User user, int week)
         {
@@ -115,7 +103,5 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             }
             return false;
         }
-
-
     }
 }

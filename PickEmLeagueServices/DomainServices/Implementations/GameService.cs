@@ -128,6 +128,19 @@ namespace PickEmLeagueServices.DomainServices.Implementations
 
         }
 
+        public bool IsWeekDone(int week)
+        {
+            foreach (var game in GetForWeek(week))
+            {
+                if (game.GameResult == PickEmLeagueShared.Enums.GameResult.NotPlayed)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private PickEmLeagueDatabase.Entities.Team GetTeam(string teamName, IEnumerable<PickEmLeagueDatabase.Entities.Team> teams)
         {
             return teams.First(t => t.Name == teamName);
