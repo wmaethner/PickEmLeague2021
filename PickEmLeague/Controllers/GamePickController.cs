@@ -37,8 +37,13 @@ namespace PickEmLeague.Controllers
         [HttpGet("getGamePickByUser")]
         public IEnumerable<GamePick> GetByUser(long userId)
         {
-            return _mapper.Map<IEnumerable<GamePick>>(
-                _gamePickRepository.GetByUser(userId));
+            return _gamePickService.GetByUser(userId);
+        }
+
+        [HttpGet("getGamePickByWeek")]
+        public IEnumerable<GamePick> GetByWeek(int week)
+        {
+            return _gamePickService.GetByWeek(week);
         }
 
         [HttpGet("getGamePicksByUserAndWeek")]

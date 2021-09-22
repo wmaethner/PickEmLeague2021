@@ -448,6 +448,52 @@
         }
       }
     },
+    "/GamePick/getGamePickByWeek": {
+      "get": {
+        "tags": ["GamePick"],
+        "parameters": [
+          {
+            "name": "week",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GamePick"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GamePick"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GamePick"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/GamePick/getGamePicksByUserAndWeek": {
       "get": {
         "tags": ["GamePick"],

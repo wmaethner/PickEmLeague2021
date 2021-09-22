@@ -32,6 +32,11 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             return _mapper.Map<IEnumerable<GamePick>>(_gamePickRepository.GetByUser(userId));
         }
 
+        public IEnumerable<GamePick> GetByWeek(int week)
+        {
+            return _mapper.Map<IEnumerable<GamePick>>(_gamePickRepository.GetByWeek(week));
+        }
+
         public async Task<IEnumerable<GamePick>> GetByUserAndWeekAsync(long userId, int week)
         {
             var user = await _userRepository.GetById(userId);

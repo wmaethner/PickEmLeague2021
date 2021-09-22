@@ -8,6 +8,7 @@ import { User, UserSummary } from "../Apis";
 import ReactTooltip from "react-tooltip";
 import { useGetScoreSummaryByWeek } from "../Data/ScoreSummary/useGetScoreSummaryByWeek";
 import { WeekContext } from "../Data/Contexts/WeekContext";
+import { WhoPickedWho } from "./Home/WhoPickedWho";
 
 export function userDisplay(user: User, index: number) {
   return (
@@ -102,6 +103,9 @@ export function Home() {
               <Nav.Item>
                 <Nav.Link eventKey="season">Season Summary</Nav.Link>
               </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="picks">Who Picked Who</Nav.Link>
+              </Nav.Item>
             </Nav>
           </Col>
           <Col sm={10}>
@@ -111,6 +115,9 @@ export function Home() {
               </Tab.Pane>
               <Tab.Pane eventKey="season">
                 <SeasonSummary seasonSummaries={buildSeasonSummaries()} />
+              </Tab.Pane>
+              <Tab.Pane eventKey="picks">
+                <WhoPickedWho />
               </Tab.Pane>
             </Tab.Content>
           </Col>
