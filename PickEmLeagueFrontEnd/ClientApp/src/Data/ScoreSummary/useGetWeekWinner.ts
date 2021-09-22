@@ -6,5 +6,7 @@ export const useGetWeekWinner = async (
   week: number | undefined
 ): Promise<User | undefined> => {
   const scoreSummaryApi = useApi(ScoreSummaryApi);
-  return await (await scoreSummaryApi.scoreSummaryGetWeekWinnerGet({ week: week })).winner;
+  return await (
+    await scoreSummaryApi.scoreSummaryGetWeekWinnerGet({ week: week })
+  ).winner;
 };

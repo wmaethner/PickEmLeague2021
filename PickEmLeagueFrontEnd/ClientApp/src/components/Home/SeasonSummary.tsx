@@ -46,8 +46,10 @@ export function SeasonSummary(props: SeasonSummaryProps) {
   return (
     <div>
       <WinnersCircle
-        winner={props.seasonSummaries
-          ?.sort((a, b) => (a.score < b.score ? 1 : -1))[0]?.user}
+        winner={
+          props.seasonSummaries?.sort((a, b) => (a.score < b.score ? 1 : -1))[0]
+            ?.user
+        }
         message={"Season Leader"}
       />
       <br />

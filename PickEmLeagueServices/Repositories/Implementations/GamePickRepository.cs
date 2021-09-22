@@ -47,6 +47,13 @@ namespace PickEmLeagueServices.Repositories.Implementations
                 .ToList();
         }
 
+        public IEnumerable<GamePick> GetByWeek(int week)
+        {
+            return GetQueryable()
+                .Where(g => g.Game.Week == week)
+                .ToList();
+        }
+
         public IEnumerable<GamePick> GetByUserAndWeek(long userId, int week)
         {
             var query = GetQueryable();
@@ -61,7 +68,8 @@ namespace PickEmLeagueServices.Repositories.Implementations
         {
             return _dbContext.Set<GamePick>()
                 .AsQueryable()
-                .Include(gp => gp.Game);
+                .Include(gp => gp.Game)
+                .Include(gp => gp.User);
         }
 
         public async Task<GamePick> UpdateAsync(PickEmLeagueModels.Models.GamePick gamePick)

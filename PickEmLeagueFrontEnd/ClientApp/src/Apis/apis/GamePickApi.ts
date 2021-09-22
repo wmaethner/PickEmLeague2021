@@ -19,6 +19,10 @@ export interface GamePickGetGamePickByUserGetRequest {
   userId?: number;
 }
 
+export interface GamePickGetGamePickByWeekGetRequest {
+  week?: number;
+}
+
 export interface GamePickGetGamePickGetRequest {
   id?: number;
 }
@@ -67,6 +71,42 @@ export class GamePickApi extends runtime.BaseAPI {
     requestParameters: GamePickGetGamePickByUserGetRequest
   ): Promise<Array<GamePick>> {
     const response = await this.gamePickGetGamePickByUserGetRaw(
+      requestParameters
+    );
+    return await response.value();
+  }
+
+  /**
+   */
+  async gamePickGetGamePickByWeekGetRaw(
+    requestParameters: GamePickGetGamePickByWeekGetRequest
+  ): Promise<runtime.ApiResponse<Array<GamePick>>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.week !== undefined) {
+      queryParameters["week"] = requestParameters.week;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/GamePick/getGamePickByWeek`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(GamePickFromJSON)
+    );
+  }
+
+  /**
+   */
+  async gamePickGetGamePickByWeekGet(
+    requestParameters: GamePickGetGamePickByWeekGetRequest
+  ): Promise<Array<GamePick>> {
+    const response = await this.gamePickGetGamePickByWeekGetRaw(
       requestParameters
     );
     return await response.value();

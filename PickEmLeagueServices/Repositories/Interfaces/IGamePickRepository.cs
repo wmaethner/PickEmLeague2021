@@ -10,6 +10,7 @@ namespace PickEmLeagueServices.Repositories.Interfaces
         Task<GamePick> CreateAsync(Game game, User user);
         Task<GamePick> GetAsync(long id);
         IEnumerable<GamePick> GetByUser(long userId);
+        IEnumerable<GamePick> GetByWeek(int week);
         IEnumerable<GamePick> GetByUserAndWeek(long userId, int week);
         Task<GamePick> UpdateAsync(PickEmLeagueModels.Models.GamePick gamePick);
     }
