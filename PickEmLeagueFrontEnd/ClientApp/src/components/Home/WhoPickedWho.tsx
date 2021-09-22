@@ -91,7 +91,11 @@ function CollapsibleTeamAndPicks(props: CollapsibleTeamAndPicksProps) {
 
     function getClassName(result: GameResult) {
         var align = result === GameResult.AwayWin ? "text-left" : "text-right";
-        return "col-8 " + align;
+        return ["col-8", align].join(" ");
+    }
+
+    function getStyle(result: GameResult) {
+        return result === props.game.gameResult ? "limegreen" : "";
     }
 
     return (
@@ -99,7 +103,7 @@ function CollapsibleTeamAndPicks(props: CollapsibleTeamAndPicksProps) {
             (
                 <Container>
                     <Row>
-                        <Col className={getClassName(GameResult.AwayWin)}>
+                        <Col className={getClassName(GameResult.AwayWin)} style={{ backgroundColor: getStyle(GameResult.AwayWin) }}>
                             <TeamDisplay id={props.game.awayTeamId} />
                         </Col>
                         <Col className="col-4">
@@ -108,7 +112,7 @@ function CollapsibleTeamAndPicks(props: CollapsibleTeamAndPicksProps) {
                     </Row>
                     <Row>
                         <Collapse isOpen={open}>
-                            <div style={{backgroundColor: "lightgray"}}>
+                            <div style={{ backgroundColor: "lightgray" }}>
                                 {props.users.map(user => (
                                     <p key={props.game.id?.toString()! + "-" + user?.id?.toString()!}>{user?.name}</p>
                                 ))}
@@ -124,13 +128,13 @@ function CollapsibleTeamAndPicks(props: CollapsibleTeamAndPicksProps) {
                         <Col className="col-4">
                             <Button onClick={() => setOpen(!open)}>{props.users.length}</Button>
                         </Col>
-                        <Col className={getClassName(GameResult.HomeWin)}>
+                        <Col className={getClassName(GameResult.HomeWin)} style={{ backgroundColor: getStyle(GameResult.HomeWin) }}>
                             <TeamDisplay id={props.game.homeTeamId} />
                         </Col>
                     </Row>
                     <Row>
                         <Collapse isOpen={open}>
-                            <div>
+                            <div style={{ backgroundColor: "lightgray" }}>
                                 {props.users.map(user => (
                                     <p key={props.game.id?.toString()! + "-" + user?.id?.toString()!}>{user?.name}</p>
                                 ))}
