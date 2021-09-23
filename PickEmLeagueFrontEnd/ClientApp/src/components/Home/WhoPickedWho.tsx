@@ -104,7 +104,7 @@ function CollapsibleTeamAndPicks(props: CollapsibleTeamAndPicksProps) {
                 <Container>
                     <Row>
                         <Col className={getClassName(GameResult.AwayWin)} style={{ backgroundColor: getStyle(GameResult.AwayWin) }}>
-                            <TeamDisplay id={props.game.awayTeamId} />
+                            <TeamDisplay id={props.game.awayTeamId!} />
                         </Col>
                         <Col className="col-4">
                             <Button onClick={() => setOpen(!open)}>{props.users.length}</Button>
@@ -129,7 +129,7 @@ function CollapsibleTeamAndPicks(props: CollapsibleTeamAndPicksProps) {
                             <Button onClick={() => setOpen(!open)}>{props.users.length}</Button>
                         </Col>
                         <Col className={getClassName(GameResult.HomeWin)} style={{ backgroundColor: getStyle(GameResult.HomeWin) }}>
-                            <TeamDisplay id={props.game.homeTeamId} />
+                            <TeamDisplay id={props.game.homeTeamId!} />
                         </Col>
                     </Row>
                     <Row>

@@ -66,10 +66,10 @@ export function GameList() {
           {games.map((game) => (
             <tr key={game.id}>
               <td>
-                <TeamDisplay id={game.homeTeamId} />
+                <TeamDisplay id={game.homeTeamId!} />
               </td>
               <td>
-                <TeamDisplay id={game.awayTeamId} />
+                <TeamDisplay id={game.awayTeamId!} />
               </td>
               <td>{formatDate(game.gameIsoString)}</td>
               <td>{game.gameResult}</td>
