@@ -51,7 +51,7 @@ export function PickSelector(props: Props) {
             onClick={() => UpdatePick(GameResult.HomeWin)}
             disabled={!editable()}
           >
-            <TeamDisplay id={gamePick.game?.homeTeamId}></TeamDisplay>
+            <TeamDisplay id={gamePick.game?.homeTeamId!}></TeamDisplay>
           </Button>
         </div>
       </Col>
@@ -63,7 +63,7 @@ export function PickSelector(props: Props) {
             onClick={() => UpdatePick(GameResult.AwayWin)}
             disabled={!editable()}
           >
-            <TeamDisplay id={gamePick.game?.awayTeamId}></TeamDisplay>
+            <TeamDisplay id={gamePick.game?.awayTeamId!}></TeamDisplay>
           </Button>
         </div>
       </Col>
