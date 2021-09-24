@@ -13,23 +13,23 @@ import { Games } from "./components/Games/Games";
 import { TeamProvider } from "./Data/Contexts/TeamsContext";
 import { LoginForm } from "./components/Authentication/LoginForm";
 import { GamePicks } from "./components/GamePicks/GamePicks";
-import { WeekContext, WeekProvider } from "./Data/Contexts/WeekContext";
+import { WeekContext } from "./Data/Contexts/WeekContext";
 import { UserContext } from "./Data/Contexts/UserContext";
 import { useState } from "react";
 import { User } from "./Apis";
 
 import "./Styles/App.css";
-import { useGetCurrentWeek } from "./Data/Game/useGetCurrentWeek";
+import { useGetMiscAdmin } from "./Data/MiscAdmin/useGetMiscAdmin";
 
 export default function App() {
-  //static displayName = App.name;
   const [user, setUserState] = useState<User>({});
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [week, setWeek] = useState<number>(1);
 
   useEffect(() => {
     async function GetCurrentWeek() {
-      setWeek(Number.parseInt(await (await useGetCurrentWeek()).toString()));
+      let miscAdmin = await useGetMiscAdmin();
+      setWeek(miscAdmin.currentWeek!);
     }
     GetCurrentWeek();
   }, []);
@@ -75,14 +75,9 @@ export default function App() {
     );
   };
 
-  //render() {
   return (
     <UserContext.Provider value={{ user, loggedIn, setUser }}>
       {pages()}
-      {/* <Home></Home> */}
     </UserContext.Provider>
-    //<Home></Home>
-    //<h2>TEST</h2>
   );
-  //}
 }

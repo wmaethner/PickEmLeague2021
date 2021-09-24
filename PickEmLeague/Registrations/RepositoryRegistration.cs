@@ -12,6 +12,7 @@ namespace PickEmLeague.Registrations
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IGamePickRepository, GamePickRepository>();
+            services.AddScoped<IMiscAdminRepository, MiscAdminRepository>();
 
             return services;
         }

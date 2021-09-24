@@ -4,6 +4,7 @@ export * from "./GameResult";
 export * from "./InlineObject";
 export * from "./InlineObject1";
 export * from "./LoginResponse";
+export * from "./MiscAdmin";
 export * from "./Team";
 export * from "./User";
 export * from "./UserSeasonSummary";

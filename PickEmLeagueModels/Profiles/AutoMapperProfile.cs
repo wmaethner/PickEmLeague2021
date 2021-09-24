@@ -25,6 +25,8 @@ namespace PickEmLeagueModels.Profiles
                 .ReverseMap()
                 .ForMember(model => model.Game, opts => opts.Ignore())
                 .ForMember(model => model.User, opts => opts.Ignore());
+
+            CreateMap<PickEmLeagueDatabase.Entities.MiscAdmin, MiscAdmin>().ReverseMap();
         }
     }
 }
