@@ -691,6 +691,67 @@
         }
       }
     },
+    "/MiscAdmin/getMiscAdmin": {
+      "get": {
+        "tags": ["MiscAdmin"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MiscAdmin"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MiscAdmin"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MiscAdmin"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MiscAdmin/updateMiscAdmin": {
+      "put": {
+        "tags": ["MiscAdmin"],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MiscAdmin"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MiscAdmin"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MiscAdmin"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MiscAdmin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/ScoreSummary/getScoreSummaries": {
       "get": {
         "tags": ["ScoreSummary"],
@@ -1064,6 +1125,20 @@
           },
           "user": {
             "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MiscAdmin": {
+        "type": "object",
+        "properties": {
+          "currentWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
           }
         },
         "additionalProperties": false

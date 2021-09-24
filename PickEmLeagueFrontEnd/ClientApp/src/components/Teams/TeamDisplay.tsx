@@ -17,14 +17,23 @@ export const TeamDisplay: React.FC<Props> = ({ id }) => {
   }
 
   const imageSrc = () => {
-    return process.env.PUBLIC_URL + "/TeamLogos/" + teamName().replace(/\s/g, "") + ".jpg";
-  }
+    return (
+      process.env.PUBLIC_URL +
+      "/TeamLogos/" +
+      teamName().replace(/\s/g, "") +
+      ".jpg"
+    );
+  };
 
   return (
     <Container className="img-wrapper">
       <Row className="align-items-center">
-        <Col className="col-8 align-middle"><span className="block align-middle">{teamName()}</span></Col>
-        <Col className="col-4"><Image src={imageSrc()} width={50} height={50} /></Col>
+        <Col className="col-8 align-middle">
+          <span className="block align-middle">{teamName()}</span>
+        </Col>
+        <Col className="col-4">
+          <Image src={imageSrc()} width={50} height={50} />
+        </Col>
       </Row>
     </Container>
   );
