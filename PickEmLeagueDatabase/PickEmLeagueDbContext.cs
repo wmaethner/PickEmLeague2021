@@ -10,6 +10,7 @@ namespace PickEmLeagueDatabase
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<GamePick> GamePicks { get; set; }
+        public DbSet<MiscAdmin> MiscAdmin { get; set; }
 
         public PickEmLeagueDbContext(DbContextOptions<PickEmLeagueDbContext> options) : base(options)
         {
@@ -51,7 +52,6 @@ namespace PickEmLeagueDatabase
                 new Team() { Id = 31, City = "Tennessee", Name = "Titans" },
                 new Team() { Id = 32, City = "Washington", Name = "Football Team" }
                 );
-
         }
     }
 }
