@@ -9,6 +9,8 @@ namespace PickEmLeagueModels.Models
         public DateTime GameTime { get; set; }
         public string GameTimeString { get; set; }
         public string GameIsoString { get; set; }
+        public bool HasStarted { get; set; }
+
         public GameResult GameResult { get; set; }
 
         public Team HomeTeam { get; set; }

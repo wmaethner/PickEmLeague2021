@@ -37,7 +37,17 @@ namespace PickEmLeagueServices.DomainServices.Implementations
 
         public IEnumerable<Game> GetForWeek(int week)
         {
-            return _mapper.Map<IEnumerable<Game>>(_gameRepository.GetByWeek(week));
+            var games = _mapper.Map<IEnumerable<Game>>(_gameRepository.GetByWeek(week));
+
+            foreach (var game in games)
+            {
+                if (game.GameTime > DateTime.UtcNow)
+                {
+                    game.HasStarted = true;
+                }
+            }
+
+            return games;
         }
 
         public async Task<bool> DeleteGame(long id)
