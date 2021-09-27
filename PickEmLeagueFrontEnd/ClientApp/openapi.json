@@ -1047,6 +1047,9 @@
             "type": "string",
             "nullable": true
           },
+          "hasStarted": {
+            "type": "boolean"
+          },
           "gameResult": {
             "$ref": "#/components/schemas/GameResult"
           },

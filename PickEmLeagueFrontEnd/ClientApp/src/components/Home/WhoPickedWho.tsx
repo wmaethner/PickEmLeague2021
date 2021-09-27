@@ -35,7 +35,7 @@ export function WhoPickedWho() {
     return games.filter(
       (g) =>
         g.gameResult === GameResult.NotPlayed &&
-        g.gameTime?.getTime()! < new Date().getTime()
+        g.hasStarted
     );
   }
 

@@ -56,6 +56,12 @@ export interface Game {
   gameIsoString?: string | null;
   /**
    *
+   * @type {boolean}
+   * @memberof Game
+   */
+  hasStarted?: boolean;
+  /**
+   *
    * @type {GameResult}
    * @memberof Game
    */
@@ -114,6 +120,7 @@ export function GameFromJSONTyped(
     gameIsoString: !exists(json, "gameIsoString")
       ? undefined
       : json["gameIsoString"],
+    hasStarted: !exists(json, "hasStarted") ? undefined : json["hasStarted"],
     gameResult: !exists(json, "gameResult")
       ? undefined
       : GameResultFromJSON(json["gameResult"]),
@@ -142,6 +149,7 @@ export function GameToJSON(value?: Game | null): any {
       value.gameTime === undefined ? undefined : value.gameTime.toISOString(),
     gameTimeString: value.gameTimeString,
     gameIsoString: value.gameIsoString,
+    hasStarted: value.hasStarted,
     gameResult: GameResultToJSON(value.gameResult),
     homeTeam: TeamToJSON(value.homeTeam),
     awayTeam: TeamToJSON(value.awayTeam),
