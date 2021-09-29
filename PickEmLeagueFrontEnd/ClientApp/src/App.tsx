@@ -55,7 +55,9 @@ export default function App() {
                   </WeekContext.Provider>
                 </Route>
                 <Route path="/games">
-                  <Games />
+                  <WeekContext.Provider value={{ week, setWeek }}>
+                    <Games />
+                  </WeekContext.Provider>
                 </Route>
                 <Route path="/gamePicks">
                   <WeekContext.Provider value={{ week, setWeek }}>
