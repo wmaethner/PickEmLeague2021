@@ -137,6 +137,31 @@ namespace PickEmLeagueServiceTests
             Assert.Null(winner);
         }
 
+        [Fact]
+        public async Task GetWeekWinner_WeekWinnerNotSameAsSeasonWinner_ReturnsCorrectWinner()
+        {
+            InitializeDb();
+            var user1 = await CreateUserAsync();
+            var user2 = await CreateUserAsync();
+            CreateGames(1, 5, GameResult.HomeWin);
+            CreateGames(2, 5, GameResult.HomeWin);
+            CreateGames(3, 5, GameResult.HomeWin);
+
+            // user 1 wins weeks 1 and 2 and will be season leader
+            await MakeUserPicksAsync(user1.Id, 1, GameResult.HomeWin);
+            await MakeUserPicksAsync(user1.Id, 2, GameResult.HomeWin);
+            await MakeUserPicksAsync(user1.Id, 3, GameResult.AwayWin);
+
+            // user 2 wins week 3
+            await MakeUserPicksAsync(user2.Id, 1, GameResult.AwayWin);
+            await MakeUserPicksAsync(user2.Id, 2, GameResult.AwayWin);
+            await MakeUserPicksAsync(user2.Id, 3, GameResult.HomeWin);
+
+            Assert.Equal(user1.Id, _scoreSummaryService.GetWeekWinner(1).Id);
+            Assert.Equal(user1.Id, _scoreSummaryService.GetWeekWinner(2).Id);
+            Assert.Equal(user2.Id, _scoreSummaryService.GetWeekWinner(3).Id);
+        }
+
         private void InitializeDb()
         {
             _dbContext.Database.EnsureDeleted();
