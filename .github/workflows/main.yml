@@ -70,22 +70,3 @@ jobs:
 
       - name: Deployed successfully!
         run: echo App deployed to ELB
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: us-east-1
-      
-      - name: Npm Install Frontend
-        run: npm install
-        working-directory: PickEmLeagueFrontEnd/ClientApp
-      
-      - name: Build Frontend
-        run: npm run build
-        working-directory: PickEmLeagueFrontEnd/ClientApp
-
-      - name: Deploy static site to S3 bucket
-        run: aws s3 sync build/* s3://2021pickemleague-react
-        working-directory: PickEmLeagueFrontEnd/ClientApp
