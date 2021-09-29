@@ -15,9 +15,7 @@ export function Games() {
         <GameEdit />
       </Route>
       <Route path={match.path}>
-        <WeekProvider>
-          <GameList />
-        </WeekProvider>
+        <GameList />
       </Route>
     </Switch>
   );
