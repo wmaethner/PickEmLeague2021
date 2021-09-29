@@ -15,10 +15,8 @@ namespace PickEmLeagueServices.DomainServices.Implementations
         private readonly IGameService _gameService;
         private readonly IMapper _mapper;
 
-        public ScoreSummaryService(IUserRepository userRepository,
-                                   IGamePickRepository gamePickRepository,
-                                   IGameService gameService,
-                                   IMapper mapper)
+        public ScoreSummaryService(IUserRepository userRepository, IGamePickRepository gamePickRepository,
+            IGameService gameService, IMapper mapper)
         {
             _userRepository = userRepository;
             _gamePickRepository = gamePickRepository;
@@ -39,6 +37,7 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             return SortSummaries(summaries);
         }
 
+        //TODO: Handle ties
         public User GetWeekWinner(int week)
         {
             if (week < 1 || !_gameService.IsWeekDone(week))
@@ -47,7 +46,7 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             }
 
             var summaries = GetSummaries(week);
-            return summaries.ToList()[0].User;
+            return summaries.ToList().FirstOrDefault(s => s.WeekSummary.Place == 1).User;
         }
 
         private UserSummary GetUserSummary(User user, int week)
