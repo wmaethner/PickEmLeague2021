@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using PickEmLeagueModels.Models;
 using PickEmLeagueServices.DomainServices.Interfaces;
@@ -13,42 +12,41 @@ namespace PickEmLeagueServices.DomainServices.Implementations
     {
         private readonly IUserRepository _userRepository;
         private readonly IGamePickRepository _gamePickRepository;
-        private readonly IAwsS3Service _awsS3Service;
         private readonly IGameService _gameService;
         private readonly IMapper _mapper;
 
-        public ScoreSummaryService(IUserRepository userRepository, IGamePickRepository gamePickRepository,
-            IAwsS3Service awsS3Service, IGameService gameService, IMapper mapper)
+        public ScoreSummaryService(IUserRepository userRepository,
+                                   IGamePickRepository gamePickRepository,
+                                   IGameService gameService,
+                                   IMapper mapper)
         {
             _userRepository = userRepository;
             _gamePickRepository = gamePickRepository;
-            _awsS3Service = awsS3Service;
             _gameService = gameService;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserSummary>> GetSummariesAsync(int week)
+        public IEnumerable<UserSummary> GetSummaries(int week)
         {
             var summaries = new List<UserSummary>();
             var users = _userRepository.GetAll().ToList();
 
-            //foreach (var user in await MapUsersAsync(users)) 
             foreach (var user in _mapper.Map<IEnumerable<User>>(users))
             {
                 summaries.Add(GetUserSummary(user, week));
             }
 
-            return summaries.OrderByDescending(x => x.WeekSummary.WeekScore).ThenBy(y => y.User.Name);
+            return SortSummaries(summaries);
         }
 
-        public async Task<User> GetWeekWinner(int week)
+        public User GetWeekWinner(int week)
         {
             if (week < 1 || !_gameService.IsWeekDone(week))
             {
                 return null;
             }
 
-            var summaries = await GetSummariesAsync(week);
+            var summaries = GetSummaries(week);
             return summaries.ToList()[0].User;
         }
 
@@ -102,6 +100,42 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 return game.GameResult == usersPick;
             }
             return false;
+        }
+
+        private List<UserSummary> SortSummaries(List<UserSummary> summaries)
+        {
+            //TODO: Genericize this, maybe week and season summary derive from a base class that both
+            //      contain a score and place?
+
+            // Set week places
+            var sorted = summaries.OrderByDescending(x => x.WeekSummary.WeekScore).ThenBy(y => y.User.Name).ToList();
+
+            sorted[0].WeekSummary.Place = 1;
+
+            for (int i = 1; i < sorted.Count(); i++)
+            {
+                // If same score as previous user then set to the same place
+                // else set to i + 1 (0th index = 1st place, 1st index = 2nd place ...)
+                sorted[i].WeekSummary.Place =
+                    sorted[i - 1].WeekSummary.WeekScore == sorted[i].WeekSummary.WeekScore ?
+                    sorted[i - 1].WeekSummary.Place : i + 1;
+            }
+
+            // Set season places
+            sorted = sorted.OrderByDescending(x => x.SeasonSummary.SeasonScore).ThenBy(y => y.User.Name).ToList();
+
+            sorted[0].SeasonSummary.Place = 1;
+
+            for (int i = 1; i < sorted.Count(); i++)
+            {
+                // If same score as previous user then set to the same place
+                // else set to i + 1 (0th index = 1st place, 1st index = 2nd place ...)
+                sorted[i].SeasonSummary.Place =
+                    sorted[i - 1].SeasonSummary.SeasonScore == sorted[i].SeasonSummary.SeasonScore ?
+                    sorted[i - 1].SeasonSummary.Place : i + 1;
+            }
+
+            return sorted;
         }
     }
 }

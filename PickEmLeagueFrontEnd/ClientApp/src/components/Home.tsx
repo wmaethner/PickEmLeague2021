@@ -68,6 +68,7 @@ export function Home() {
         pickStatus: item.weekSummary?.weekPickStatus!,
         score: item.weekSummary?.weekScore!,
         correctPicks: item.weekSummary?.correctPicks!,
+        place: item.weekSummary?.place!
       });
     });
 
@@ -85,6 +86,7 @@ export function Home() {
           : item.user?.name!,
         score: item.seasonSummary?.seasonScore!,
         correctPicks: item.seasonSummary?.correctPicks!,
+        place: item.seasonSummary?.place!
       });
     });
 

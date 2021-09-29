@@ -23,16 +23,16 @@ namespace PickEmLeague.Controllers
         }
 
         [HttpGet("getScoreSummaries")]
-        public async Task<IEnumerable<UserSummary>> GetScoreSummaryAsync(int week)
+        public IEnumerable<UserSummary> GetScoreSummary(int week)
         {
             _logger.LogInformation($"Get score summaries: {week}");
-            return await _scoreSummaryService.GetSummariesAsync(week);
+            return _scoreSummaryService.GetSummaries(week);
         }
 
         [HttpGet("getWeekWinner")]
-        public async Task<WeekWinnerResponse> GetWeekWinner(int week)
+        public WeekWinnerResponse GetWeekWinner(int week)
         {
-            var winner = await _scoreSummaryService.GetWeekWinner(week);
+            var winner = _scoreSummaryService.GetWeekWinner(week);
             return new WeekWinnerResponse()
             {
                 Winner = winner,
