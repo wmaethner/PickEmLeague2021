@@ -37,7 +37,7 @@ jobs:
         working-directory: PickEmLeagueFrontEnd/ClientApp
       
       - name: Build Frontend
-        run: npm run build
+        run: CI=false npm run build
         working-directory: PickEmLeagueFrontEnd/ClientApp
 
       - name: Deploy static site to S3 bucket
