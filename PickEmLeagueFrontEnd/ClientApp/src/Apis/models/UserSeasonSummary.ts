@@ -31,6 +31,12 @@ export interface UserSeasonSummary {
    * @memberof UserSeasonSummary
    */
   correctPicks?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof UserSeasonSummary
+   */
+  place?: number;
 }
 
 export function UserSeasonSummaryFromJSON(json: any): UserSeasonSummary {
@@ -49,6 +55,7 @@ export function UserSeasonSummaryFromJSONTyped(
     correctPicks: !exists(json, "correctPicks")
       ? undefined
       : json["correctPicks"],
+    place: !exists(json, "place") ? undefined : json["place"],
   };
 }
 
@@ -62,5 +69,6 @@ export function UserSeasonSummaryToJSON(value?: UserSeasonSummary | null): any {
   return {
     seasonScore: value.seasonScore,
     correctPicks: value.correctPicks,
+    place: value.place,
   };
 }

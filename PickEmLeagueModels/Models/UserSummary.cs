@@ -21,11 +21,13 @@ namespace PickEmLeagueModels.Models
         public int WeekScore { get; set; }
         public WeekPickStatus WeekPickStatus { get; set; }
         public int CorrectPicks { get; set; }
+        public int Place { get; set; }
     }
 
     public class UserSeasonSummary
     {
         public int SeasonScore { get; set; }
         public int CorrectPicks { get; set; }
+        public int Place { get; set; }
     }
 }

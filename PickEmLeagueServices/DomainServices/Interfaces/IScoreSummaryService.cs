@@ -6,7 +6,7 @@ namespace PickEmLeagueServices.DomainServices.Interfaces
 {
     public interface IScoreSummaryService
     {
-        Task<IEnumerable<UserSummary>> GetSummariesAsync(int week);
-        Task<User?> GetWeekWinner(int week);
+        IEnumerable<UserSummary> GetSummaries(int week);
+        User? GetWeekWinner(int week);
     }
 }

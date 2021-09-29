@@ -1212,6 +1212,10 @@
           "correctPicks": {
             "type": "integer",
             "format": "int32"
+          },
+          "place": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1242,6 +1246,10 @@
             "$ref": "#/components/schemas/WeekPickStatus"
           },
           "correctPicks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "place": {
             "type": "integer",
             "format": "int32"
           }

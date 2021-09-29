@@ -44,6 +44,12 @@ export interface UserWeekSummary {
    * @memberof UserWeekSummary
    */
   correctPicks?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof UserWeekSummary
+   */
+  place?: number;
 }
 
 export function UserWeekSummaryFromJSON(json: any): UserWeekSummary {
@@ -65,6 +71,7 @@ export function UserWeekSummaryFromJSONTyped(
     correctPicks: !exists(json, "correctPicks")
       ? undefined
       : json["correctPicks"],
+    place: !exists(json, "place") ? undefined : json["place"],
   };
 }
 
@@ -79,5 +86,6 @@ export function UserWeekSummaryToJSON(value?: UserWeekSummary | null): any {
     weekScore: value.weekScore,
     weekPickStatus: WeekPickStatusToJSON(value.weekPickStatus),
     correctPicks: value.correctPicks,
+    place: value.place,
   };
 }

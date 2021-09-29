@@ -9,7 +9,7 @@ namespace PickEmLeagueServiceTests
 {
     public static class ServiceHelper
     {
-        public static IServiceProvider BuildUnitTestServices(string testDatabase)
+        public static IServiceProvider BuildUnitTestServices(string testDatabase = "testDb")
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true, true)

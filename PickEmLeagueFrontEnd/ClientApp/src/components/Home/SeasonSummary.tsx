@@ -10,6 +10,7 @@ export type UserSeasonSummary = {
   displayName: string;
   score: number;
   correctPicks: number;
+  place: number;
 };
 
 export type SeasonSummaryProps = {
@@ -56,6 +57,7 @@ export function SeasonSummary(props: SeasonSummaryProps) {
       <Table>
         <thead>
           <tr>
+            <th>Place</th>
             <th>User</th>
             <th>Correct Picks</th>
             <th>Season Score</th>
@@ -63,9 +65,10 @@ export function SeasonSummary(props: SeasonSummaryProps) {
         </thead>
         <tbody>
           {props.seasonSummaries
-            ?.sort((a, b) => (a.score < b.score ? 1 : -1))
+            ?.sort((a, b) => (a.place > b.place ? 1 : -1))
             .map((summary, index) => (
               <tr key={summary.user?.id}>
+                <td>{summary.place}</td>
                 <td>{userDisplay(summary.user!, index)}</td>
                 <td>{displayCorrectPicks(summary.correctPicks)}</td>
                 <td>{summary.score}</td>
