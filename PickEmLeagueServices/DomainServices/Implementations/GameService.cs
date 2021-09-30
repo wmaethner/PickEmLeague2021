@@ -41,7 +41,7 @@ namespace PickEmLeagueServices.DomainServices.Implementations
 
             foreach (var game in games)
             {
-                if (game.GameTime > DateTime.UtcNow)
+                if (game.GameTime < DateTime.UtcNow)
                 {
                     game.HasStarted = true;
                 }
