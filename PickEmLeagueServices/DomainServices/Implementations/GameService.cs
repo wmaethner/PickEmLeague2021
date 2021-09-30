@@ -140,6 +140,12 @@ namespace PickEmLeagueServices.DomainServices.Implementations
 
         public bool IsWeekDone(int week)
         {
+            var games = GetForWeek(week);
+            if (games.Count() == 0)
+            {
+                return false;
+            }
+
             foreach (var game in GetForWeek(week))
             {
                 if (game.GameResult == PickEmLeagueShared.Enums.GameResult.NotPlayed)

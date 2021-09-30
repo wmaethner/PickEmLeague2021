@@ -9,6 +9,7 @@ import ReactTooltip from "react-tooltip";
 import { useGetScoreSummaryByWeek } from "../Data/ScoreSummary/useGetScoreSummaryByWeek";
 import { WeekContext } from "../Data/Contexts/WeekContext";
 import { WhoPickedWho } from "./Home/WhoPickedWho";
+import { StatsPage } from "./Home/StatsPage";
 
 export function userDisplay(user: User, index: number) {
   return (
@@ -108,6 +109,9 @@ export function Home() {
               <Nav.Item>
                 <Nav.Link eventKey="picks">Who Picked Who</Nav.Link>
               </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="stats">Stats</Nav.Link>
+              </Nav.Item>
             </Nav>
           </Col>
           <Col sm={10}>
@@ -120,6 +124,9 @@ export function Home() {
               </Tab.Pane>
               <Tab.Pane eventKey="picks">
                 <WhoPickedWho />
+              </Tab.Pane>
+              <Tab.Pane eventKey="stats">
+                <StatsPage />
               </Tab.Pane>
             </Tab.Content>
           </Col>
