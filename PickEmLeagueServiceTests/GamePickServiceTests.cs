@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using PickEmLeagueDatabase;
 using PickEmLeagueDatabase.Entities;
 using PickEmLeagueServices.DomainServices.Interfaces;
 using PickEmLeagueServices.Repositories.Interfaces;
@@ -13,8 +12,6 @@ namespace PickEmLeagueServiceTests
     public class GamePickServiceTests
     {
         private List<Game> _games = new List<Game>();
-
-        private readonly PickEmLeagueDbContext _dbContext;
 
         private readonly IUserRepository _userRepository;
         private readonly IGameRepository _gameRepository;
@@ -31,8 +28,6 @@ namespace PickEmLeagueServiceTests
             _gamePickRepository = serviceProvider.GetRequiredService<IGamePickRepository>();
             _gameService = serviceProvider.GetRequiredService<IGameService>();
             _gamePickService = serviceProvider.GetRequiredService<IGamePickService>();
-
-            _dbContext = serviceProvider.GetRequiredService<PickEmLeagueDbContext>();
         }
 
         [Fact]
@@ -95,7 +90,7 @@ namespace PickEmLeagueServiceTests
 
             await CreateGamesAsync(2, 5);
 
-            foreach (var game in _games)
+            foreach (var game in _gameRepository.GetAll())
             {
                 await CreateGamePick(game, user);
             }
@@ -103,9 +98,9 @@ namespace PickEmLeagueServiceTests
             var games = _gameRepository.GetAll();
             var game1 = games.First(g => g.Week == 1);
             var game2 = games.Where(g => g.Week == 2).ToList();
-            await _gameRepository.DeleteAsync(game1.Id);
-            await _gameRepository.DeleteAsync(game2[0].Id);
-            await _gameRepository.DeleteAsync(game2[1].Id);
+            Assert.True(await _gameRepository.DeleteAsync(game1.Id));
+            Assert.True(await _gameRepository.DeleteAsync(game2[0].Id));
+            Assert.True(await _gameRepository.DeleteAsync(game2[1].Id));
 
             Assert.Equal(4, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 1)).Count());
             Assert.Equal(3, (await _gamePickService.GetByUserAndWeekAsync(user.Id, 2)).Count());
@@ -178,7 +173,8 @@ namespace PickEmLeagueServiceTests
 
         private void InitializeDb()
         {
-            _dbContext.Database.EnsureDeleted();
+            _gamePickRepository.ClearDb();
+            _gameRepository.ClearDb();
         }
 
         private async Task CreateGamesAsync(int weeks, int gamesPerWeeks)

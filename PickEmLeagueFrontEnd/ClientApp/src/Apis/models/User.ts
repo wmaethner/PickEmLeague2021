@@ -63,6 +63,12 @@ export interface User {
   picType?: string | null;
   /**
    *
+   * @type {Array<number>}
+   * @memberof User
+   */
+  missedWeeks?: Array<number> | null;
+  /**
+   *
    * @type {number}
    * @memberof User
    */
@@ -90,6 +96,7 @@ export function UserFromJSONTyped(
       : json["passwordHash"],
     profilePic: !exists(json, "profilePic") ? undefined : json["profilePic"],
     picType: !exists(json, "picType") ? undefined : json["picType"],
+    missedWeeks: !exists(json, "missedWeeks") ? undefined : json["missedWeeks"],
     id: !exists(json, "id") ? undefined : json["id"],
   };
 }
@@ -109,6 +116,7 @@ export function UserToJSON(value?: User | null): any {
     passwordHash: value.passwordHash,
     profilePic: value.profilePic,
     picType: value.picType,
+    missedWeeks: value.missedWeeks,
     id: value.id,
   };
 }

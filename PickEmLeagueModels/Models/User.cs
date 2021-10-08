@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace PickEmLeagueModels.Models
 {
     public class User : DbModel
@@ -10,5 +12,6 @@ namespace PickEmLeagueModels.Models
         public string PasswordHash { get; set; }
         public byte[] ProfilePic { get; set; }
         public string PicType { get; set; }
+        public List<int> MissedWeeks { get; set; }
     }
 }

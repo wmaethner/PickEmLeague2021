@@ -33,9 +33,7 @@ export function WhoPickedWho() {
 
   function getInProgressGames() {
     return games.filter(
-      (g) =>
-        g.gameResult === GameResult.NotPlayed &&
-        g.hasStarted
+      (g) => g.gameResult === GameResult.NotPlayed && g.hasStarted
     );
   }
 

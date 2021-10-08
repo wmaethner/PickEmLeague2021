@@ -835,6 +835,88 @@
         }
       }
     },
+    "/ScoreSummary/getWeekSummaries": {
+      "get": {
+        "tags": ["ScoreSummary"],
+        "parameters": [
+          {
+            "name": "week",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeekSummary"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeekSummary"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeekSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ScoreSummary/getSeasonSummaries": {
+      "get": {
+        "tags": ["ScoreSummary"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeasonSummary"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeasonSummary"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeasonSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Team": {
       "get": {
         "tags": ["Team"],
@@ -1146,6 +1228,27 @@
         },
         "additionalProperties": false
       },
+      "SeasonSummary": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "correctPicks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "place": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "Team": {
         "type": "object",
         "properties": {
@@ -1193,6 +1296,14 @@
           },
           "picType": {
             "type": "string",
+            "nullable": true
+          },
+          "missedWeeks": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           },
           "id": {
@@ -1259,6 +1370,34 @@
       "WeekPickStatus": {
         "enum": ["NotPicked", "PartiallyPicked", "FullyPicked"],
         "type": "string"
+      },
+      "WeekSummary": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "correctPicks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "place": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "week": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pickStatus": {
+            "$ref": "#/components/schemas/WeekPickStatus"
+          }
+        },
+        "additionalProperties": false
       },
       "WeekWinnerResponse": {
         "type": "object",

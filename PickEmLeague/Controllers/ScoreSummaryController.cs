@@ -22,13 +22,6 @@ namespace PickEmLeague.Controllers
             _logger = logger;
         }
 
-        [HttpGet("getScoreSummaries")]
-        public IEnumerable<UserSummary> GetScoreSummary(int week)
-        {
-            _logger.LogInformation($"Get score summaries: {week}");
-            return _scoreSummaryService.GetSummaries(week);
-        }
-
         [HttpGet("getWeekWinner")]
         public WeekWinnerResponse GetWeekWinner(int week)
         {
@@ -38,6 +31,18 @@ namespace PickEmLeague.Controllers
                 Winner = winner,
                 FoundWinner = winner != null
             };
+        }
+
+        [HttpGet("getWeekSummaries")]
+        public List<WeekSummary> GetWeekSummaries(int week)
+        {
+            return _scoreSummaryService.GetWeekSummaries(week);
+        }
+
+        [HttpGet("getSeasonSummaries")]
+        public List<SeasonSummary> GetSeasonSummaries()
+        {
+            return _scoreSummaryService.GetSeasonSummaries();
         }
     }
 }

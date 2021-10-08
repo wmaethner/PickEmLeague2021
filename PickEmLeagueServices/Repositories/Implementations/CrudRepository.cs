@@ -77,6 +77,9 @@ namespace PickEmLeagueServices.Repositories.Implementations
             await _dbContext.SaveChangesAsync();
         }
 
-
+        public void ClearDb()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

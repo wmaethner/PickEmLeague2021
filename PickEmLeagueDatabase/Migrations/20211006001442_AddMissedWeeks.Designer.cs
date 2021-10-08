@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PickEmLeagueDatabase;
@@ -10,9 +11,10 @@ using PickEmLeagueDatabase;
 namespace PickEmLeagueDatabase.Migrations
 {
     [DbContext(typeof(PickEmLeagueDbContext))]
-    partial class PickEmLeagueDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211006001442_AddMissedWeeks")]
+    partial class AddMissedWeeks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

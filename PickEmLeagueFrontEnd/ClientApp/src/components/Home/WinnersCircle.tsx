@@ -23,7 +23,9 @@ export function WinnersCircle(props: WinnersCircleProps) {
       </Col>
       <Col className="col-4">
         <h2 className="text-center">{props.message}</h2>
-        <h2 className="text-center">{props.winner.username ? props.winner.username : props.winner.name}</h2>
+        <h2 className="text-center">
+          {props.winner.username ? props.winner.username : props.winner.name}
+        </h2>
       </Col>
       <Col className="col-2">
         <ProfilePicture userId={props.winner?.id} />

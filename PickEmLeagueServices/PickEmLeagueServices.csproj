@@ -13,11 +13,13 @@
     <None Remove="DomainServices\Interfaces\" />
     <None Remove="DomainServices\Implementations\" />
     <None Remove="AWSSDK.S3" />
+    <None Remove="Repositories\Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DomainServices\" />
     <Folder Include="DomainServices\Interfaces\" />
     <Folder Include="DomainServices\Implementations\" />
+    <Folder Include="Repositories\Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.2.4" />
