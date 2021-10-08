@@ -20,5 +20,7 @@ namespace PickEmLeagueServices.Repositories.Interfaces
         Task SaveAsync();
 
         IQueryable<TEntity> GetQueryable();
+
+        void ClearDb();
     }
 }

@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { Col, Container, Row } from "reactstrap";
 import { Tab, Nav } from "react-bootstrap";
-import { UserWeekSummary, WeekSummary } from "./Home/WeekSumary";
-import { SeasonSummary, UserSeasonSummary } from "./Home/SeasonSummary";
+import { WeekSummaryPage } from "./Home/WeekSumary";
+import { SeasonSummaryPage } from "./Home/SeasonSummary";
 import { ProfilePicture } from "./Images/ProfilePicture";
-import { User, UserSummary } from "../Apis";
+import { User } from "../Apis";
 import ReactTooltip from "react-tooltip";
-import { useGetScoreSummaryByWeek } from "../Data/ScoreSummary/useGetScoreSummaryByWeek";
-import { WeekContext } from "../Data/Contexts/WeekContext";
 import { WhoPickedWho } from "./Home/WhoPickedWho";
 
 export function userDisplay(user: User, index: number) {
@@ -46,53 +44,6 @@ export function usersNameDisplay(user: User, index: number) {
 }
 
 export function Home() {
-  const { week, setWeek } = useContext(WeekContext);
-  const [scoreSummary, setScoreSummary] = useState<Array<UserSummary>>([]);
-
-  useEffect(() => {
-    async function GetData() {
-      setScoreSummary(await useGetScoreSummaryByWeek(week));
-    }
-    GetData();
-  }, [week]);
-
-  function buildWeekSummaries(): UserWeekSummary[] {
-    let weekSummaries: Array<UserWeekSummary> = [];
-
-    scoreSummary.forEach((item) => {
-      weekSummaries.push({
-        user: item.user!,
-        displayName: item.user?.username
-          ? item.user?.username!
-          : item.user?.name!,
-        pickStatus: item.weekSummary?.weekPickStatus!,
-        score: item.weekSummary?.weekScore!,
-        correctPicks: item.weekSummary?.correctPicks!,
-        place: item.weekSummary?.place!
-      });
-    });
-
-    return weekSummaries;
-  }
-
-  function buildSeasonSummaries(): UserSeasonSummary[] {
-    let seasonSummaries: Array<UserSeasonSummary> = [];
-
-    scoreSummary.forEach((item) => {
-      seasonSummaries.push({
-        user: item.user!,
-        displayName: item.user?.username
-          ? item.user?.username!
-          : item.user?.name!,
-        score: item.seasonSummary?.seasonScore!,
-        correctPicks: item.seasonSummary?.correctPicks!,
-        place: item.seasonSummary?.place!
-      });
-    });
-
-    return seasonSummaries;
-  }
-
   return (
     <Container className="data-table">
       <Tab.Container id="left-tabs-example" defaultActiveKey="week">
@@ -113,10 +64,10 @@ export function Home() {
           <Col sm={10}>
             <Tab.Content>
               <Tab.Pane eventKey="week">
-                <WeekSummary weekSummaries={buildWeekSummaries()} />
+                <WeekSummaryPage />
               </Tab.Pane>
               <Tab.Pane eventKey="season">
-                <SeasonSummary seasonSummaries={buildSeasonSummaries()} />
+                <SeasonSummaryPage />
               </Tab.Pane>
               <Tab.Pane eventKey="picks">
                 <WhoPickedWho />

@@ -13,5 +13,7 @@ namespace PickEmLeagueServices.Repositories.Interfaces
         IEnumerable<GamePick> GetByWeek(int week);
         IEnumerable<GamePick> GetByUserAndWeek(long userId, int week);
         Task<GamePick> UpdateAsync(PickEmLeagueModels.Models.GamePick gamePick);
+
+        void ClearDb();
     }
 }

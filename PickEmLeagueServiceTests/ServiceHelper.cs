@@ -18,9 +18,9 @@ namespace PickEmLeagueServiceTests
                 .Build();
 
             var servicesCollection = new ServiceCollection();
-            servicesCollection.RegisterRepositories();
+            servicesCollection.RegisterMockRepositories();
             servicesCollection.RegisterServices();
-            servicesCollection.RegisterDatabase(configuration, testDatabase);
+            //servicesCollection.RegisterDatabase(configuration, testDatabase);
             servicesCollection.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
 
             return servicesCollection.BuildServiceProvider();

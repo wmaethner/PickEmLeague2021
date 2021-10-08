@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using PickEmLeagueDatabase;
 using PickEmLeagueModels.Models;
 using PickEmLeagueServices.DomainServices.Interfaces;
 using PickEmLeagueServices.Repositories.Interfaces;
@@ -20,7 +19,6 @@ namespace PickEmLeagueServiceTests
         private readonly IGamePickService _gamePickService;
         private readonly IMapper _mapper;
         private readonly IScoreSummaryService _scoreSummaryService;
-        private readonly PickEmLeagueDbContext _dbContext;
 
         public ScoreSummaryServiceTests()
         {
@@ -31,23 +29,22 @@ namespace PickEmLeagueServiceTests
             _gamePickService = serviceProvider.GetRequiredService<IGamePickService>();
             _scoreSummaryService = serviceProvider.GetRequiredService<IScoreSummaryService>();
             _mapper = serviceProvider.GetRequiredService<IMapper>();
-            _dbContext = serviceProvider.GetRequiredService<PickEmLeagueDbContext>();
         }
 
         [Fact]
-        public async Task GetSummaries_UserHasntMadePicks_ZeroPointsAndCorrectStatusAsync()
+        public async Task GetWeekSummaries_UserHasntMadePicks_ZeroPointsAndCorrectStatusAsync()
         {
             InitializeDb();
             await CreateUserAsync();
             CreateGames(1, 5, GameResult.HomeWin);
             CreateGames(2, 5, GameResult.HomeWin);
 
-            var summary = _scoreSummaryService.GetSummaries(1);
+            var summary = _scoreSummaryService.GetWeekSummaries(1);
             var userSummary = summary.ToList()[0];
 
             Assert.Equal(1, userSummary.User.Id);
-            Assert.Equal(0, userSummary.WeekSummary.WeekScore);
-            Assert.Equal(WeekPickStatus.NotPicked, userSummary.WeekSummary.WeekPickStatus);
+            Assert.Equal(0, userSummary.Score);
+            Assert.Equal(WeekPickStatus.NotPicked, userSummary.PickStatus);
         }
 
         [Fact]
@@ -59,13 +56,17 @@ namespace PickEmLeagueServiceTests
             CreateGames(2, 5, GameResult.HomeWin);
             await MakeUserPicksAsync(1, 2, GameResult.HomeWin);
             
-            var summary = _scoreSummaryService.GetSummaries(2);
-            var userSummary = summary.ToList()[0];
+            var weekSummary = _scoreSummaryService.GetWeekSummaries(2);
+            var seasonSummary = _scoreSummaryService.GetSeasonSummaries();
+            var userWeekSummary = weekSummary.ToList()[0];
+            var userSeasonSummary = seasonSummary.ToList()[0];
 
-            Assert.Equal(1, userSummary.User.Id);
-            Assert.Equal(15, userSummary.WeekSummary.WeekScore);
-            Assert.Equal(15, userSummary.SeasonSummary.SeasonScore);
-            Assert.Equal(WeekPickStatus.FullyPicked, userSummary.WeekSummary.WeekPickStatus);
+            Assert.Equal(1, userWeekSummary.User.Id);
+            Assert.Equal(15, userWeekSummary.Score);
+            Assert.Equal(WeekPickStatus.FullyPicked, userWeekSummary.PickStatus);
+
+            Assert.Equal(1, userSeasonSummary.User.Id);
+            Assert.Equal(15, userSeasonSummary.Score);          
         }
 
         [Fact]
@@ -78,12 +79,14 @@ namespace PickEmLeagueServiceTests
             await MakeUserPicksAsync(user1.Id, 1, GameResult.AwayWin);
             await MakeUserPicksAsync(user2.Id, 1, GameResult.HomeWin);
             
-            var summary = _scoreSummaryService.GetSummaries(1);
+            var weekSummary = _scoreSummaryService.GetWeekSummaries(1);
+            var seasonSummary = _scoreSummaryService.GetSeasonSummaries();
 
-            Assert.Equal(2, summary.FirstOrDefault(s => s.User.Id == user1.Id).WeekSummary.Place);
-            Assert.Equal(2, summary.FirstOrDefault(s => s.User.Id == user1.Id).SeasonSummary.Place);
-            Assert.Equal(1, summary.FirstOrDefault(s => s.User.Id == user2.Id).WeekSummary.Place);
-            Assert.Equal(1, summary.FirstOrDefault(s => s.User.Id == user2.Id).SeasonSummary.Place);
+            Assert.Equal(2, weekSummary.FirstOrDefault(s => s.User.Id == user1.Id).Place);
+            Assert.Equal(2, seasonSummary.FirstOrDefault(s => s.User.Id == user1.Id).Place);
+
+            Assert.Equal(1, weekSummary.FirstOrDefault(s => s.User.Id == user2.Id).Place);
+            Assert.Equal(1, seasonSummary.FirstOrDefault(s => s.User.Id == user2.Id).Place);
         }
 
         [Fact]
@@ -98,14 +101,56 @@ namespace PickEmLeagueServiceTests
             await MakeUserPicksAsync(user2.Id, 1, GameResult.AwayWin);
             await MakeUserPicksAsync(user3.Id, 1, GameResult.HomeWin);
             
-            var summary = _scoreSummaryService.GetSummaries(1);
+            var weekSummary = _scoreSummaryService.GetWeekSummaries(1);
+            var seasonSummary = _scoreSummaryService.GetSeasonSummaries();
 
-            Assert.Equal(1, summary.FirstOrDefault(s => s.User.Id == user1.Id).WeekSummary.Place);
-            Assert.Equal(1, summary.FirstOrDefault(s => s.User.Id == user1.Id).SeasonSummary.Place);
-            Assert.Equal(3, summary.FirstOrDefault(s => s.User.Id == user2.Id).WeekSummary.Place);
-            Assert.Equal(3, summary.FirstOrDefault(s => s.User.Id == user2.Id).SeasonSummary.Place);
-            Assert.Equal(1, summary.FirstOrDefault(s => s.User.Id == user3.Id).WeekSummary.Place);
-            Assert.Equal(1, summary.FirstOrDefault(s => s.User.Id == user3.Id).SeasonSummary.Place);
+            Assert.Equal(1, weekSummary.FirstOrDefault(s => s.User.Id == user1.Id).Place);
+            Assert.Equal(1, seasonSummary.FirstOrDefault(s => s.User.Id == user1.Id).Place);
+
+            Assert.Equal(3, weekSummary.FirstOrDefault(s => s.User.Id == user2.Id).Place);
+            Assert.Equal(3, seasonSummary.FirstOrDefault(s => s.User.Id == user2.Id).Place);
+
+            Assert.Equal(1, weekSummary.FirstOrDefault(s => s.User.Id == user3.Id).Place);
+            Assert.Equal(1, seasonSummary.FirstOrDefault(s => s.User.Id == user3.Id).Place);
+        }
+
+        [Fact]
+        public async Task GetScoreSummary_MultipleUsersWithMissedWeek_Scores10LessThanMinimum()
+        {
+            InitializeDb();
+            var user1 = await CreateUserAsync();
+            var user2 = await CreateUserAsync();
+            var user3 = await CreateUserAsync();
+            CreateGames(1, 5, GameResult.HomeWin);
+
+            await MakeUserPicksAsync(user1.Id, 1, GameResult.HomeWin);
+            // Results in 11 points
+            await MakeUserPicksAsync(user2.Id, 1, new GameResult[] { GameResult.HomeWin,
+                GameResult.HomeWin,
+                GameResult.HomeWin,
+                GameResult.AwayWin,
+                GameResult.HomeWin });
+
+            user3.MissedWeeks.Add(1);
+            // Assume they made some picks
+            await MakeUserPicksAsync(user3.Id, 1, new GameResult[] { GameResult.HomeWin,
+                GameResult.HomeWin,
+                GameResult.AwayWin,
+                GameResult.AwayWin,
+                GameResult.AwayWin });
+            await _userRepository.SaveAsync();
+
+            var weekSummary = _scoreSummaryService.GetWeekSummaries(1);
+            var seasonSummary = _scoreSummaryService.GetSeasonSummaries();
+
+            Assert.Equal(15, weekSummary.FirstOrDefault(s => s.User.Id == user1.Id).Score);
+            Assert.Equal(15, seasonSummary.FirstOrDefault(s => s.User.Id == user1.Id).Score);
+
+            Assert.Equal(11, weekSummary.FirstOrDefault(s => s.User.Id == user2.Id).Score);
+            Assert.Equal(11, seasonSummary.FirstOrDefault(s => s.User.Id == user2.Id).Score);
+
+            Assert.Equal(1, weekSummary.FirstOrDefault(s => s.User.Id == user3.Id).Score);
+            Assert.Equal(1, seasonSummary.FirstOrDefault(s => s.User.Id == user3.Id).Score);
         }
 
         [Fact]
@@ -164,7 +209,7 @@ namespace PickEmLeagueServiceTests
 
         private void InitializeDb()
         {
-            _dbContext.Database.EnsureDeleted();
+            //_dbContext.Database.EnsureDeleted();
         }
 
         private async Task<PickEmLeagueDatabase.Entities.User> CreateUserAsync()
@@ -186,6 +231,15 @@ namespace PickEmLeagueServiceTests
             }
         }
 
+        private async Task MakeUserPicksAsync(long user, int week, int gamePickIndex, GameResult result)
+        {
+            var gamePicks = _mapper.Map<List<GamePick>>((await _gamePickService.GetByUserAndWeekAsync(user, week)).ToList());
+
+            gamePicks[gamePickIndex].Pick = result;
+
+            await _gamePickService.UpdateByUserAndWeekAsync(gamePicks);
+        }
+
         private async Task MakeUserPicksAsync(long user, int week, GameResult result)
         {
             var gamePicks = _mapper.Map<List<GamePick>>((await _gamePickService.GetByUserAndWeekAsync(user, week)).ToList());
@@ -197,5 +251,25 @@ namespace PickEmLeagueServiceTests
 
             await _gamePickService.UpdateByUserAndWeekAsync(gamePicks);
         }
+
+        private async Task MakeUserPicksAsync(long user, int week, GameResult[] result)
+        {
+            var gamePicks = _mapper.Map<List<GamePick>>((await _gamePickService.GetByUserAndWeekAsync(user, week)).ToList());
+
+            if (gamePicks.Count != result.Length)
+            {
+                throw new Exception("Different amounts for picks and results");
+            }
+
+            for (int i = 0; i < gamePicks.Count; i++)
+            {
+                gamePicks[i].Pick = result[i];
+                gamePicks[i].Wager = i + 1;
+            }
+
+            await _gamePickService.UpdateByUserAndWeekAsync(gamePicks);
+        }
+
+
     }
 }

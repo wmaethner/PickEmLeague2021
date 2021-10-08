@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using PickEmLeagueModels.Models;
@@ -24,19 +25,6 @@ namespace PickEmLeagueServices.DomainServices.Implementations
             _mapper = mapper;
         }
 
-        public IEnumerable<UserSummary> GetSummaries(int week)
-        {
-            var summaries = new List<UserSummary>();
-            var users = _userRepository.GetAll().ToList();
-
-            foreach (var user in _mapper.Map<IEnumerable<User>>(users))
-            {
-                summaries.Add(GetUserSummary(user, week));
-            }
-
-            return SortSummaries(summaries);
-        }
-
         //TODO: Handle ties
         public User GetWeekWinner(int week)
         {
@@ -45,52 +33,119 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 return null;
             }
 
-            var summaries = GetSummaries(week);
-            return summaries.ToList().FirstOrDefault(s => s.WeekSummary.Place == 1).User;
+            var summaries = GetWeekSummaries(week);
+            return summaries.ToList().FirstOrDefault(s => s.Place == 1).User;
         }
 
-        private UserSummary GetUserSummary(User user, int week)
+        public List<WeekSummary> GetWeekSummaries(int week)
         {
-            var summary = new UserSummary() { User = user };
-            var picks = _gamePickRepository.GetByUser(user.Id);
+            var summaries = new List<WeekSummary>();
+            var users = _mapper.Map<IEnumerable<User>>(_userRepository.GetAll().ToList());
 
-            bool madePick = false;
-            bool missedPick = false;
-
-            foreach (var pick in picks)
+            foreach (var user in users)
             {
-                if (CorrectPick(pick.Pick, pick.Game))
+                var summary = new WeekSummary(user, week);
+                var picks = _gamePickRepository.GetByUserAndWeek(user.Id, week);
+                bool madePick = false;
+                bool missedPick = false;
+
+                foreach (var pick in picks)
                 {
-                    summary.SeasonSummary.SeasonScore += pick.Wager;
-                    summary.SeasonSummary.CorrectPicks++;
-                    if (pick.Game.Week == week)
+                    if (CorrectPick(pick.Pick, pick.Game))
                     {
-                        summary.WeekSummary.WeekScore += pick.Wager;
-                        summary.WeekSummary.CorrectPicks++;
+                        summary.Score += pick.Wager;
+                        summary.CorrectPicks++;
                     }
+
+                    missedPick = pick.Pick == GameResult.NotPlayed ? true : missedPick;
+                    madePick = pick.Pick == GameResult.NotPlayed ? madePick : true;
                 }
 
-                if (pick.Game.Week == week)
+                summary.PickStatus = (madePick) ? (missedPick ? WeekPickStatus.PartiallyPicked :
+                                                WeekPickStatus.FullyPicked)
+                                : WeekPickStatus.NotPicked;
+
+                summaries.Add(summary);
+            }
+
+            HandleMissedWeek(summaries, week);
+
+            SetBaseSummaryPlaces(summaries);
+
+            return summaries;
+        }
+
+        public List<SeasonSummary> GetSeasonSummaries()
+        {
+            List<SeasonSummary> summaries = new List<SeasonSummary>();
+            var users = _mapper.Map<IEnumerable<User>>(_userRepository.GetAll().ToList());
+
+            foreach (var user in users)
+            {
+                var summary = new SeasonSummary(user);
+                summaries.Add(summary);
+            }
+
+            for (int week = 1; week <= 18; week++)
+            {
+                var weekSummaries = GetWeekSummaries(week);
+
+                foreach (var weekSummary in weekSummaries)
                 {
-                    if (pick.Pick == GameResult.NotPlayed)
-                    {
-                        missedPick = true;
-                    }
-                    else
-                    {
-                        madePick = true;
-                    }
+                    var seasonSummary = summaries.First(s => s.User.Id == weekSummary.User.Id);
+
+                    seasonSummary.Score += weekSummary.Score;
+                    seasonSummary.CorrectPicks += weekSummary.CorrectPicks;
                 }
             }
 
-            summary.WeekSummary.WeekPickStatus =
-                (madePick) ? (missedPick ? WeekPickStatus.PartiallyPicked :
-                                           WeekPickStatus.FullyPicked)
-                           : WeekPickStatus.NotPicked;
+            SetBaseSummaryPlaces(summaries);
 
-            return summary;
+            return summaries;
         }
 
+        private void HandleMissedWeek(List<WeekSummary> weekSummaries, int week)
+        {
+            bool userHasMissedWeek = false;
+
+            foreach (var user in weekSummaries.Select(x => x.User))
+            {
+                userHasMissedWeek = user.MissedWeeks.Contains(week);
+
+                if (userHasMissedWeek)
+                {
+                    break;
+                }
+            }
+
+            if (userHasMissedWeek)
+            {
+                var min = weekSummaries.Where(s => !s.User.MissedWeeks.Contains(week))
+                                       .Select(s => s.Score)
+                                       .Min();
+
+                foreach (var summary in weekSummaries.Where(s => s.User.MissedWeeks.Contains(week)))
+                {
+                    summary.Score = min - 10;
+                }
+            }
+        }
+
+        private void SetBaseSummaryPlaces(IEnumerable<IBaseSummary> summaries)
+        {
+            var sortedList = summaries.OrderByDescending(x => x.Score).ThenBy(y => y.User.Name).ToList();
+
+            sortedList[0].Place = 1;
+
+            for (int i = 1; i < summaries.Count(); i++)
+            {
+                // If same score as previous user then set to the same place
+                // else set to i + 1 (0th index = 1st place, 1st index = 2nd place ...)
+                sortedList[i].Place =
+                    sortedList[i - 1].Score == sortedList[i].Score ?
+                    sortedList[i - 1].Place : i + 1;
+            }
+        }
 
         private bool CorrectPick(GameResult usersPick, PickEmLeagueDatabase.Entities.Game game)
         {
@@ -99,42 +154,6 @@ namespace PickEmLeagueServices.DomainServices.Implementations
                 return game.GameResult == usersPick;
             }
             return false;
-        }
-
-        private List<UserSummary> SortSummaries(List<UserSummary> summaries)
-        {
-            //TODO: Genericize this, maybe week and season summary derive from a base class that both
-            //      contain a score and place?
-
-            // Set week places
-            var sorted = summaries.OrderByDescending(x => x.WeekSummary.WeekScore).ThenBy(y => y.User.Name).ToList();
-
-            sorted[0].WeekSummary.Place = 1;
-
-            for (int i = 1; i < sorted.Count(); i++)
-            {
-                // If same score as previous user then set to the same place
-                // else set to i + 1 (0th index = 1st place, 1st index = 2nd place ...)
-                sorted[i].WeekSummary.Place =
-                    sorted[i - 1].WeekSummary.WeekScore == sorted[i].WeekSummary.WeekScore ?
-                    sorted[i - 1].WeekSummary.Place : i + 1;
-            }
-
-            // Set season places
-            sorted = sorted.OrderByDescending(x => x.SeasonSummary.SeasonScore).ThenBy(y => y.User.Name).ToList();
-
-            sorted[0].SeasonSummary.Place = 1;
-
-            for (int i = 1; i < sorted.Count(); i++)
-            {
-                // If same score as previous user then set to the same place
-                // else set to i + 1 (0th index = 1st place, 1st index = 2nd place ...)
-                sorted[i].SeasonSummary.Place =
-                    sorted[i - 1].SeasonSummary.SeasonScore == sorted[i].SeasonSummary.SeasonScore ?
-                    sorted[i - 1].SeasonSummary.Place : i + 1;
-            }
-
-            return sorted;
         }
     }
 }

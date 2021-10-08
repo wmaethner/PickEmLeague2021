@@ -56,9 +56,7 @@ namespace PickEmLeagueServices.Repositories.Implementations
 
         public IEnumerable<GamePick> GetByUserAndWeek(long userId, int week)
         {
-            var query = GetQueryable();
-
-            return query
+            return GetQueryable()
                 .Where(g => g.UserId == userId)
                 .Where(g => g.Game.Week == week)
                 .ToList();
@@ -78,6 +76,11 @@ namespace PickEmLeagueServices.Repositories.Implementations
             _mapper.Map(gamePick, entity);
             var result = _dbContext.SaveChanges();
             return entity;
+        }
+
+        public void ClearDb()
+        {
+            throw new NotImplementedException();
         }
     }
 }

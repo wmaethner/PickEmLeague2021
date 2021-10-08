@@ -14,6 +14,11 @@ namespace PickEmLeagueServices.Repositories.Implementations
         {
         }
 
+        public void ClearDb()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Game> GetByWeek(int week)
         {
             return GetQueryable().Where(g => g.Week == week).ToList();

@@ -14,15 +14,25 @@
 
 import * as runtime from "../runtime";
 import {
+  SeasonSummary,
+  SeasonSummaryFromJSON,
+  SeasonSummaryToJSON,
   UserSummary,
   UserSummaryFromJSON,
   UserSummaryToJSON,
+  WeekSummary,
+  WeekSummaryFromJSON,
+  WeekSummaryToJSON,
   WeekWinnerResponse,
   WeekWinnerResponseFromJSON,
   WeekWinnerResponseToJSON,
 } from "../models";
 
 export interface ScoreSummaryGetScoreSummariesGetRequest {
+  week?: number;
+}
+
+export interface ScoreSummaryGetWeekSummariesGetRequest {
   week?: number;
 }
 
@@ -65,6 +75,70 @@ export class ScoreSummaryApi extends runtime.BaseAPI {
     requestParameters: ScoreSummaryGetScoreSummariesGetRequest
   ): Promise<Array<UserSummary>> {
     const response = await this.scoreSummaryGetScoreSummariesGetRaw(
+      requestParameters
+    );
+    return await response.value();
+  }
+
+  /**
+   */
+  async scoreSummaryGetSeasonSummariesGetRaw(): Promise<
+    runtime.ApiResponse<Array<SeasonSummary>>
+  > {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/ScoreSummary/getSeasonSummaries`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(SeasonSummaryFromJSON)
+    );
+  }
+
+  /**
+   */
+  async scoreSummaryGetSeasonSummariesGet(): Promise<Array<SeasonSummary>> {
+    const response = await this.scoreSummaryGetSeasonSummariesGetRaw();
+    return await response.value();
+  }
+
+  /**
+   */
+  async scoreSummaryGetWeekSummariesGetRaw(
+    requestParameters: ScoreSummaryGetWeekSummariesGetRequest
+  ): Promise<runtime.ApiResponse<Array<WeekSummary>>> {
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.week !== undefined) {
+      queryParameters["week"] = requestParameters.week;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/ScoreSummary/getWeekSummaries`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(WeekSummaryFromJSON)
+    );
+  }
+
+  /**
+   */
+  async scoreSummaryGetWeekSummariesGet(
+    requestParameters: ScoreSummaryGetWeekSummariesGetRequest
+  ): Promise<Array<WeekSummary>> {
+    const response = await this.scoreSummaryGetWeekSummariesGetRaw(
       requestParameters
     );
     return await response.value();

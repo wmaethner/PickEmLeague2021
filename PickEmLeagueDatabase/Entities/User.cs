@@ -1,4 +1,6 @@
-﻿namespace PickEmLeagueDatabase.Entities
+﻿using System.Collections.Generic;
+
+namespace PickEmLeagueDatabase.Entities
 {
     public class User : DbEntity
     {
@@ -8,5 +10,6 @@
         public bool IsAdmin { get; set; }
         public string PasswordHash { get; set; }
         public string ProfilePictureKey { get; set; }
+        public List<int> MissedWeeks { get; set; } = new List<int>();
     }
 }
