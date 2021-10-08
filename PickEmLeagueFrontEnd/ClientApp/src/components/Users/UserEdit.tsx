@@ -38,6 +38,7 @@ export function UserEdit() {
   const handleFileChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target.files) {
       setFile(evt.target.files[0]);
+      //TODO: should this be userToEdit?
       SetUserImage(user?.id!, evt.target.files[0]);
       setUserToEdit(await GetUserExt(id));
     } else {
@@ -113,7 +114,7 @@ export function UserEdit() {
                 />
               </div>
             </div>
-            <div className="row form-group" hidden={!userToEdit.isAdmin}>
+            <div className="row form-group" hidden={!user?.isAdmin}>
               <div className="col-3">
                 <label>Admin: </label>
               </div>
@@ -123,6 +124,28 @@ export function UserEdit() {
                   checked={userToEdit.isAdmin || false}
                   onChange={(e) =>
                     setUserToEdit({ ...userToEdit, isAdmin: e.target.checked })
+                  }
+                />
+              </div>
+            </div>
+            <div className="row form-group" hidden={!user?.isAdmin}>
+              <div className="col-3">
+                <label>Missed Weeks: </label>
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  value={userToEdit.missedWeeks?.join(",")}
+                  //TODO: when you type the comma this causes an NaN to show up.
+                  onChange={(e) =>
+                    setUserToEdit({ ...userToEdit, 
+                      missedWeeks: e.target.value.split(",")
+                                      .map(function(item) 
+                                        {
+                                          return parseInt(item, 10);
+                                        }
+                                      )
+                                  })
                   }
                 />
               </div>
