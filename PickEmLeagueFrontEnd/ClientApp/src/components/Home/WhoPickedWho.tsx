@@ -93,7 +93,7 @@ function CollapsibleGamePicksDisplay(props: CollapsibleGamePicksDisplayProps) {
         return a! + b!;
       });
 
-    return total! / picks.length;
+    return (total! / picks.length).toFixed(1);
   }
 
   function getClassName(result: GameResult) {
