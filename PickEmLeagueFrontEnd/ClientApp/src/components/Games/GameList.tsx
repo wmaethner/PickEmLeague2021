@@ -43,12 +43,6 @@ export function GameList() {
     await useDeleteGame(id);
   };
 
-  const formatDate = (isoString: string | null | undefined) => {
-    if (!isoString) return "";
-    let dt = new Date(isoString);
-    return format(dt, "eeee dd, MMM 'at' h:mm aa");
-  };
-
   return (
     <Container className="data-table">
       <WeekSelector />
@@ -71,7 +65,7 @@ export function GameList() {
               <td>
                 <TeamDisplay id={game.awayTeamId!} />
               </td>
-              <td>{formatDate(game.gameIsoString)}</td>
+              <td>{format(game.gameTime!, "eeee dd, MMM 'at' h:mm aa")}</td>
               <td>{game.gameResult}</td>
               <td hidden={!user?.isAdmin}>
                 <Link to={"games/" + game.id} className="btn btn-primary">
